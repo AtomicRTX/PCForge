@@ -1,0 +1,36 @@
+package com.kubacki.dawid.PCForge.models.components;
+
+import jakarta.persistence.*;
+
+@Entity
+@Table(name = "Motherboards")
+
+public class Motherboard {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int mb_id;
+
+    @Column(unique=true, nullable=false)
+    private String name;
+
+    @Column(unique=true, nullable=false)
+    private String producer;
+
+    @Column(nullable = false)
+    private String socket;
+
+    @Column(nullable=false)
+    private String form_factor;
+
+    @Column(nullable=false)
+    private String memory_type;
+
+    @Column(nullable=false)
+    private int memory_capacity;
+
+    @Column(nullable=false)
+    private int memory_slots;
+
+    @Column()
+    private Double price;
+}
