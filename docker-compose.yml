@@ -1,0 +1,21 @@
+version: '3.8'
+
+services:
+  pcforgedatabase:
+    build:
+      context: .
+      dockerfile: docker/DockerFile
+    ports:
+      - "5433:5432"
+    networks:
+      - app
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ./pcforge-backend/src/main/resources/data_csv:/data_csv
+
+networks:
+  app:
+
+
+volumes:
+  pgdata:

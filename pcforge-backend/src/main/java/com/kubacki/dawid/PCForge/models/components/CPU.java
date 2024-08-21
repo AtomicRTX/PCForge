@@ -10,16 +10,16 @@ public class CPU {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int cpu_id;
 
-    @Column(unique=true, nullable=false)
+    @Column(nullable=false)
     private String name;
 
-    @Column(unique=true, nullable=false)
+    @Column(nullable=false)
     private String producer;
 
     @Column(nullable=false)
     private int cores;
 
-    @Column(nullable=false)
+    @Column()
     private Double base_clock;
 
     @Column(nullable = false)

@@ -10,8 +10,11 @@ public class GPU {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int gpu_id;
 
-    @Column(unique=true, nullable=false)
-    private String gpu_name;
+    @Column(nullable=false)
+    private String name;
+
+    @Column(nullable=false)
+    private String producer;
 
     @Column(nullable=false)
     private String length;

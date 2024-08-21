@@ -10,10 +10,10 @@ public class Motherboard {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int mb_id;
 
-    @Column(unique=true, nullable=false)
+    @Column(nullable=false)
     private String name;
 
-    @Column(unique=true, nullable=false)
+    @Column(nullable=false)
     private String producer;
 
     @Column(nullable = false)

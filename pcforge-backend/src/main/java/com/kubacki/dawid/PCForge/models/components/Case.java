@@ -12,17 +12,17 @@ public class Case {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int case_id;
 
-    @Column(unique=true)
+    @Column(nullable=false)
     private String name;
 
-    @Column(unique=true, nullable=false)
+    @Column(nullable=false)
     private String producer;
 
     @Column(nullable=false)
     private String case_type;
 
     @Column(nullable=false)
-    private String gpu_size;
+    private Double gpu_size;
 
     @Column()
     private Double price;

@@ -10,7 +10,7 @@ public class RAM {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int ram_id;
 
-    @Column(unique=true, nullable=false)
+    @Column(nullable=false)
     private String name;
 
     @Column(nullable=false)
@@ -21,6 +21,9 @@ public class RAM {
 
     @Column(nullable=false)
     private String clock;
+
+    @Column(nullable=false)
+    private int size;
 
     @Column()
     private Double price;
