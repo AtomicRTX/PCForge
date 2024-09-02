@@ -5,14 +5,12 @@ import './App.css';
 
 function App() {
   return (
-    <Router>
       <div className={"flex flex-auto"}>
         <Routes>
-          <Route path={'/'} element={<LoginPage/>}/>
+          <Route path={'/login'} element={<LoginPage/>}/>
           <Route path={'/register'} element={<RegisterPage/>}/>
         </Routes>
       </div>
-    </Router>
   );
 }
 

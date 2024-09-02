@@ -155,7 +155,7 @@ create table users
         primary key,
     email    varchar(255) not null
         unique,
-    nickname varchar(255) not null,
+    username varchar(255) not null,
     password varchar(255) not null,
     phone    varchar(255),
     photo    varchar(255)
