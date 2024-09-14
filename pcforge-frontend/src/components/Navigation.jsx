@@ -5,8 +5,10 @@ import d_profile from '../assets/default-profile.jpg'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCaretDown } from '@fortawesome/free-solid-svg-icons';
 
-const Navigation = () => {
+import AuthService from "../services/auth.service";
+import UserService from '../services/user.service';
 
+const Navigation = () => {
   const [user, setUser] = useState({});
 
   const [dropdownUser, setDropdownUser] = useState(false);
@@ -16,7 +18,10 @@ const Navigation = () => {
     UserService.getUser()
       .then(data => setUser(data)
       )
-      .catch(error => console.error('Error:', error));
+      .catch(error => {
+        console.error('Error:', error);
+        setUser(null);
+      });
   }, []);
 
   const toggleDropdownUser = () => {
@@ -26,6 +31,11 @@ const Navigation = () => {
   const toggleDropdownSetup = () => {
     setDropdownSetup(!dropdownSetup);
   };
+
+  const logOut = () =>{
+    AuthService.logout();
+    window.location.reload();
+}
 
   return (
     <nav className='w-full h-16 absolute top-0 bg-white shadow-lg justify-between flex'>
@@ -62,23 +72,34 @@ const Navigation = () => {
         </li>
       </ul>
       <div>
-        <button onClick={toggleDropdownUser} className="flex hover:text-orange-500" type='button'>
-          <div className='my-auto text-sm'>
-            <p className='my-auto'>Dawid Kubacki</p>
-            <p className='my-auto'>dawid.kubacki@gmail.com</p>
-          </div>
-          <img src={d_profile} className='mx-5 my-1 max-h-14' alt="LOGO"/>
-        </button>
-        <div className={`${dropdownUser ? false : 'hidden'} bg-gray-100 text-center shadow-lg`}>
-            <ul class="text-sm text-gray-700">
-              <li>
-                <Link to="#" className="block py-2 hover:text-orange-500">My profile</Link>
-              </li>
-              <li>
-                <Link to="#" className="block py-2 hover:text-orange-500">Sign out</Link>
-              </li>
-            </ul>
-        </div>
+        {user ? (
+          <>
+            <button onClick={toggleDropdownUser} className="flex hover:text-orange-500" type='button'>
+              <div className='my-auto text-sm'>
+                <p className='my-auto'>{user.username}</p>
+                <p className='my-auto'>{user.email}</p>
+              </div>
+              <img src={d_profile} className='mx-5 my-1 max-h-14' alt="LOGO"/>
+            </button>
+            <div className={`${dropdownUser ? false : 'hidden'} bg-gray-100 text-center shadow-lg`}>
+              <ul class="text-sm text-gray-700">
+                <li>
+                  <Link to="#" className="block py-2 hover:text-orange-500">My profile</Link>
+                </li>
+                <li>
+                  <Link to="#" className="block py-2 hover:text-orange-500" onClick={logOut}>Sign out</Link>
+                </li>
+              </ul>
+            </div>
+          </>
+        ): (
+          <Link to="/login" className="flex hover:text-orange-500">
+              <div className='my-auto font-semibold'>
+                <p className='my-auto'>Log in to platform</p>
+              </div>
+              <img src={d_profile} className='mx-5 my-1 max-h-14' alt="LOGO"/>
+            </Link>
+        )}
       </div>
     </nav>
   );

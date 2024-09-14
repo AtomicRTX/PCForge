@@ -37,7 +37,7 @@ public class User implements UserDetails {
     @Column()
     private String photo;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "user_types",
             joinColumns = @JoinColumn(name = "user_id"),
@@ -59,6 +59,10 @@ public class User implements UserDetails {
     @Override
     public String getUsername() {
         return email;
+    }
+
+    public String getName() {
+        return username;
     }
 
     @Override
