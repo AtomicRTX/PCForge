@@ -14,7 +14,7 @@ import AuthService from "../services/auth.service";
 const required = (value) => {
   if (!value) {
     return (
-      <div className="text-orange-500 text-sm mt-2">This field is required!</div>
+      <div className="text-red-500 text-sm mt-2">This field is required!</div>
     );
   }
 };
@@ -87,7 +87,7 @@ const RegisterF = () => {
           setSuccessful(false);
         }
       );
-      
+
       navigate("/login");
     }
   };
@@ -103,7 +103,7 @@ const RegisterF = () => {
           <div>
             <div className="my-6 mx-5">
               <label className="block my-1 font-medium text-gray-700">Username</label>
-              <Input name="username" type="text" placeholder="Username" className="mt-1 w-full border border-gray-300 rounded-lg h-10 px-4 focus:outline-none focus:border-orange-500" value={username} onChange={onChangeUsername}/>
+              <Input name="username" type="text" placeholder="Username" className="mt-1 w-full border border-gray-300 rounded-lg h-10 px-4 focus:outline-none focus:border-orange-500" value={username} onChange={onChangeUsername} validations={[required]} />
             </div>
             <div className="my-6 mx-5">
               <label className="block my-1 font-medium text-gray-700">Email</label>
@@ -120,7 +120,7 @@ const RegisterF = () => {
         
           {message && (
             <div className="mb-4">
-              <div className={ successful ? "text-green-500 text-sm mt-2" : "text-orange-500 text-sm mt-2" }>{message}</div>
+              <div className={ successful ? "text-green-500 text-sm mt-2 text-center" : "text-red-500 text-sm mt-2 text-center" }>{message}</div>
             </div>
           )}
           <CheckButton style={{ display: "none" }} ref={checkBtn} />

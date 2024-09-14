@@ -7,13 +7,22 @@ import { faCircleArrowLeft } from '@fortawesome/free-solid-svg-icons';
 import Form from "react-validation/build/form";
 import Input from "react-validation/build/input";
 import CheckButton from "react-validation/build/button";
+import { isEmail } from "validator";
 
 import AuthService from "../services/auth.service";
 
 const required = (value) => {
   if (!value) {
     return (
-      <div className="text-orange-500 text-sm mt-2">This field is required!</div>
+      <div className="text-red-500 text-sm mt-2">This field is required!</div>
+    );
+  }
+};
+
+const validEmail = (value) => {
+  if (!isEmail(value)) {
+    return (
+      <div className="text-red-500 text-sm mt-2">This is not a valid email.</div>
     );
   }
 };
@@ -57,15 +66,8 @@ const LoginF = () => {
           window.location.reload();
         },
         (error) => {
-          const resMessage =
-            (error.response &&
-              error.response.data &&
-              error.response.data.message) ||
-            error.message ||
-            error.toString();
-
           setLoading(false);
-          setMessage(resMessage);
+          setMessage("Incorrect data");
         }
       );
     } else {
@@ -83,7 +85,7 @@ const LoginF = () => {
         <Form onSubmit={handleLogin} ref={form}>
           <div className="my-6 mx-5">
             <label className="block my-1 font-medium text-gray-700">Email</label>
-            <Input name="email" type="text" placeholder="username@gmail.com" className="mt-1 w-full border border-gray-300 rounded-lg h-10 px-4 focus:outline-none focus:border-orange-500" value={email} onChange={onChangeEmail} validations={[required]} />
+            <Input name="email" type="text" placeholder="username@gmail.com" className="mt-1 w-full border border-gray-300 rounded-lg h-10 px-4 focus:outline-none focus:border-orange-500" value={email} onChange={onChangeEmail} validations={[required, validEmail]} />
           </div>
           <div className="my-6 mx-5">
             <label className="block my-1 font-medium text-gray-700">Password</label>
@@ -95,7 +97,7 @@ const LoginF = () => {
           
           {message && (
             <div className="mb-4">
-              <div className="text-orange-500 text-sm mt-2">{message}</div>
+              <div className="text-red-500 text-sm mt-2 text-center">{message}</div>
             </div>
           )}
           <CheckButton style={{ display: "none" }} ref={checkBtn} />
