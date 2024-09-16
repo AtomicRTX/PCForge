@@ -30,7 +30,4 @@ public class Motherboard {
 
     @Column(nullable=false)
     private int memory_slots;
-
-    @Column()
-    private Double price;
 }

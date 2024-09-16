@@ -16,6 +16,6 @@ public class Power {
     @Column(nullable=false)
     private String watt;
 
-    @Column()
-    private Double price;
+    @Column(nullable=false)
+    private String size;
 }

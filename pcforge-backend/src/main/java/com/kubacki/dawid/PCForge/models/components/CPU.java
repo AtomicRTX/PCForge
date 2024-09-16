@@ -19,13 +19,18 @@ public class CPU {
     @Column(nullable=false)
     private int cores;
 
+    @Column(nullable=false)
+    private int threads;
+
     @Column()
     private Double base_clock;
 
     @Column(nullable = false)
     private String socket;
 
-    @Column()
-    private Double price;
+    @Column(nullable = false)
+    private String integral_gpu;
 
+    @Column(nullable = false)
+    private Double tdp;
 }

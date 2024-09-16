@@ -19,11 +19,12 @@ public class Case {
     private String producer;
 
     @Column(nullable=false)
-    private String case_type;
+    private String motherboard;
 
     @Column(nullable=false)
     private Double gpu_size;
 
-    @Column()
-    private Double price;
+    @Column(nullable=false)
+    private String power_supply;
+
 }

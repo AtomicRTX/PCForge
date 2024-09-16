@@ -22,6 +22,6 @@ public class GPU {
     @Column(nullable=false)
     private int vram;
 
-    @Column()
-    private Double price;
+    @Column(nullable = false)
+    private Double tdp;
 }

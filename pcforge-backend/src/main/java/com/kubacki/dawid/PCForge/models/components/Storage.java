@@ -19,6 +19,4 @@ public class Storage {
     @Column(nullable=false)
     private int size;
 
-    @Column()
-    private Double price;
 }

@@ -14,17 +14,14 @@ public class RAM {
     private String name;
 
     @Column(nullable=false)
-    private String producer;
-
-    @Column(nullable=false)
     private String ram_type;
 
     @Column(nullable=false)
     private String clock;
 
     @Column(nullable=false)
-    private int size;
+    private Double size;
 
-    @Column()
-    private Double price;
+    @Column(nullable=false)
+    private int sticks;
 }

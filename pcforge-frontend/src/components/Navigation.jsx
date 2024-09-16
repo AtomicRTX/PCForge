@@ -39,10 +39,10 @@ const Navigation = () => {
 
   return (
     <nav className='w-full h-16 absolute top-0 bg-white shadow-lg justify-between flex'>
-      <div className="flex text-center">
+      <Link to="/" className="flex text-center">
         <img src={logo} className='mx-5' alt="LOGO"/>
         <p className='my-auto text-xl font-bold'>PCForge</p>
-      </div>
+      </Link>
       <ul className="flex text-center space-x-16">
         <li className='hover:text-orange-500 my-auto'>
           <Link to="/" className="font-bold">Home</Link>
@@ -71,15 +71,14 @@ const Navigation = () => {
           </Link>
         </li>
       </ul>
-      <div>
         {user ? (
-          <>
+          <div>
             <button onClick={toggleDropdownUser} className="flex hover:text-orange-500" type='button'>
-              <div className='my-auto text-sm'>
-                <p className='my-auto'>{user.username}</p>
-                <p className='my-auto'>{user.email}</p>
+              <div className='my-auto text-sm w-44'>
+                <p className='my-auto font-semibold'>{user.username}</p>
+                <p className='my-auto break-all whitespace-normal'>{user.email}</p>
               </div>
-              <img src={d_profile} className='mx-5 my-1 max-h-14' alt="LOGO"/>
+              <img src={user.photo} className='mx-5 my-1 max-h-14' alt="LOGO"/>
             </button>
             <div className={`${dropdownUser ? false : 'hidden'} bg-gray-100 text-center shadow-lg`}>
               <ul class="text-sm text-gray-700">
@@ -91,16 +90,15 @@ const Navigation = () => {
                 </li>
               </ul>
             </div>
-          </>
+          </div>
         ): (
           <Link to="/login" className="flex hover:text-orange-500">
-              <div className='my-auto font-semibold'>
-                <p className='my-auto'>Log in to platform</p>
-              </div>
-              <img src={d_profile} className='mx-5 my-1 max-h-14' alt="LOGO"/>
-            </Link>
+            <div className='my-auto font-semibold w-44'>
+              <p className='my-auto'>Log in to platform</p>
+            </div>
+            <img src={d_profile} className='mx-5 my-1 max-h-14' alt="LOGO"/>
+          </Link>
         )}
-      </div>
     </nav>
   );
 }
