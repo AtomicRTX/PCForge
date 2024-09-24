@@ -1,8 +1,10 @@
 package com.kubacki.dawid.PCForge.models.components;
 
 import jakarta.persistence.*;
+import lombok.Getter;
 
 @Entity
+@Getter
 @Table(name = "Power")
 
 public class Power {
@@ -14,7 +16,7 @@ public class Power {
     private String name;
 
     @Column(nullable=false)
-    private String watt;
+    private Integer watt;
 
     @Column(nullable=false)
     private String size;

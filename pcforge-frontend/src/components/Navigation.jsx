@@ -45,7 +45,7 @@ const Navigation = () => {
       </Link>
       <ul className="flex text-center space-x-16">
         <li className='hover:text-orange-500 my-auto'>
-          <Link to="/" className="font-bold">Home</Link>
+          <Link to="/">Home</Link>
         </li>
         <li>
           <button onClick={toggleDropdownSetup} className="flex hover:text-orange-500 min-h-16" type='button'>
@@ -57,7 +57,7 @@ const Navigation = () => {
           <div className={`${dropdownSetup ? false : 'hidden'} bg-gray-100 text-center shadow-lg`}>
             <ul class="text-sm text-gray-700">
               <li>
-                <Link to="#" className="block py-2 hover:text-orange-500">By yourself</Link>
+                <Link to="/confy" className="block py-2 hover:text-orange-500">By yourself</Link>
               </li>
               <li>
                 <Link to="#" className="block py-2 hover:text-orange-500">By your games</Link>

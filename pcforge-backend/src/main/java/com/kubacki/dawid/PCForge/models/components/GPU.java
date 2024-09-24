@@ -1,8 +1,10 @@
 package com.kubacki.dawid.PCForge.models.components;
 
 import jakarta.persistence.*;
+import lombok.Getter;
 
 @Entity
+@Getter
 @Table(name = "GPUs")
 
 public class GPU {
@@ -17,11 +19,11 @@ public class GPU {
     private String producer;
 
     @Column(nullable=false)
-    private String length;
+    private String gpuSize;
 
     @Column(nullable=false)
     private int vram;
 
     @Column(nullable = false)
-    private Double tdp;
+    private Integer tdp;
 }

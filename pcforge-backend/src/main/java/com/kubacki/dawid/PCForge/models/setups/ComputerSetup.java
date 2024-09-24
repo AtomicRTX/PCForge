@@ -21,7 +21,7 @@ public class ComputerSetup {
 
     @ManyToOne
     @JoinColumn(name = "case_id", nullable = false)
-    private Case cas;
+    private ComputerCase cas;
 
     @ManyToOne
     @JoinColumn(name = "ram_id", nullable = false)

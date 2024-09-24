@@ -119,7 +119,7 @@ CREATE TEMP TABLE gpu_tabela (
 COPY gpu_tabela FROM '/data_csv/GPUData.csv' DELIMITER ',' CSV HEADER;
 
 INSERT INTO
-    gpus (name, producer, vram, length, tdp)
+    gpus (name, producer, vram, gpu_size, tdp)
 SELECT
     Name,
     Producer,

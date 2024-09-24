@@ -7,7 +7,7 @@ import lombok.Getter;
 @Getter
 @Table(name = "cases")
 
-public class Case {
+public class ComputerCase {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int case_id;

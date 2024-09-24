@@ -1,8 +1,10 @@
 package com.kubacki.dawid.PCForge.models.components;
 
 import jakarta.persistence.*;
+import lombok.Getter;
 
 @Entity
+@Getter
 @Table(name = "CPUs")
 
 public class CPU {
@@ -32,5 +34,5 @@ public class CPU {
     private String integral_gpu;
 
     @Column(nullable = false)
-    private Double tdp;
+    private Integer tdp;
 }

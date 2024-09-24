@@ -1,8 +1,10 @@
 package com.kubacki.dawid.PCForge.models.components;
 
 import jakarta.persistence.*;
+import lombok.Getter;
 
 @Entity
+@Getter
 @Table(name = "Motherboards")
 
 public class Motherboard {
