@@ -22,7 +22,7 @@ public class Case {
     private String motherboard;
 
     @Column(nullable=false)
-    private Double gpu_size;
+    private Integer gpu_size;
 
     @Column(nullable=false)
     private String power_supply;
