@@ -51,7 +51,7 @@ const ConfiguratorY = () => {
   const [memoryCapacity, setMemoryCapacity] = useState(null);
   const [memorySlots, setMemorySlots] = useState(null);
   const [memoryType, setMemoryType] = useState(null);
-  const [tdp, setTdp] = useState(null);
+  const [tdp] = useState(null);
   
   // Wartość domyślna list
 
@@ -84,7 +84,7 @@ const ConfiguratorY = () => {
       })
       .catch(error => {
         console.error('Error fetching CPUs:', error);
-      });
+      }); // eslint-disable-next-line
   }, [selectedMotherboard]);
 
   // Pobranie listy GPU z bazy danych
@@ -101,7 +101,7 @@ const ConfiguratorY = () => {
       })
       .catch(error => {
         console.error('Error fetching GPUs:', error);
-      });
+      }); // eslint-disable-next-line
   }, [selectedComputerCase]);
 
   // Pobranie listy plyt glownych z bazy danych
@@ -122,7 +122,7 @@ const ConfiguratorY = () => {
       })
       .catch(error => {
         console.error('Error fetching Motherboards:', error);
-      });
+      }); // eslint-disable-next-line
   }, [selectedCpu, selectedRam, selectedComputerCase]);
 
   // Pobranie listy kosci RAM z bazy danych
@@ -141,7 +141,7 @@ const ConfiguratorY = () => {
       })
       .catch(error => {
         console.error('Error fetching RAMs:', error);
-      });
+      }); // eslint-disable-next-line
   }, [selectedMotherboard]);
 
   // Pobranie listy obudów z bazy danych
@@ -160,7 +160,7 @@ const ConfiguratorY = () => {
       })
       .catch(error => {
         console.error('Error fetching ComputerCases:', error);
-      });
+      }); // eslint-disable-next-line
   }, [selectedMotherboard, selectedGpu, selectedPowerSupply]);
 
   // Pobranie listy zasilaczy z bazy danych
@@ -177,7 +177,7 @@ const ConfiguratorY = () => {
       })
       .catch(error => {
         console.error('Error fetching ComputerCases:', error);
-      });
+      }); // eslint-disable-next-line
   }, [selectedCpu, selectedGpu, selectedComputerCase]);
 
   // Pobranie listy dysków z bazy danych
@@ -193,7 +193,7 @@ const ConfiguratorY = () => {
       })
       .catch(error => {
         console.error('Error fetching ComputerCases:', error);
-      });
+      }); // eslint-disable-next-line
   }, []);
 
   // Funkcje odpowiadające za wybranie elementu
@@ -290,6 +290,7 @@ const ConfiguratorY = () => {
       <p className='text-center text-xl my-4 font-bold'>Configurator PC</p>
       <Form onSubmit={handleComputerCreator} className='flex justify-center items-center flex-col h-full'>
         <div className='grid grid-cols-4 gap-4 h-5/6 m-4'>
+
           <label className='flex flex-col items-center justify-center rounded-lg bg-gray-50'>
             <img src={CPU} className='mx-auto w-1/3' alt="CPU"/>
             <p className='text-center text-lg my-4 font-bold'>CPU</p>
@@ -331,6 +332,7 @@ const ConfiguratorY = () => {
             <p className='text-center text-lg my-4 font-bold'>Storage</p>
             <Select name='selectedStorage' options={drive} value={selectedDrive} onChange={handleSSDChange} placeholder="Select" className='mx-auto w-72' styles={customStyles}/>
           </label>
+
         </div>
         <button className="bg-orange-500 text-white rounded-lg h-10 hover:bg-orange-700 focus:outline-none focus:bg-orange-900 w-1/3 my-2">Save setup</button>
         {message && <div className='text-red-600 font-bold'>{message}</div>}

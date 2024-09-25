@@ -78,12 +78,18 @@ const Navigation = () => {
                 <p className='my-auto font-semibold'>{user.username}</p>
                 <p className='my-auto break-all whitespace-normal'>{user.email}</p>
               </div>
-              <img src={user.photo} className='mx-5 my-1 max-h-14' alt="LOGO"/>
+              <img src={user.photo ? user.photo : d_profile} className='mx-5 my-1 max-h-14' alt="LOGO"/>
             </button>
             <div className={`${dropdownUser ? false : 'hidden'} bg-gray-100 text-center shadow-lg`}>
               <ul class="text-sm text-gray-700">
                 <li>
                   <Link to="#" className="block py-2 hover:text-orange-500">My profile</Link>
+                </li>
+                <li>
+                  <Link to="#" className="block py-2 hover:text-orange-500">My setups</Link>
+                </li>
+                <li>
+                  <Link to="#" className="block py-2 hover:text-orange-500">Saved setups</Link>
                 </li>
                 <li>
                   <Link to="#" className="block py-2 hover:text-orange-500" onClick={logOut}>Sign out</Link>

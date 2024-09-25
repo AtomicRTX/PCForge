@@ -18,5 +18,5 @@ class ComputerService{
         }, { headers: authHeader() })
     }
 }
-
+// eslint-disable-next-line
 export default new ComputerService();
