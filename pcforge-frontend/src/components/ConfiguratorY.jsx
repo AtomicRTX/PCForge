@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Select from 'react-select';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 import CPU from '../assets/CPU.svg'
 import GPU from '../assets/GPU.svg'
@@ -67,7 +67,10 @@ const ConfiguratorY = () => {
     UserService.getUser()
       .then(data => setUser(data)
       )
-      .catch(error => console.error('Error:', error));
+      .catch(error => {
+        console.error('Error:', error);
+        setUser(null);
+      });
   }, []);
 
   // Pobranie listy CPU z bazy danych
@@ -287,6 +290,8 @@ const ConfiguratorY = () => {
 
   return (
     <main className='flex justify-center items-center flex-col w-3/4 h-4/5 bg-white rounded-xl'>
+      {user ? (
+      <>
       <p className='text-center text-xl my-4 font-bold'>Configurator PC</p>
       <Form onSubmit={handleComputerCreator} className='flex justify-center items-center flex-col h-full'>
         <div className='grid grid-cols-4 gap-4 h-5/6 m-4'>
@@ -337,6 +342,18 @@ const ConfiguratorY = () => {
         <button className="bg-orange-500 text-white rounded-lg h-10 hover:bg-orange-700 focus:outline-none focus:bg-orange-900 w-1/3 my-2">Save setup</button>
         {message && <div className='text-red-600 font-bold'>{message}</div>}
       </Form>
+      </>
+      ):(
+      <div className='space-y-20'>
+        <p className='text-3xl mx-5'>If you want to create computer setup you need to log in</p>
+        <Link to="/login" className="flex items-center justify-center  hover:text-orange-500">
+          <button className='bg-orange-500 text-white rounded-lg h-20 hover:bg-orange-700 focus:outline-none focus:bg-orange-900 w-2/3 my-2'>
+            <p className=''>Log in to platform</p>
+          </button>
+        </Link>
+      </div>
+      )
+      }
     </main>
   );
 } 

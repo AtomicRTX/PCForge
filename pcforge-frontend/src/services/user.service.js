@@ -8,10 +8,6 @@ class UserService {
       return axios.get(API_URL + 'current', { headers: authHeader() })
       .then(response => {
         return response.data;
-      })
-      .catch(error => {
-        console.error('Error fetching user:', error);
-        throw error;
       });
     }
 }
