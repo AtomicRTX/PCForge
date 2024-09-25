@@ -6,9 +6,13 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface GpuRepository extends JpaRepository<GPU, Integer> {
 
-    @Query("SELECT g FROM GPU g WHERE (:tdp IS NULL OR g.tdp = :tdp) AND (:gpuSize IS NULL OR g.gpuSize <= :gpuSize) ORDER BY g.vram")
+    @Query("SELECT g FROM GPU g WHERE (:tdp IS NULL OR g.tdp = :tdp) AND (:gpuSize IS NULL OR g.gpuSize <= :gpuSize) ORDER BY g.vram DESC")
     List<GPU> findCorrectGPUs(@Param("tdp") Integer tdp, @Param("gpuSize") Integer gpuSize);
+
+    @Override
+    Optional<GPU> findById(Integer id);
 }

@@ -1,8 +1,16 @@
 package com.kubacki.dawid.PCForge.models.setups;
 
 import com.kubacki.dawid.PCForge.models.components.*;
+import com.kubacki.dawid.PCForge.models.users.User;
 import jakarta.persistence.*;
+import lombok.*;
 
+@Data
+@Builder
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "ComputerSetup")
 
@@ -16,12 +24,16 @@ public class ComputerSetup {
     private CPU cpu;
 
     @ManyToOne
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
+
+    @ManyToOne
     @JoinColumn(name = "gpu_id", nullable = false)
     private GPU gpu;
 
     @ManyToOne
     @JoinColumn(name = "case_id", nullable = false)
-    private ComputerCase cas;
+    private ComputerCase cs;
 
     @ManyToOne
     @JoinColumn(name = "ram_id", nullable = false)

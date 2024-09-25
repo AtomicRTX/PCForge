@@ -107,7 +107,10 @@ create table computer_setup
             references ram,
     st_id    integer not null
         constraint fkl26hk1yd39kbwl8iabj856jiw
-            references storage
+            references storage,
+    user_id  integer not null
+        constraint fkn6c1o4p33qaljatv16a3lom36
+            references users
 );
 
 alter table computer_setup

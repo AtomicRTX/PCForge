@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Select from 'react-select';
+import { useNavigate } from 'react-router-dom';
 
 import CPU from '../assets/CPU.svg'
 import GPU from '../assets/GPU.svg'
@@ -10,8 +11,16 @@ import Power from '../assets/Power.svg'
 import SSD from '../assets/SSD.svg'
 
 import ComponentService from '../services/component.service';
+import Form from "react-validation/build/form";
+import ComputerService from '../services/computer.service';
+import UserService from '../services/user.service';
 
 const ConfiguratorY = () => {
+
+  const navigate = useNavigate();
+
+  const [user, setUser] = useState({});
+  const [message, setMessage] = useState('');
 
   // Listy z danymi komponentami
 
@@ -51,6 +60,15 @@ const ConfiguratorY = () => {
     label: 'Select',
     socket: null
   };
+
+  // Pobranie aktywnego uzytkownika
+
+  useEffect(() => {
+    UserService.getUser()
+      .then(data => setUser(data)
+      )
+      .catch(error => console.error('Error:', error));
+  }, []);
 
   // Pobranie listy CPU z bazy danych
 
@@ -210,17 +228,45 @@ const ConfiguratorY = () => {
     setSelectedComputerCase(selectedOption);
     setMotherboardType(selectedOption.form);
     setGpuSize(selectedOption.gpuSize);
-    setPowerSupply(selectedOption.powerType);
+    setPowerType(selectedOption.powerType);
   };
 
   const handlePowerChange = (selectedOption) => {
     setSelectedPowerSupply(selectedOption);
-    setPowerSupply(selectedOption.powerType);
+    setPowerType(selectedOption.powerType);
   };
 
   const handleSSDChange = (selectedOption) => {
     setSelectedDrive(selectedOption);
   };
+
+  // Funkcja odpowiadająca za stworzenie zestawu
+
+  const handleComputerCreator = (e) => {
+    e.preventDefault();
+    setMessage('');
+    if(selectedComputerCase == null || selectedCpu == null || selectedGpu == null || selectedDrive == null || selectedMotherboard == null || selectedPowerSupply == null || selectedRam == null){
+      setMessage('You dont choice all components');
+    }
+    else{
+      ComputerService.createComputerSetup(user.user_id, selectedComputerCase.value, selectedCpu.value, selectedGpu.value, selectedRam.value, selectedMotherboard.value, selectedPowerSupply.value, selectedDrive.value)
+      .then(response => {
+        setMessage(`Create successful.\n`);
+        navigate("/");
+        window.location.reload();
+      })
+      .catch(error => {
+        const comMessage =
+          (error.response &&
+            error.response.data &&
+            error.response.data.message) ||
+          error.message ||
+          error.toString();
+  
+        setMessage(`Create failed. Details: Error: ${comMessage}`);
+      });
+    }
+  }
 
   // Style do react select
 
@@ -229,6 +275,9 @@ const ConfiguratorY = () => {
       ...provided,
       borderColor: state.isFocused ? 'orange' : provided.borderColor,
       boxShadow: state.isFocused ? '0 0 0 1px orange' : provided.boxShadow,
+      "&:hover": {
+        borderColor: "orange"
+      }
     }),
     option: (provided, state) => ({
       ...provided,
@@ -239,50 +288,53 @@ const ConfiguratorY = () => {
   return (
     <main className='flex justify-center items-center flex-col w-3/4 h-4/5 bg-white rounded-xl'>
       <p className='text-center text-xl my-4 font-bold'>Configurator PC</p>
-      <div className='grid grid-cols-4 gap-4 h-3/4 m-4'>
-        <label className='w-full h-full flex flex-col items-center justify-center rounded-lg bg-gray-50'>
-          <img src={CPU} className='mx-auto w-1/3' alt="CPU"/>
-          <p className='text-center text-lg my-4 font-bold'>CPU</p>
-          <Select name='selectedCPU' options={cpus} value={selectedCpu} onChange={handleCpuChange} placeholder="Select" className='mx-auto w-5/6' styles={customStyles}/>
-        </label>
+      <Form onSubmit={handleComputerCreator} className='flex justify-center items-center flex-col h-full'>
+        <div className='grid grid-cols-4 gap-4 h-5/6 m-4'>
+          <label className='flex flex-col items-center justify-center rounded-lg bg-gray-50'>
+            <img src={CPU} className='mx-auto w-1/3' alt="CPU"/>
+            <p className='text-center text-lg my-4 font-bold'>CPU</p>
+            <Select name='selectedCPU' options={cpus} value={selectedCpu} onChange={handleCpuChange} placeholder="Select" className='mx-auto w-72' styles={customStyles}/>
+          </label>
 
-        <label className='w-full h-full flex flex-col items-center justify-center rounded-lg bg-gray-50'>
-          <img src={GPU} className='mx-auto w-1/3' alt="GPU"/>
-          <p className='text-center text-lg my-4 font-bold'>GPU</p>
-          <Select name='selectedGPU' options={gpus} value={selectedGpu} onChange={handleGpuChange} placeholder="Select" className='mx-auto w-5/6' styles={customStyles}/>
-        </label>
+          <label className='flex flex-col items-center justify-center rounded-lg bg-gray-50'>
+            <img src={GPU} className='mx-auto w-1/3' alt="GPU"/>
+            <p className='text-center text-lg my-4 font-bold'>GPU</p>
+            <Select name='selectedGPU' options={gpus} value={selectedGpu} onChange={handleGpuChange} placeholder="Select" className='mx-4 w-72' styles={customStyles}/>
+          </label>
 
-        <label className='w-full h-full flex flex-col items-center justify-center rounded-lg bg-gray-50'>
-          <img src={Motherboard} className='mx-auto w-1/3' alt="Motherboard"/>
-          <p className='text-center text-lg my-4 font-bold'>Motherboard</p>
-          <Select name='selectedMotherboard' options={motherboards} value={selectedMotherboard} onChange={handleMbChange} placeholder="Select" className='mx-auto w-5/6' styles={customStyles}/>
-        </label>
+          <label className='flex flex-col items-center justify-center rounded-lg bg-gray-50'>
+            <img src={Motherboard} className='mx-auto w-1/3' alt="Motherboard"/>
+            <p className='text-center text-lg my-4 font-bold'>Motherboard</p>
+            <Select name='selectedMotherboard' options={motherboards} value={selectedMotherboard} onChange={handleMbChange} placeholder="Select" className='mx-auto w-72' styles={customStyles}/>
+          </label>
 
-        <label className='w-full h-full flex flex-col items-center justify-center rounded-lg bg-gray-50'>
-          <img src={RAM} className='mx-auto w-1/3' alt="RAM"/>
-          <p className='text-center text-lg my-4 font-bold'>RAM</p>
-          <Select name='selectedRAM' options={ram} value={selectedRam} onChange={handleRamChange} placeholder="Select" className='mx-auto w-5/6' styles={customStyles}/>
-        </label>
+          <label className='flex flex-col items-center justify-center rounded-lg bg-gray-50'>
+            <img src={RAM} className='mx-auto w-1/3' alt="RAM"/>
+            <p className='text-center text-lg my-4 font-bold'>RAM</p>
+            <Select name='selectedRAM' options={ram} value={selectedRam} onChange={handleRamChange} placeholder="Select" className='mx-auto w-72' styles={customStyles}/>
+          </label>
 
-        <label className='w-full h-full flex flex-col items-center justify-center rounded-lg bg-gray-50'>
-          <img src={Case} className='mx-auto w-1/3' alt="Case"/>
-          <p className='text-center text-lg my-4 font-bold'>Case</p>
-          <Select name='selectedComputerCase' options={computerCase} value={selectedComputerCase} onChange={handleComputerCaseChange} placeholder="Select" className='mx-auto w-5/6' styles={customStyles}/>
-        </label>
+          <label className='flex flex-col items-center justify-center rounded-lg bg-gray-50'>
+            <img src={Case} className='mx-auto w-1/3' alt="Case"/>
+            <p className='text-center text-lg my-4 font-bold'>Case</p>
+            <Select name='selectedComputerCase' options={computerCase} value={selectedComputerCase} onChange={handleComputerCaseChange} placeholder="Select" className='mx-auto w-72' styles={customStyles}/>
+          </label>
 
-        <label className='w-full h-full flex flex-col items-center justify-center rounded-lg bg-gray-50'>
-          <img src={Power} className='mx-auto w-1/3' alt="Power"/>
-          <p className='text-center text-lg my-4 font-bold'>Power Supply</p>
-          <Select name='selectedPowerSupply' options={powerSupply} value={selectedPowerSupply} onChange={handlePowerChange} placeholder="Select" className='mx-auto w-5/6' styles={customStyles}/>
-        </label>
+          <label className='flex flex-col items-center justify-center rounded-lg bg-gray-50'>
+            <img src={Power} className='mx-auto w-1/3' alt="Power"/>
+            <p className='text-center text-lg my-4 font-bold'>Power Supply</p>
+            <Select name='selectedPowerSupply' options={powerSupply} value={selectedPowerSupply} onChange={handlePowerChange} placeholder="Select" className='mx-auto w-72' styles={customStyles}/>
+          </label>
 
-        <label className='w-full h-full flex flex-col items-center justify-center rounded-lg bg-gray-50'>
-          <img src={SSD} className='mx-auto w-1/3' alt="SSD"/>
-          <p className='text-center text-lg my-4 font-bold'>Storage</p>
-          <Select name='selectedStorage' options={drive} value={selectedDrive} onChange={handleSSDChange} placeholder="Select" className='mx-auto w-5/6' styles={customStyles}/>
-        </label>
-      </div>
-      <button className="bg-orange-500 text-white rounded-lg h-10 hover:bg-orange-700 focus:outline-none focus:bg-orange-900 w-1/3 my-2">Save setup</button>
+          <label className='flex flex-col items-center justify-center rounded-lg bg-gray-50'>
+            <img src={SSD} className='mx-auto w-1/3' alt="SSD"/>
+            <p className='text-center text-lg my-4 font-bold'>Storage</p>
+            <Select name='selectedStorage' options={drive} value={selectedDrive} onChange={handleSSDChange} placeholder="Select" className='mx-auto w-72' styles={customStyles}/>
+          </label>
+        </div>
+        <button className="bg-orange-500 text-white rounded-lg h-10 hover:bg-orange-700 focus:outline-none focus:bg-orange-900 w-1/3 my-2">Save setup</button>
+        {message && <div className='text-red-600 font-bold'>{message}</div>}
+      </Form>
     </main>
   );
 } 

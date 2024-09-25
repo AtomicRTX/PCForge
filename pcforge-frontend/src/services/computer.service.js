@@ -1,0 +1,22 @@
+import axios from "axios";
+
+import authHeader from "./auth-header";
+
+const API_URL = 'http://localhost:8080/api/v1/computer/'
+
+class ComputerService{
+    createComputerSetup(user_id, case_id, cpu_id, gpu_id, ram_id, mb_id, power_id, st_id){
+        return axios.post(API_URL + 'add', {
+            user_id,
+            case_id,
+            cpu_id,
+            gpu_id,
+            ram_id,
+            mb_id,
+            power_id,
+            st_id
+        }, { headers: authHeader() })
+    }
+}
+
+export default new ComputerService();
