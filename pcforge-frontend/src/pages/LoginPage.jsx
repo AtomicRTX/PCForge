@@ -1,12 +1,12 @@
 import React from 'react'
 import Background from '../components/Background'
-import LoginF from '../components/LoginF'
+import LoginForm from '../components/LoginForm'
 
 const LoginPage = () => {
   return (
     <>
       <Background>
-        <LoginF/>
+        <LoginForm/>
       </Background>
     </>
   )

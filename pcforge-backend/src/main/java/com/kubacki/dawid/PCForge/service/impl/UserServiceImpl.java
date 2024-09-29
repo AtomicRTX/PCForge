@@ -20,4 +20,10 @@ public class UserServiceImpl implements UserService {
         User user = userRepository.findByEmail(email).orElseThrow(() -> new RuntimeException("User not found."));
         return UserMapper.mapToUserDto(user);
     }
+
+    @Override
+    public UserDto getById(int id) {
+        User user = userRepository.findById(id).orElseThrow(() -> new RuntimeException("User not found."));
+        return UserMapper.mapToUserDto(user);
+    }
 }

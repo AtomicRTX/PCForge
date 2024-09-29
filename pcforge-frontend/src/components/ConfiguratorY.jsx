@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import Select from 'react-select';
 import { Link, useNavigate } from 'react-router-dom';
+import Form from "react-validation/build/form";
+
+//Ikony komponentow
 
 import CPU from '../assets/CPU.svg'
 import GPU from '../assets/GPU.svg'
@@ -10,8 +13,9 @@ import Case from '../assets/Case.svg'
 import Power from '../assets/Power.svg'
 import SSD from '../assets/SSD.svg'
 
+//Service
+
 import ComponentService from '../services/component.service';
-import Form from "react-validation/build/form";
 import ComputerService from '../services/computer.service';
 import UserService from '../services/user.service';
 
@@ -253,7 +257,7 @@ const ConfiguratorY = () => {
     }
     else{
       ComputerService.createComputerSetup(user.user_id, selectedComputerCase.value, selectedCpu.value, selectedGpu.value, selectedRam.value, selectedMotherboard.value, selectedPowerSupply.value, selectedDrive.value)
-      .then(response => {
+      .then(() => {
         setMessage(`Create successful.\n`);
         navigate("/");
         window.location.reload();
@@ -289,7 +293,7 @@ const ConfiguratorY = () => {
   }
 
   return (
-    <main className='flex justify-center items-center flex-col w-3/4 h-4/5 bg-white rounded-xl'>
+    <main className='flex justify-center items-center flex-col w-5/6 h-5/6 m-auto bg-white rounded-xl'>
       {user ? (
       <>
       <p className='text-center text-xl my-4 font-bold'>Configurator PC</p>

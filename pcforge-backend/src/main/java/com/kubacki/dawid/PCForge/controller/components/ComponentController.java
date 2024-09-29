@@ -4,10 +4,7 @@ import com.kubacki.dawid.PCForge.dto.components.*;
 import com.kubacki.dawid.PCForge.service.ComponentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -56,5 +53,43 @@ public class ComponentController {
     public ResponseEntity<List<StorageDto>> getCorrectStorage() {
         List<StorageDto> storageDtos = componentService.getCorrectStorages();
         return ResponseEntity.ok(storageDtos);
+    }
+
+    @GetMapping("/cpu/{id}")
+    public ResponseEntity<CpuDto> getCPUById(@PathVariable("id") Integer id) {
+        CpuDto cpuDto = componentService.getCPUbyId(id);
+        return ResponseEntity.ok(cpuDto);
+    }
+
+    @GetMapping("/gpu/{id}")
+    public ResponseEntity<GpuDto> getGPUById(@PathVariable("id") Integer id) {
+        GpuDto gpuDto = componentService.getGPUbyId(id);
+        return ResponseEntity.ok(gpuDto);
+    }
+
+    @GetMapping("/cc/{id}")
+    public ResponseEntity<ComputerCaseDto> getComputerCaseById(@PathVariable("id") Integer id) {
+        ComputerCaseDto computerCaseDto = componentService.getComputerCasebyId(id);
+        return ResponseEntity.ok(computerCaseDto);
+    }
+    @GetMapping("/mb/{id}")
+    public ResponseEntity<MotherboardDto> getMotherboardById(@PathVariable("id") Integer id) {
+        MotherboardDto motherboardDto = componentService.getMotherboardbyId(id);
+        return ResponseEntity.ok(motherboardDto);
+    }
+    @GetMapping("/power/{id}")
+    public ResponseEntity<PowerDto> getPowerById(@PathVariable("id") Integer id) {
+        PowerDto powerDto = componentService.getPowerbyId(id);
+        return ResponseEntity.ok(powerDto);
+    }
+    @GetMapping("/st/{id}")
+    public ResponseEntity<StorageDto> getStorageById(@PathVariable("id") Integer id) {
+        StorageDto storageDto = componentService.getStoragebyId(id);
+        return ResponseEntity.ok(storageDto);
+    }
+    @GetMapping("/ram/{id}")
+    public ResponseEntity<RamDto> getRamById(@PathVariable("id") Integer id) {
+        RamDto ramDto = componentService.getRambyId(id);
+        return ResponseEntity.ok(ramDto);
     }
 }

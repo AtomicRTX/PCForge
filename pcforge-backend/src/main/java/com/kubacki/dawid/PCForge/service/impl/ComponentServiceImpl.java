@@ -65,4 +65,46 @@ public class ComponentServiceImpl implements ComponentService {
         List<Storage> correctStorage = storageRepository.findCorrectStorage();
         return correctStorage.stream().map(st -> StorageMapper.mapToStorageDto(st)).collect(Collectors.toList());
     }
+
+    @Override
+    public CpuDto getCPUbyId(Integer id) {
+        CPU cpu = cpuRepository.findById(id).orElseThrow();
+        return CpuMapper.mapToCpuDto(cpu);
+    }
+
+    @Override
+    public GpuDto getGPUbyId(Integer id) {
+        GPU gpu = gpuRepository.findById(id).orElseThrow();
+        return GpuMapper.mapToGpuDto(gpu);
+    }
+
+    @Override
+    public MotherboardDto getMotherboardbyId(Integer id) {
+        Motherboard motherboard = motherboardRepository.findById(id).orElseThrow();
+        return MotherboardMapper.mapToMotherboardDto(motherboard);
+    }
+
+    @Override
+    public RamDto getRambyId(Integer id) {
+        RAM ram = ramRepository.findById(id).orElseThrow();
+        return RamMapper.mapToRamDto(ram);
+    }
+
+    @Override
+    public StorageDto getStoragebyId(Integer id) {
+        Storage storage = storageRepository.findById(id).orElseThrow();
+        return StorageMapper.mapToStorageDto(storage);
+    }
+
+    @Override
+    public PowerDto getPowerbyId(Integer id) {
+        Power power = powerRepository.findById(id).orElseThrow();
+        return PowerMapper.mapToPowerDto(power);
+    }
+
+    @Override
+    public ComputerCaseDto getComputerCasebyId(Integer id) {
+        ComputerCase computerCase = computerCaseRepository.findById(id).orElseThrow();
+        return ComputerCaseMapper.mapToCaseDto(computerCase);
+    }
 }

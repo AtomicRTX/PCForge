@@ -1,15 +1,23 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+
+// Ikony
+
 import logo from '../assets/Logo.svg'
 import d_profile from '../assets/default-profile.jpg'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCaretDown } from '@fortawesome/free-solid-svg-icons';
 
+// Serwisy
+
 import AuthService from "../services/auth.service";
 import UserService from '../services/user.service';
 
 const Navigation = () => {
+
   const [user, setUser] = useState({});
+
+  // Zmienne do menu
 
   const [dropdownUser, setDropdownUser] = useState(false);
   const [dropdownSetup, setDropdownSetup] = useState(false);
@@ -18,27 +26,28 @@ const Navigation = () => {
     UserService.getUser()
       .then(data => setUser(data)
       )
-      .catch(error => {
-        console.error('Error:', error);
+      .catch(() => {
         setUser(null);
       });
   }, []);
 
+  // Funkcje do menu
+
   const toggleDropdownUser = () => {
     setDropdownUser(!dropdownUser);
-  };
-
+  }
+  
   const toggleDropdownSetup = () => {
     setDropdownSetup(!dropdownSetup);
-  };
+  }
 
   const logOut = () =>{
     AuthService.logout();
     window.location.reload();
-}
+  }
 
   return (
-    <nav className='w-full h-16 absolute top-0 bg-white shadow-lg justify-between flex'>
+    <nav className='w-full h-16 top-0 bg-white shadow-lg justify-between flex sticky'>
       <Link to="/" className="flex text-center">
         <img src={logo} className='mx-5' alt="LOGO"/>
         <p className='my-auto text-xl font-bold'>PCForge</p>
@@ -66,7 +75,7 @@ const Navigation = () => {
           </div>
         </li>
         <li className='hover:text-orange-500 my-auto'>
-          <Link to="#" className="button">
+          <Link to="/userSetups" className="button">
             Users setups
           </Link>
         </li>

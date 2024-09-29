@@ -1,12 +1,12 @@
 import React from 'react'
 import Background from '../components/Background'
-import RegisterF from '../components/RegisterF'
+import RegisterForm from '../components/RegisterForm'
 
 const RegisterPage = () => {
   return (
     <>
       <Background>
-        <RegisterF/>
+        <RegisterForm/>
       </Background>
     </>
   )

@@ -17,6 +17,26 @@ class ComputerService{
             st_id
         }, { headers: authHeader() })
     }
+    getAllComputers(){
+        return axios.get(API_URL + `all`)
+            .then(response => {
+                return response.data;
+            });
+    }
+    saveComputer(computerID){
+        return axios.post(API_URL + `${computerID}/save`, { headers: authHeader() })
+            .then(response => {
+                return response.data;
+            });
+    }
+    isSavedComputer(computerID){
+        return axios.get(API_URL + `${computerID}/checkSave`, { headers: authHeader() })
+            .then(response => {
+                return response.data;
+            });
+    }
+
+
 }
 // eslint-disable-next-line
 export default new ComputerService();

@@ -1,15 +1,24 @@
 import React, { useState, useRef } from "react";
-import logo from '../assets/Logo.svg'
 import { Link, useNavigate } from 'react-router-dom';
+
+// Ikony
+
+import logo from '../assets/Logo.svg'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleArrowLeft } from '@fortawesome/free-solid-svg-icons';
+
+// Walidacja
 
 import Form from "react-validation/build/form";
 import Input from "react-validation/build/input";
 import CheckButton from "react-validation/build/button";
 import { isEmail } from "validator";
 
+// Serwisy
+
 import AuthService from "../services/auth.service";
+
+// Sprawdzenie maila, hasla i czy pole jest puste
 
 const required = (value) => {
   if (!value) {
@@ -35,16 +44,24 @@ const vpassword = (value) => {
   }
 };
 
-const RegisterF = () => {
+const RegisterForm = () => {
+
+  const navigate = useNavigate();
+
+  // Formularz
+
   const form = useRef();
   const checkBtn = useRef();
-  const navigate = useNavigate();
+
+  // Dane
 
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [successful, setSuccessful] = useState(false);
   const [message, setMessage] = useState("");
+
+  // Funkcje obslugi zmiany danych w polach
 
   const onChangeUsername = (e) => {
     const username = e.target.value;
@@ -61,6 +78,8 @@ const RegisterF = () => {
     setPassword(password);
   };
 
+  // Obsluga rejestracji
+
   const handleRegister = (e) => {
     e.preventDefault();
 
@@ -68,7 +87,7 @@ const RegisterF = () => {
     setSuccessful(false);
 
     form.current.validateAll();
-    console.log(username)
+    
     if (checkBtn.current.context._errors.length === 0) {
       AuthService.register(username, email, password).then(
         (response) => {
@@ -93,7 +112,7 @@ const RegisterF = () => {
   };
 
   return (
-    <main className='flex flex-col bg-white sm:rounded-3xl w-full md:w-2/5 lg:w-1/4 md:h-5/6 lg:h-5/6 h-screen shadow-lg p-5'>
+    <main className='flex flex-col m-auto bg-white sm:rounded-3xl w-full md:w-2/5 lg:w-1/4 md:h-5/6 lg:h-5/6 h-screen shadow-lg p-5'>
       <Link to={-1}>
           <FontAwesomeIcon className='size-6 lg:size-8' icon={faCircleArrowLeft} />
       </Link>
@@ -135,4 +154,4 @@ const RegisterF = () => {
   );
 }
 
-export default RegisterF;
+export default RegisterForm;

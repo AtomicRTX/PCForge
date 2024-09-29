@@ -15,6 +15,13 @@ class ComponentService {
       });
     }
 
+    getCPU(cpuID){
+      return axios.get(API_URL + `cpu/${cpuID}`)
+      .then(response => {
+        return response.data;
+      });
+    }
+
     getCorrectGPU(tdp, gpuSize) {
       return axios.get(API_URL + `setgpu`, { headers: authHeader(), params: { tdp:tdp, gpuSize:gpuSize } })
       .then(response => {
@@ -23,6 +30,13 @@ class ComponentService {
       .catch(error => {
         console.error('Error fetching GPU:', error);
         throw error;
+      });
+    }
+
+    getGPU(gpuID){
+      return axios.get(API_URL + `gpu/${gpuID}`)
+      .then(response => {
+        return response.data;
       });
     }
 
@@ -37,6 +51,13 @@ class ComponentService {
       });
     }
 
+    getMotherboard(mbID){
+      return axios.get(API_URL + `mb/${mbID}`)
+      .then(response => {
+        return response.data;
+      });
+    }
+
     getCorrectRAM(size, sticks, type) {
       return axios.get(API_URL + `setram`, { headers: authHeader(), params: { size:size, sticks:sticks, type:type } })
       .then(response => {
@@ -48,14 +69,28 @@ class ComponentService {
       });
     }
 
+    getRAM(ramID){
+      return axios.get(API_URL + `ram/${ramID}`)
+      .then(response => {
+        return response.data;
+      });
+    }
+
     getCorrectComputerCase(mb, size, power) {
-      return axios.get(API_URL + `setcase`, { headers: authHeader(), params: { mb:mb, size:size, power:power } })
+      return axios.get(API_URL + `setcase`, { params: { mb:mb, size:size, power:power } })
       .then(response => {
         return response.data;
       })
       .catch(error => {
         console.error('Error fetching GPU:', error);
         throw error;
+      });
+    }
+
+    getComputerCase(ccID){
+      return axios.get(API_URL + `cc/${ccID}`)
+      .then(response => {
+        return response.data;
       });
     }
 
@@ -69,26 +104,29 @@ class ComponentService {
         throw error;
       });
     }
-
-    getCorrectPower(watt, size) {
-      return axios.get(API_URL + `setpower`, { headers: authHeader(), params: { watt:watt, size:size } })
+    
+    getPower(powerID){
+      return axios.get(API_URL + `power/${powerID}`)
       .then(response => {
         return response.data;
-      })
-      .catch(error => {
-        console.error('Error fetching GPU:', error);
-        throw error;
       });
     }
 
     getCorrectStorage() {
-      return axios.get(API_URL + `setstorage`, { headers: authHeader() })
+      return axios.get(API_URL + `setstorage`)
       .then(response => {
         return response.data;
       })
       .catch(error => {
         console.error('Error fetching GPU:', error);
         throw error;
+      });
+    }
+
+    getStorage(stID){
+      return axios.get(API_URL + `st/${stID}`)
+      .then(response => {
+        return response.data;
       });
     }
 }

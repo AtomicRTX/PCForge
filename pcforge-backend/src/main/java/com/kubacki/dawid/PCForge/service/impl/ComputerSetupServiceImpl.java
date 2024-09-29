@@ -3,10 +3,15 @@ package com.kubacki.dawid.PCForge.service.impl;
 import com.kubacki.dawid.PCForge.dto.ComputerSetupRequest;
 import com.kubacki.dawid.PCForge.mapper.ComputerSetupMapper;
 import com.kubacki.dawid.PCForge.models.setups.ComputerSetup;
+import com.kubacki.dawid.PCForge.models.setups.SavedSetup;
+import com.kubacki.dawid.PCForge.models.users.User;
 import com.kubacki.dawid.PCForge.repositories.*;
 import com.kubacki.dawid.PCForge.service.ComputerSetupService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -22,6 +27,7 @@ public class ComputerSetupServiceImpl implements ComputerSetupService {
     private final StorageRepository storageRepository;
     private final UserRepository userRepository;
     private final ComputerSetupRepository computerSetupRepository;
+    private final SavedRepository savedRepository;
 
     @Override
     public ComputerSetupRequest createComputerSetup(ComputerSetupRequest computerSetupRequest) {
@@ -46,5 +52,34 @@ public class ComputerSetupServiceImpl implements ComputerSetupService {
                 .build();
         ComputerSetup savedComputerSetup = computerSetupRepository.save(computerSetup);
         return ComputerSetupMapper.mapToComputerSetupRequest(savedComputerSetup);
+    }
+
+    @Override
+    public List<ComputerSetupRequest> getComputerSetups() {
+        List<ComputerSetup> computerSetups = computerSetupRepository.getComputerSetups();
+        return computerSetups.stream().map((computerSetup -> ComputerSetupMapper.mapToComputerSetupRequest(computerSetup))).collect(Collectors.toList());
+    }
+
+    @Override
+    public void saveComputerSetup(Integer user_id, Integer cs_id) {
+        User user = userRepository.findById(user_id).orElseThrow(() -> new RuntimeException("User not found."));
+        ComputerSetup computerSetup = computerSetupRepository.findById(cs_id).orElseThrow(() -> new RuntimeException("Computer setup not found."));
+        SavedSetup savedSetup = savedRepository.findByUserAndComputerSetup(user, computerSetup);
+        if (savedSetup != null) {
+            savedRepository.delete(savedSetup);
+        }
+        else{
+            SavedSetup s = new SavedSetup();
+            s.setUser(user);
+            s.setComputerSetup(computerSetup);
+            savedRepository.save(s);
+        }
+    }
+
+    @Override
+    public boolean isSavedComputerSetup(Integer user_id, Integer cs_id) {
+        User user = userRepository.findById(user_id).orElseThrow(() -> new RuntimeException("User not found."));
+        ComputerSetup computerSetup = computerSetupRepository.findById(cs_id).orElseThrow(() -> new RuntimeException("Computer setup not found."));
+        return savedRepository.existsByUserAndComputerSetup(user, computerSetup);
     }
 }

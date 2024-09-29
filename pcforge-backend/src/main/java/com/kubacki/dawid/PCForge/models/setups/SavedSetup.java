@@ -2,14 +2,16 @@ package com.kubacki.dawid.PCForge.models.setups;
 
 import com.kubacki.dawid.PCForge.models.users.User;
 import jakarta.persistence.*;
+import lombok.Setter;
 
 @Entity
-@Table(name = "LikesSetup")
+@Setter
+@Table(name = "SavedSetup")
 
-public class LikesSetup {
+public class SavedSetup {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int like_id;
+    private int saved_id;
 
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
