@@ -49,28 +49,28 @@ const Navigation = () => {
         <p className='my-auto text-xl font-bold font-mono opacity-90'>PC_Forge</p>
       </Link>
       <ul className="flex text-center space-x-16 absolute left-1/2 transform -translate-x-1/2">
-        <li className='hover:text-orange-500 my-auto'>
+        <li className='hover:text-orange-500 my-auto opacity-90'>
           <Link to="/">Home</Link>
         </li>
-        <li>
+        <li className="relative inline-block">
           <button onClick={toggleDropdownSetup} className="flex hover:text-orange-500 min-h-16" type='button'>
-            <Link to="#" className="my-auto">
+            <Link to="#" className="my-auto opacity-90">
               Computer Setup
             </Link>
-            <FontAwesomeIcon className='my-auto mx-2' icon={faCaretDown} />
+            <FontAwesomeIcon className='my-auto mx-2 opacity-75' icon={faCaretDown} />
           </button>
-          <div className={`${dropdownSetup ? false : 'hidden'} bg-gray-100 text-center shadow-lg`}>
+          <div className={`${dropdownSetup ? false : 'hidden'} bg-gray-100 text-center shadow-lg absolute w-full`}>
             <ul class="text-sm text-gray-700">
               <li>
-                <Link to="/confy" className="block py-2 hover:text-orange-500">By yourself</Link>
+                <Link to="/confy" className="block py-2 hover:text-orange-500 opacity-90">By yourself</Link>
               </li>
               <li>
-                <Link to="#" className="block py-2 hover:text-orange-500">By your games</Link>
+                <Link to="#" className="block py-2 hover:text-orange-500 opacity-90">By your games</Link>
               </li>
             </ul>
           </div>
         </li>
-        <li className='hover:text-orange-500 my-auto'>
+        <li className='hover:text-orange-500 my-auto opacity-90'>
           <Link to="/userSetups" className="button">
             Users setups
           </Link>
