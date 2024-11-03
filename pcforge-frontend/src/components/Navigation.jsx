@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 // Ikony
 
@@ -16,6 +16,7 @@ import UserService from '../services/user.service';
 const Navigation = () => {
 
   const [user, setUser] = useState({});
+  const navigate = useNavigate();
 
   // Zmienne do menu
 
@@ -23,12 +24,7 @@ const Navigation = () => {
   const [dropdownSetup, setDropdownSetup] = useState(false);
 
   useEffect(() => {
-    UserService.getUser()
-      .then(data => setUser(data)
-      )
-      .catch(() => {
-        setUser(null);
-      });
+    UserService.getUser().then(data => setUser(data)).catch(() => {setUser(null);});
   }, []);
 
   // Funkcje do menu
@@ -43,16 +39,16 @@ const Navigation = () => {
 
   const logOut = () =>{
     AuthService.logout();
-    window.location.reload();
+    navigate(0);
   }
 
   return (
-    <nav className='w-full h-16 top-0 bg-white shadow-lg justify-between flex sticky'>
-      <Link to="/" className="flex text-center">
-        <img src={logo} className='mx-5' alt="LOGO"/>
-        <p className='my-auto text-xl font-bold'>PCForge</p>
+    <nav className='w-full h-16 top-0 bg-white shadow-lg justify-between flex sticky relative'>
+      <Link to="/" className="w-1/6 flex text-center">
+        <img src={logo} className='ml-5 mr-2' alt="LOGO"/>
+        <p className='my-auto text-xl font-bold font-mono opacity-90'>PC_Forge</p>
       </Link>
-      <ul className="flex text-center space-x-16">
+      <ul className="flex text-center space-x-16 absolute left-1/2 transform -translate-x-1/2">
         <li className='hover:text-orange-500 my-auto'>
           <Link to="/">Home</Link>
         </li>
@@ -84,13 +80,13 @@ const Navigation = () => {
           <div>
             <button onClick={toggleDropdownUser} className="flex hover:text-orange-500" type='button'>
               <div className='my-auto text-sm w-44'>
-                <p className='my-auto font-semibold'>{user.username}</p>
-                <p className='my-auto break-all whitespace-normal'>{user.email}</p>
+                <p className='my-auto font-semibold opacity-90'>{user.username}</p>
+                <p className='my-auto break-all whitespace-normal opacity-70'>{user.email}</p>
               </div>
-              <img src={user.photo ? user.photo : d_profile} className='mx-5 my-1 max-h-14' alt="LOGO"/>
+              <img src={user.photo ? user.photo : d_profile} className='mx-5 my-1 max-h-14 border border-gray-800' alt="LOGO"/>
             </button>
             <div className={`${dropdownUser ? false : 'hidden'} bg-gray-100 text-center shadow-lg`}>
-              <ul class="text-sm text-gray-700">
+              <ul class="text-sm text-gray-700 opacity-90">
                 <li>
                   <Link to="#" className="block py-2 hover:text-orange-500">My profile</Link>
                 </li>
