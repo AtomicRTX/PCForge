@@ -17,7 +17,8 @@ const Navigation = () => {
 
   const [user, setUser] = useState({});
   const navigate = useNavigate();
-  const menuRef = useRef(null);
+  const menuRefSetup = useRef(null);
+  const menuRefUser = useRef(null);
 
   // Zmienne do menu
 
@@ -43,12 +44,14 @@ const Navigation = () => {
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
-  }, [menuRef]);
+  }, []);
 
   const handleClickOutside = (event) => {
-    if (menuRef.current && !menuRef.current.contains(event.target)) {
-      setDropdownUser(false);
+    if (menuRefSetup.current && !menuRefSetup.current.contains(event.target)) {
       setDropdownSetup(false);
+    }
+    if (menuRefUser.current && !menuRefUser.current.contains(event.target)) {
+      setDropdownUser(false);
     }
   };
 
@@ -67,7 +70,7 @@ const Navigation = () => {
         <li className='hover:text-orange-500 my-auto opacity-90'>
           <Link to="/">Home</Link>
         </li>
-        <li className="relative inline-block" ref={menuRef}>
+        <li className="relative inline-block" ref={menuRefSetup}>
           <button onClick={toggleDropdownSetup} className="flex hover:text-orange-500 min-h-16" type='button'>
             <Link to="#" className="my-auto opacity-90">
               Computer Setup
@@ -97,8 +100,8 @@ const Navigation = () => {
         </li>
       </ul>
         {user ? (
-          <div>
-            <button onClick={toggleDropdownUser} className="flex hover:text-orange-500" type='button' ref={menuRef}>
+          <div className='h-full' ref={menuRefUser}>
+            <button onClick={toggleDropdownUser} className="flex hover:text-orange-500" type='button'>
               <div className='my-auto text-sm w-44'>
                 <p className='my-auto font-semibold opacity-90'>{user.username}</p>
                 <p className='my-auto break-all whitespace-normal opacity-70'>{user.email}</p>
