@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
 // Ikony
@@ -6,7 +6,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import logo from '../assets/Logo.svg'
 import d_profile from '../assets/default-profile.jpg'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCaretDown } from '@fortawesome/free-solid-svg-icons';
+import { faCaretDown, faCaretUp } from '@fortawesome/free-solid-svg-icons';
 
 // Serwisy
 
@@ -17,6 +17,7 @@ const Navigation = () => {
 
   const [user, setUser] = useState({});
   const navigate = useNavigate();
+  const menuRef = useRef(null);
 
   // Zmienne do menu
 
@@ -37,6 +38,20 @@ const Navigation = () => {
     setDropdownSetup(!dropdownSetup);
   }
 
+  useEffect(() => {
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [menuRef]);
+
+  const handleClickOutside = (event) => {
+    if (menuRef.current && !menuRef.current.contains(event.target)) {
+      setDropdownUser(false);
+      setDropdownSetup(false);
+    }
+  };
+
   const logOut = () =>{
     AuthService.logout();
     navigate(0);
@@ -52,12 +67,17 @@ const Navigation = () => {
         <li className='hover:text-orange-500 my-auto opacity-90'>
           <Link to="/">Home</Link>
         </li>
-        <li className="relative inline-block">
+        <li className="relative inline-block" ref={menuRef}>
           <button onClick={toggleDropdownSetup} className="flex hover:text-orange-500 min-h-16" type='button'>
             <Link to="#" className="my-auto opacity-90">
               Computer Setup
             </Link>
-            <FontAwesomeIcon className='my-auto mx-2 opacity-75' icon={faCaretDown} />
+            {dropdownSetup ?
+              <FontAwesomeIcon className='my-auto mx-2 opacity-75' icon={faCaretUp} />
+              :
+              <FontAwesomeIcon className='my-auto mx-2 opacity-75' icon={faCaretDown} />
+
+            }
           </button>
           <div className={`${dropdownSetup ? false : 'hidden'} bg-gray-100 text-center shadow-lg absolute w-full`}>
             <ul class="text-sm text-gray-700">
@@ -78,7 +98,7 @@ const Navigation = () => {
       </ul>
         {user ? (
           <div>
-            <button onClick={toggleDropdownUser} className="flex hover:text-orange-500" type='button'>
+            <button onClick={toggleDropdownUser} className="flex hover:text-orange-500" type='button' ref={menuRef}>
               <div className='my-auto text-sm w-44'>
                 <p className='my-auto font-semibold opacity-90'>{user.username}</p>
                 <p className='my-auto break-all whitespace-normal opacity-70'>{user.email}</p>
