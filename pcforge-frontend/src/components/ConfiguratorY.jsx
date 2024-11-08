@@ -55,7 +55,10 @@ const ConfiguratorY = () => {
   const [memoryCapacity, setMemoryCapacity] = useState(null);
   const [memorySlots, setMemorySlots] = useState(null);
   const [memoryType, setMemoryType] = useState(null);
-  const [tdp] = useState(null);
+  const [tdp, setTdp] = useState({
+    cpu: 0,
+    gpu: 0
+  });
 
   // Pobranie aktywnego uzytkownika
 
@@ -72,12 +75,13 @@ const ConfiguratorY = () => {
   // Pobranie listy CPU z bazy danych
 
   useEffect(() => {
-    ComponentService.getCorrectCPU(tdp, socket)
+    ComponentService.getCorrectCPU(null, socket)
       .then(data => {
         const cpuOptions = data.map(cpu => ({
           value: cpu.cpu_id,
           label: cpu.name+` @`+cpu.base_clock+`GHz`,
-          socket: cpu.socket
+          socket: cpu.socket,
+          tdp: cpu.tdp
         }));
         setCpus(cpuOptions);
       })
@@ -89,12 +93,13 @@ const ConfiguratorY = () => {
   // Pobranie listy GPU z bazy danych
 
   useEffect(() => {
-    ComponentService.getCorrectGPU(tdp, gpuSize)
+    ComponentService.getCorrectGPU(null, gpuSize)
       .then(data => {
         const gpuOptions = data.map(gpu => ({
           value: gpu.gpu_id,
           label: gpu.name+` `+gpu.vram+`GB`,
-          gpuSize: gpu.gpuSize
+          gpuSize: gpu.gpuSize,
+          tdp: gpu.tdp
         }));
         setGpus(gpuOptions);
       })
@@ -166,12 +171,13 @@ const ConfiguratorY = () => {
   // Pobranie listy zasilaczy z bazy danych
 
   useEffect(() => {
-    ComponentService.getCorrectPower(tdp, powerType)
+    ComponentService.getCorrectPower(null, powerType)
       .then(data => {
         const pOptions = data.map(p => ({
           value: p.power_id,
           label: p.name+` `+p.watt+`W`,
-          powerType: p.size
+          powerType: p.size,
+          watt: p.watt
         }));
         setPowerSupply(pOptions);
       })
@@ -202,12 +208,14 @@ const ConfiguratorY = () => {
     setSelectedCpu(selectedOption);
 
     setSocket(selectedOption ? selectedOption.socket : (selectedMotherboard ? selectedMotherboard.socket : null));
+    tdp.cpu = selectedOption ? selectedOption.tdp : 0;
   };
 
   const handleGpuChange = (selectedOption) => {
     setSelectedGpu(selectedOption);
 
     setGpuSize(selectedOption ? selectedOption.gpuSize : (selectedComputerCase ? selectedComputerCase.gpuSize : null));
+    tdp.gpu = selectedOption ? selectedOption.tdp : 0;
   };
 
   const handleMbChange = (selectedOption) => {
@@ -252,6 +260,9 @@ const ConfiguratorY = () => {
     setMessage('');
     if(selectedComputerCase == null || selectedCpu == null || selectedGpu == null || selectedDrive == null || selectedMotherboard == null || selectedPowerSupply == null || selectedRam == null){
       setMessage('You dont choice all components');
+    }
+    if((tdp.cpu + tdp.gpu + 80 + 10 + 5) > selectedPowerSupply.watt){
+      setMessage(`You choice too weak power supply. You need at least ${(tdp.cpu + tdp.gpu + 80 + 10 + 5)} W.`);
     }
     else{
       ComputerService.createComputerSetup(user.user_id, selectedComputerCase.value, selectedCpu.value, selectedGpu.value, selectedRam.value, selectedMotherboard.value, selectedPowerSupply.value, selectedDrive.value)
