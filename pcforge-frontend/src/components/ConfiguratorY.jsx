@@ -38,10 +38,10 @@ const ConfiguratorY = () => {
 
   // Wybrane komponenty
 
-  const [selectedCpu, setSelectedCpu] = useState(null);  
-  const [selectedGpu, setSelectedGpu] = useState(null);  
-  const [selectedMotherboard, setSelectedMotherboard] = useState(null);  
-  const [selectedRam, setSelectedRam] = useState(null);  
+  const [selectedCpu, setSelectedCpu] = useState(null);
+  const [selectedGpu, setSelectedGpu] = useState(null);
+  const [selectedMotherboard, setSelectedMotherboard] = useState(null);
+  const [selectedRam, setSelectedRam] = useState(null);
   const [selectedComputerCase, setSelectedComputerCase] = useState(null);
   const [selectedPowerSupply, setSelectedPowerSupply] = useState(null);
   const [selectedDrive, setSelectedDrive] = useState(null);
@@ -56,14 +56,6 @@ const ConfiguratorY = () => {
   const [memorySlots, setMemorySlots] = useState(null);
   const [memoryType, setMemoryType] = useState(null);
   const [tdp] = useState(null);
-  
-  // Wartość domyślna list
-
-  const defaultOption = {
-    value: null,
-    label: 'Select',
-    socket: null
-  };
 
   // Pobranie aktywnego uzytkownika
 
@@ -87,12 +79,12 @@ const ConfiguratorY = () => {
           label: cpu.name+` @`+cpu.base_clock+`GHz`,
           socket: cpu.socket
         }));
-        setCpus([defaultOption, ...cpuOptions]);
+        setCpus(cpuOptions);
       })
       .catch(error => {
         console.error('Error fetching CPUs:', error);
       }); // eslint-disable-next-line
-  }, [selectedMotherboard]);
+  }, [socket]);
 
   // Pobranie listy GPU z bazy danych
 
@@ -104,7 +96,7 @@ const ConfiguratorY = () => {
           label: gpu.name+` `+gpu.vram+`GB`,
           gpuSize: gpu.gpuSize
         }));
-        setGpus([defaultOption, ...gpuOptions]);
+        setGpus(gpuOptions);
       })
       .catch(error => {
         console.error('Error fetching GPUs:', error);
@@ -125,12 +117,13 @@ const ConfiguratorY = () => {
           memoryType: mb.memory_type,
           form: mb.form_factor
         }));
-        setMotherboards([defaultOption, ...mbOptions]);
+        setMotherboards(mbOptions);
       })
       .catch(error => {
         console.error('Error fetching Motherboards:', error);
       }); // eslint-disable-next-line
-  }, [selectedCpu, selectedRam, selectedComputerCase]);
+    console.log(socket)
+  }, [socket, memoryCapacity, memorySlots, memoryType, motherboardType]);
 
   // Pobranie listy kosci RAM z bazy danych
 
@@ -144,7 +137,7 @@ const ConfiguratorY = () => {
           memorySlots: ram.sticks,
           memoryType: ram.ram_type
         }));
-        setRam([defaultOption, ...ramOptions]);
+        setRam(ramOptions);
       })
       .catch(error => {
         console.error('Error fetching RAMs:', error);
@@ -163,7 +156,7 @@ const ConfiguratorY = () => {
           gpuSize: cc.gpu_size,
           powerType: cc.power_supply
         }));
-        setComputerCase([defaultOption, ...ccOptions]);
+        setComputerCase(ccOptions);
       })
       .catch(error => {
         console.error('Error fetching ComputerCases:', error);
@@ -180,7 +173,7 @@ const ConfiguratorY = () => {
           label: p.name+` `+p.watt+`W`,
           powerType: p.size
         }));
-        setPowerSupply([defaultOption, ...pOptions]);
+        setPowerSupply(pOptions);
       })
       .catch(error => {
         console.error('Error fetching ComputerCases:', error);
@@ -196,7 +189,7 @@ const ConfiguratorY = () => {
           value: st.st_id,
           label: st.name+` `+st.size+`GB`
         }));
-        setDrive([defaultOption, ...stOptions]);
+        setDrive(stOptions);
       })
       .catch(error => {
         console.error('Error fetching ComputerCases:', error);
@@ -207,40 +200,45 @@ const ConfiguratorY = () => {
 
   const handleCpuChange = (selectedOption) => {
     setSelectedCpu(selectedOption);
-    setSocket(selectedOption.socket);
+
+    setSocket(selectedOption ? selectedOption.socket : (selectedMotherboard ? selectedMotherboard.socket : null));
   };
 
   const handleGpuChange = (selectedOption) => {
     setSelectedGpu(selectedOption);
-    setGpuSize(selectedOption.gpuSize);
+
+    setGpuSize(selectedOption ? selectedOption.gpuSize : (selectedComputerCase ? selectedComputerCase.gpuSize : null));
   };
 
   const handleMbChange = (selectedOption) => {
     setSelectedMotherboard(selectedOption);
-    setSocket(selectedOption.socket);
-    setMemoryCapacity(selectedOption.memoryCapacity);
-    setMemorySlots(selectedOption.memorySlots);
-    setMemoryType(selectedOption.memoryType);
-    setMotherboardType(selectedOption.form);
+
+    setSocket(selectedOption ? selectedOption.socket : (selectedCpu ? selectedCpu.socket : null));
+    setMemoryCapacity(selectedOption ? selectedOption.memoryCapacity : (selectedRam ? selectedRam.memoryCapacity : null));
+    setMemorySlots(selectedOption ? selectedOption.memorySlots : (selectedRam ? selectedRam.memorySlots : null));
+    setMemoryType(selectedOption ? selectedOption.memoryType : (selectedRam ? selectedRam.memoryType : null));
+    setMotherboardType(selectedOption ? selectedOption.form : (selectedComputerCase ? selectedComputerCase.form : null));
   };
 
   const handleRamChange = (selectedOption) => {
     setSelectedRam(selectedOption);
-    setMemoryCapacity(selectedOption.memory_capacity);
-    setMemorySlots(selectedOption.memory_slots);
-    setMemoryType(selectedOption.memoryType);
+
+    setMemoryCapacity(selectedOption ? selectedOption.memoryCapacity : (selectedMotherboard ? selectedMotherboard.memoryCapacity : null));
+    setMemorySlots(selectedOption ? selectedOption.memorySlots : (selectedMotherboard ? selectedMotherboard.memorySlots : null));
+    setMemoryType(selectedOption ? selectedOption.memoryType : (selectedMotherboard ? selectedMotherboard.memoryType : null));
   };
 
   const handleComputerCaseChange = (selectedOption) => {
     setSelectedComputerCase(selectedOption);
-    setMotherboardType(selectedOption.form);
-    setGpuSize(selectedOption.gpuSize);
-    setPowerType(selectedOption.powerType);
+
+    setMotherboardType(selectedOption ? selectedOption.form : (selectedMotherboard ? selectedMotherboard.form : null));
+    setGpuSize(selectedOption ? selectedOption.gpuSize : (selectedGpu ? selectedGpu.gpuSize : null));
+    setPowerType(selectedOption ? selectedOption.powerType : (selectedPowerSupply ? selectedPowerSupply.powerType : null));
   };
 
   const handlePowerChange = (selectedOption) => {
     setSelectedPowerSupply(selectedOption);
-    setPowerType(selectedOption.powerType);
+    setPowerType(selectedOption ? selectedOption.powerType : (selectedComputerCase ? selectedComputerCase.powerType : null));
   };
 
   const handleSSDChange = (selectedOption) => {
@@ -260,7 +258,6 @@ const ConfiguratorY = () => {
       .then(() => {
         setMessage(`Create successful.\n`);
         navigate("/");
-        window.location.reload();
       })
       .catch(error => {
         const comMessage =
@@ -269,7 +266,7 @@ const ConfiguratorY = () => {
             error.response.data.message) ||
           error.message ||
           error.toString();
-  
+
         setMessage(`Create failed. Details: Error: ${comMessage}`);
       });
     }
@@ -284,11 +281,13 @@ const ConfiguratorY = () => {
       boxShadow: state.isFocused ? '0 0 0 1px orange' : provided.boxShadow,
       "&:hover": {
         borderColor: "orange"
-      }
+      },
+      opacity: 0.9
     }),
     option: (provided, state) => ({
       ...provided,
       backgroundColor: state.isFocused ? 'orange' : state.isSelected ? '#ff8c00' : 'white',
+      opacity: 0.9
     }),
   }
 
@@ -296,54 +295,62 @@ const ConfiguratorY = () => {
     <main className='flex justify-center items-center flex-col w-5/6 h-5/6 m-auto bg-white rounded-xl'>
       {user ? (
       <>
-      <p className='text-center text-xl my-4 font-bold'>Configurator PC</p>
+      <p className='text-center text-xl my-4 font-bold'>PC Configurator</p>
       <Form onSubmit={handleComputerCreator} className='flex justify-center items-center flex-col h-full'>
         <div className='grid grid-cols-4 gap-4 h-5/6 m-4'>
 
-          <label className='flex flex-col items-center justify-center rounded-lg bg-gray-50'>
+          <label className='flex flex-col items-center justify-center rounded-lg border border-[#e9e9e9] shadow-md'>
             <img src={CPU} className='mx-auto w-1/3' alt="CPU"/>
-            <p className='text-center text-lg my-4 font-bold'>CPU</p>
-            <Select name='selectedCPU' options={cpus} value={selectedCpu} onChange={handleCpuChange} placeholder="Select" className='mx-auto w-72' styles={customStyles}/>
+            <p className='text-center text-lg my-4 font-bold opacity-80'>CPU</p>
+            <Select name='selectedCPU' options={cpus} value={selectedCpu} onChange={handleCpuChange} placeholder="Select" isClearable={true} className='mx-auto w-72' styles={customStyles}/>
           </label>
 
-          <label className='flex flex-col items-center justify-center rounded-lg bg-gray-50'>
+          <label className='flex flex-col items-center justify-center rounded-lg border border-[#e9e9e9] shadow-md'>
             <img src={GPU} className='mx-auto w-1/3' alt="GPU"/>
-            <p className='text-center text-lg my-4 font-bold'>GPU</p>
-            <Select name='selectedGPU' options={gpus} value={selectedGpu} onChange={handleGpuChange} placeholder="Select" className='mx-4 w-72' styles={customStyles}/>
+            <p className='text-center text-lg my-4 font-bold opacity-80'>GPU</p>
+            <Select name='selectedGPU' options={gpus} value={selectedGpu} onChange={handleGpuChange}
+                    placeholder="Select" isClearable={true} className='mx-4 w-72' styles={customStyles}/>
           </label>
 
-          <label className='flex flex-col items-center justify-center rounded-lg bg-gray-50'>
+          <label className='flex flex-col items-center justify-center rounded-lg border border-[#e9e9e9] shadow-md'>
             <img src={Motherboard} className='mx-auto w-1/3' alt="Motherboard"/>
-            <p className='text-center text-lg my-4 font-bold'>Motherboard</p>
-            <Select name='selectedMotherboard' options={motherboards} value={selectedMotherboard} onChange={handleMbChange} placeholder="Select" className='mx-auto w-72' styles={customStyles}/>
+            <p className='text-center text-lg my-4 font-bold opacity-80'>Motherboard</p>
+            <Select name='selectedMotherboard' options={motherboards} value={selectedMotherboard}
+                    onChange={handleMbChange} placeholder="Select" isClearable={true} className='mx-auto w-72' styles={customStyles}/>
           </label>
 
-          <label className='flex flex-col items-center justify-center rounded-lg bg-gray-50'>
+          <label className='flex flex-col items-center justify-center rounded-lg border border-[#e9e9e9] shadow-md'>
             <img src={RAM} className='mx-auto w-1/3' alt="RAM"/>
-            <p className='text-center text-lg my-4 font-bold'>RAM</p>
-            <Select name='selectedRAM' options={ram} value={selectedRam} onChange={handleRamChange} placeholder="Select" className='mx-auto w-72' styles={customStyles}/>
+            <p className='text-center text-lg my-4 font-bold opacity-80'>RAM</p>
+            <Select name='selectedRAM' options={ram} value={selectedRam} onChange={handleRamChange} placeholder="Select" isClearable={true}
+                    className='mx-auto w-72' styles={customStyles}/>
           </label>
 
-          <label className='flex flex-col items-center justify-center rounded-lg bg-gray-50'>
+          <label className='flex flex-col items-center justify-center rounded-lg border border-[#e9e9e9] shadow-md'>
             <img src={Case} className='mx-auto w-1/3' alt="Case"/>
-            <p className='text-center text-lg my-4 font-bold'>Case</p>
-            <Select name='selectedComputerCase' options={computerCase} value={selectedComputerCase} onChange={handleComputerCaseChange} placeholder="Select" className='mx-auto w-72' styles={customStyles}/>
+            <p className='text-center text-lg my-4 font-bold opacity-80'>Case</p>
+            <Select name='selectedComputerCase' options={computerCase} value={selectedComputerCase}
+                    onChange={handleComputerCaseChange} placeholder="Select" isClearable={true} className='mx-auto w-72'
+                    styles={customStyles}/>
           </label>
 
-          <label className='flex flex-col items-center justify-center rounded-lg bg-gray-50'>
+          <label className='flex flex-col items-center justify-center rounded-lg border border-[#e9e9e9] shadow-md'>
             <img src={Power} className='mx-auto w-1/3' alt="Power"/>
-            <p className='text-center text-lg my-4 font-bold'>Power Supply</p>
-            <Select name='selectedPowerSupply' options={powerSupply} value={selectedPowerSupply} onChange={handlePowerChange} placeholder="Select" className='mx-auto w-72' styles={customStyles}/>
+            <p className='text-center text-lg my-4 font-bold opacity-80'>Power Supply</p>
+            <Select name='selectedPowerSupply' options={powerSupply} value={selectedPowerSupply}
+                    onChange={handlePowerChange} placeholder="Select" isClearable={true} className='mx-auto w-72' styles={customStyles}/>
           </label>
 
-          <label className='flex flex-col items-center justify-center rounded-lg bg-gray-50'>
+          <label className='flex flex-col items-center justify-center rounded-lg border border-[#e9e9e9] shadow-md'>
             <img src={SSD} className='mx-auto w-1/3' alt="SSD"/>
-            <p className='text-center text-lg my-4 font-bold'>Storage</p>
-            <Select name='selectedStorage' options={drive} value={selectedDrive} onChange={handleSSDChange} placeholder="Select" className='mx-auto w-72' styles={customStyles}/>
+            <p className='text-center text-lg my-4 font-bold opacity-80'>Storage</p>
+            <Select name='selectedStorage' options={drive} value={selectedDrive} onChange={handleSSDChange}
+                    placeholder="Select" isClearable={true} className='mx-auto w-72' styles={customStyles}/>
           </label>
 
         </div>
-        <button className="bg-orange-500 text-white rounded-lg h-10 hover:bg-orange-700 focus:outline-none focus:bg-orange-900 w-1/3 my-2">Save setup</button>
+        <button
+            className="bg-orange-500 text-white rounded-lg h-10 hover:bg-orange-700 focus:outline-none focus:bg-orange-900 w-1/3 my-2">Save setup</button>
         {message && <div className='text-red-600 font-bold'>{message}</div>}
       </Form>
       </>
@@ -360,6 +367,6 @@ const ConfiguratorY = () => {
       }
     </main>
   );
-} 
+}
 
 export default ConfiguratorY;
