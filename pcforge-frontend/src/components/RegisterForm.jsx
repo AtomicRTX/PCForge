@@ -1,24 +1,16 @@
 import React, { useState, useRef } from "react";
 import { Link, useNavigate } from 'react-router-dom';
 
-// Ikony
-
 import logo from '../assets/Logo.svg'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleArrowLeft } from '@fortawesome/free-solid-svg-icons';
-
-// Walidacja
 
 import Form from "react-validation/build/form";
 import Input from "react-validation/build/input";
 import CheckButton from "react-validation/build/button";
 import { isEmail } from "validator";
 
-// Serwisy
-
 import AuthService from "../services/auth.service";
-
-// Sprawdzenie maila, hasla i czy pole jest puste
 
 const required = (value) => {
   if (!value) {
@@ -48,8 +40,6 @@ const RegisterForm = () => {
 
   const navigate = useNavigate();
 
-  // Formularz
-
   const form = useRef();
   const checkBtn = useRef();
 
@@ -60,8 +50,6 @@ const RegisterForm = () => {
   const [password, setPassword] = useState("");
   const [successful, setSuccessful] = useState(false);
   const [message, setMessage] = useState("");
-
-  // Funkcje obslugi zmiany danych w polach
 
   const onChangeUsername = (e) => {
     const username = e.target.value;
@@ -77,8 +65,6 @@ const RegisterForm = () => {
     const password = e.target.value;
     setPassword(password);
   };
-
-  // Obsluga rejestracji
 
   const handleRegister = (e) => {
     e.preventDefault();
@@ -122,18 +108,18 @@ const RegisterForm = () => {
           <div>
             <div className="my-6 mx-5">
               <label className="block my-1 font-medium text-gray-700">Username</label>
-              <Input name="username" type="text" placeholder="Username" className="mt-1 w-full border border-gray-300 rounded-lg h-10 px-4 focus:outline-none focus:border-orange-500" value={username} onChange={onChangeUsername} validations={[required]} />
+              <Input name="username" type="text" placeholder="Username" className="mt-1 w-full border border-gray-300 rounded-lg h-10 px-4 focus:outline-none focus:border-sky-500" value={username} onChange={onChangeUsername} validations={[required]} />
             </div>
             <div className="my-6 mx-5">
               <label className="block my-1 font-medium text-gray-700">Email</label>
-              <Input name="email" type="text" placeholder="username@gmail.com" className="mt-1 w-full border border-gray-300 rounded-lg h-10 px-4 focus:outline-none focus:border-orange-500" value={email} onChange={onChangeEmail} validations={[required, validEmail]} />
+              <Input name="email" type="text" placeholder="username@gmail.com" className="mt-1 w-full border border-gray-300 rounded-lg h-10 px-4 focus:outline-none focus:border-sky-500" value={email} onChange={onChangeEmail} validations={[required, validEmail]} />
             </div>
             <div className="my-6 mx-5">
               <label className="block my-1 font-medium text-gray-700">Password</label>
-              <Input type="password" placeholder="Password" className="w-full border border-gray-300 rounded-lg h-10 px-4 focus:outline-none focus:border-orange-500" value={password} onChange={onChangePassword} validations={[required, vpassword]}/>
+              <Input type="password" placeholder="Password" className="w-full border border-gray-300 rounded-lg h-10 px-4 focus:outline-none focus:border-sky-500" value={password} onChange={onChangePassword} validations={[required, vpassword]}/>
             </div>
             <div className="mx-5">
-              <button className="bg-orange-500 text-white rounded-lg h-10 hover:bg-orange-700 focus:outline-none focus:bg-orange-900 w-full my-2">Register now</button>
+              <button className="bg-sky-500 text-white rounded-lg h-10 hover:bg-sky-700 focus:outline-none focus:bg-sky-900 w-full my-2">Register now</button>
             </div>
           </div>
         
@@ -146,7 +132,7 @@ const RegisterForm = () => {
         </Form>
       <div className="flex items-center justify-center mt-6">
         <p className="text-gray-600">Already have an account?</p>
-        <Link to="/login" className="text-orange-500 hover:underline ml-1">
+        <Link to="/login" className="text-sky-500 hover:underline ml-1">
           Sign in
         </Link>
       </div>

@@ -1,9 +1,6 @@
-import React, { useState, useEffect } from 'react';
-import Select from 'react-select';
-import { Link, useNavigate } from 'react-router-dom';
+import React, {useState, useEffect} from 'react';
+import {Link, useNavigate} from 'react-router-dom';
 import Form from "react-validation/build/form";
-
-//Ikony komponentow
 
 import CPU from '../assets/CPU.svg'
 import GPU from '../assets/GPU.svg'
@@ -13,371 +10,323 @@ import Case from '../assets/Case.svg'
 import Power from '../assets/Power.svg'
 import SSD from '../assets/SSD.svg'
 
-//Service
-
 import ComponentService from '../services/component.service';
 import ComputerService from '../services/computer.service';
 import UserService from '../services/user.service';
+import ComponentSelect from "./ComponentSelect/ComponentSelect";
 
 const ConfiguratorY = () => {
 
-  const navigate = useNavigate();
+    const navigate = useNavigate();
 
-  const [user, setUser] = useState({});
-  const [message, setMessage] = useState('');
+    const [user, setUser] = useState({});
+    const [message, setMessage] = useState('');
 
-  // Listy z danymi komponentami
+    const [cpus, setCpus] = useState([]);
+    const [gpus, setGpus] = useState([]);
+    const [motherboards, setMotherboards] = useState([]);
+    const [ram, setRam] = useState([]);
+    const [computerCase, setComputerCase] = useState([]);
+    const [powerSupply, setPowerSupply] = useState([]);
+    const [drive, setDrive] = useState([]);
 
-  const [cpus, setCpus] = useState([]);
-  const [gpus, setGpus] = useState([]);
-  const [motherboards, setMotherboards] = useState([]);
-  const [ram, setRam] = useState([]);
-  const [computerCase, setComputerCase] = useState([]);
-  const [powerSupply, setPowerSupply] = useState([]);
-  const [drive, setDrive] = useState([]);
+    const [selectedCpu, setSelectedCpu] = useState(null);
+    const [selectedGpu, setSelectedGpu] = useState(null);
+    const [selectedMotherboard, setSelectedMotherboard] = useState(null);
+    const [selectedRam, setSelectedRam] = useState(null);
+    const [selectedComputerCase, setSelectedComputerCase] = useState(null);
+    const [selectedPowerSupply, setSelectedPowerSupply] = useState(null);
+    const [selectedDrive, setSelectedDrive] = useState(null);
 
-  // Wybrane komponenty
+    const [socket, setSocket] = useState(null);
+    const [motherboardType, setMotherboardType] = useState(null);
+    const [powerType, setPowerType] = useState(null);
+    const [gpuSize, setGpuSize] = useState(null);
+    const [memoryCapacity, setMemoryCapacity] = useState(null);
+    const [memorySlots, setMemorySlots] = useState(null);
+    const [memoryType, setMemoryType] = useState(null);
+    const [tdp, setTdp] = useState({
+        cpu: 0,
+        gpu: 0
+    });
 
-  const [selectedCpu, setSelectedCpu] = useState(null);
-  const [selectedGpu, setSelectedGpu] = useState(null);
-  const [selectedMotherboard, setSelectedMotherboard] = useState(null);
-  const [selectedRam, setSelectedRam] = useState(null);
-  const [selectedComputerCase, setSelectedComputerCase] = useState(null);
-  const [selectedPowerSupply, setSelectedPowerSupply] = useState(null);
-  const [selectedDrive, setSelectedDrive] = useState(null);
+    useEffect(() => {
+        UserService.getUser()
+            .then(data => setUser(data)
+            )
+            .catch(error => {
+                console.error('Error:', error);
+                setUser(null);
+            });
+    }, []);
 
-  //Zmienne pomocnicze
+    useEffect(() => {
+        ComponentService.getCorrectCPU(null, socket)
+            .then(data => {
+                const cpuOptions = data.map(cpu => ({
+                    value: cpu.cpu_id,
+                    label: cpu.name + ` @` + cpu.base_clock + `GHz`,
+                    socket: cpu.socket,
+                    tdp: cpu.tdp
+                }));
+                setCpus(cpuOptions);
+            })
+            .catch(error => {
+                console.error('Error fetching Motherboards:', error);
+            }); // eslint-disable-next-line
+    }, [socket]);
 
-  const [socket, setSocket] = useState(null);
-  const [motherboardType, setMotherboardType] = useState(null);
-  const [powerType, setPowerType] = useState(null);
-  const [gpuSize, setGpuSize] = useState(null);
-  const [memoryCapacity, setMemoryCapacity] = useState(null);
-  const [memorySlots, setMemorySlots] = useState(null);
-  const [memoryType, setMemoryType] = useState(null);
-  const [tdp, setTdp] = useState({
-    cpu: 0,
-    gpu: 0
-  });
+    useEffect(() => {
+        ComponentService.getCorrectGPU(null, gpuSize)
+            .then(data => {
+                const gpuOptions = data.map(gpu => ({
+                    value: gpu.gpu_id,
+                    label: gpu.name + ` ` + gpu.vram + `GB`,
+                    gpuSize: gpu.gpuSize,
+                    tdp: gpu.tdp
+                }));
+                setGpus(gpuOptions);
+            })
+            .catch(error => {
+                console.error('Error fetching GPUs:', error);
+            }); // eslint-disable-next-line
+    }, [gpuSize]);
 
-  // Pobranie aktywnego uzytkownika
+    useEffect(() => {
+        ComponentService.getCorrectMotherboard(socket, memoryCapacity, memorySlots, memoryType, motherboardType)
+            .then(data => {
+                const mbOptions = data.map(mb => ({
+                    value: mb.mb_id,
+                    label: mb.name,
+                    socket: mb.socket,
+                    memoryCapacity: mb.memory_capacity,
+                    memorySlots: mb.memory_slots,
+                    memoryType: mb.memory_type,
+                    form: mb.form_factor
+                }));
+                setMotherboards(mbOptions);
+            })
+            .catch(error => {
+                console.error('Error fetching Motherboards:', error);
+            }); // eslint-disable-next-line
+        console.log(socket)
+    }, [socket, memoryCapacity, memorySlots, memoryType, motherboardType]);
 
-  useEffect(() => {
-    UserService.getUser()
-      .then(data => setUser(data)
-      )
-      .catch(error => {
-        console.error('Error:', error);
-        setUser(null);
-      });
-  }, []);
+    useEffect(() => {
+        ComponentService.getCorrectRAM(memoryCapacity, memorySlots, memoryType)
+            .then(data => {
+                const ramOptions = data.map(ram => ({
+                    value: ram.ram_id,
+                    label: ram.name + ` ` + ram.sticks + `x` + ram.size + `GB`,
+                    memoryCapacity: ram.size,
+                    memorySlots: ram.sticks,
+                    memoryType: ram.ram_type
+                }));
+                setRam(ramOptions);
+            })
+            .catch(error => {
+                console.error('Error fetching RAMs:', error);
+            }); // eslint-disable-next-line
+    }, [memoryCapacity, memorySlots, memoryType]);
 
-  // Pobranie listy CPU z bazy danych
+    useEffect(() => {
+        ComponentService.getCorrectComputerCase(motherboardType, gpuSize, powerType)
+            .then(data => {
+                const ccOptions = data.map(cc => ({
+                    value: cc.case_id,
+                    label: cc.name,
+                    motherboardType: cc.motherboard,
+                    gpuSize: cc.gpu_size,
+                    powerType: cc.power_supply
+                }));
+                setComputerCase(ccOptions);
+            })
+            .catch(error => {
+                console.error('Error fetching ComputerCases:', error);
+            }); // eslint-disable-next-line
+    }, [motherboardType, gpuSize, powerType]);
 
-  useEffect(() => {
-    ComponentService.getCorrectCPU(null, socket)
-      .then(data => {
-        const cpuOptions = data.map(cpu => ({
-          value: cpu.cpu_id,
-          label: cpu.name+` @`+cpu.base_clock+`GHz`,
-          socket: cpu.socket,
-          tdp: cpu.tdp
-        }));
-        setCpus(cpuOptions);
-      })
-      .catch(error => {
-        console.error('Error fetching CPUs:', error);
-      }); // eslint-disable-next-line
-  }, [socket]);
+    useEffect(() => {
+        ComponentService.getCorrectPower(null, powerType)
+            .then(data => {
+                const pOptions = data.map(p => ({
+                    value: p.power_id,
+                    label: p.name + ` ` + p.watt + `W`,
+                    powerType: p.size,
+                    watt: p.watt
+                }));
+                setPowerSupply(pOptions);
+            })
+            .catch(error => {
+                console.error('Error fetching ComputerCases:', error);
+            }); // eslint-disable-next-line
+    }, [powerType]);
 
-  // Pobranie listy GPU z bazy danych
+    useEffect(() => {
+        ComponentService.getCorrectStorage()
+            .then(data => {
+                const stOptions = data.map(st => ({
+                    value: st.st_id,
+                    label: st.name + ` ` + st.size + `GB`
+                }));
+                setDrive(stOptions);
+            })
+            .catch(error => {
+                console.error('Error fetching ComputerCases:', error);
+            }); // eslint-disable-next-line
+    }, []);
 
-  useEffect(() => {
-    ComponentService.getCorrectGPU(null, gpuSize)
-      .then(data => {
-        const gpuOptions = data.map(gpu => ({
-          value: gpu.gpu_id,
-          label: gpu.name+` `+gpu.vram+`GB`,
-          gpuSize: gpu.gpuSize,
-          tdp: gpu.tdp
-        }));
-        setGpus(gpuOptions);
-      })
-      .catch(error => {
-        console.error('Error fetching GPUs:', error);
-      }); // eslint-disable-next-line
-  }, [selectedComputerCase]);
+    const handleCpuChange = (selectedOption) => {
+        setSelectedCpu(selectedOption);
 
-  // Pobranie listy plyt glownych z bazy danych
+        setSocket(selectedOption ? selectedOption.socket : (selectedMotherboard ? selectedMotherboard.socket : null));
+        tdp.cpu = selectedOption ? selectedOption.tdp : 0;
+    };
 
-  useEffect(() => {
-    ComponentService.getCorrectMotherboard(socket, memoryCapacity, memorySlots, memoryType, motherboardType)
-      .then(data => {
-        const mbOptions = data.map(mb => ({
-          value: mb.mb_id,
-          label: mb.name,
-          socket: mb.socket,
-          memoryCapacity: mb.memory_capacity,
-          memorySlots: mb.memory_slots,
-          memoryType: mb.memory_type,
-          form: mb.form_factor
-        }));
-        setMotherboards(mbOptions);
-      })
-      .catch(error => {
-        console.error('Error fetching Motherboards:', error);
-      }); // eslint-disable-next-line
-    console.log(socket)
-  }, [socket, memoryCapacity, memorySlots, memoryType, motherboardType]);
+    const handleGpuChange = (selectedOption) => {
+        setSelectedGpu(selectedOption);
 
-  // Pobranie listy kosci RAM z bazy danych
+        setGpuSize(selectedOption ? selectedOption.gpuSize : (selectedComputerCase ? selectedComputerCase.gpuSize : null));
+        tdp.gpu = selectedOption ? selectedOption.tdp : 0;
+    };
 
-  useEffect(() => {
-    ComponentService.getCorrectRAM(memoryCapacity, memorySlots, memoryType)
-      .then(data => {
-        const ramOptions = data.map(ram => ({
-          value: ram.ram_id,
-          label: ram.name+` `+ram.sticks+`x`+ram.size+`GB`,
-          memoryCapacity: ram.size,
-          memorySlots: ram.sticks,
-          memoryType: ram.ram_type
-        }));
-        setRam(ramOptions);
-      })
-      .catch(error => {
-        console.error('Error fetching RAMs:', error);
-      }); // eslint-disable-next-line
-  }, [selectedMotherboard]);
+    const handleMbChange = (selectedOption) => {
+        setSelectedMotherboard(selectedOption);
 
-  // Pobranie listy obudów z bazy danych
+        setSocket(selectedOption ? selectedOption.socket : (selectedCpu ? selectedCpu.socket : null));
+        setMemoryCapacity(selectedOption ? selectedOption.memoryCapacity : (selectedRam ? selectedRam.memoryCapacity : null));
+        setMemorySlots(selectedOption ? selectedOption.memorySlots : (selectedRam ? selectedRam.memorySlots : null));
+        setMemoryType(selectedOption ? selectedOption.memoryType : (selectedRam ? selectedRam.memoryType : null));
+        setMotherboardType(selectedOption ? selectedOption.form : (selectedComputerCase ? selectedComputerCase.form : null));
+    };
 
-  useEffect(() => {
-    ComponentService.getCorrectComputerCase(motherboardType, gpuSize, powerType)
-      .then(data => {
-        const ccOptions = data.map(cc => ({
-          value: cc.case_id,
-          label: cc.name,
-          motherboardType: cc.motherboard,
-          gpuSize: cc.gpu_size,
-          powerType: cc.power_supply
-        }));
-        setComputerCase(ccOptions);
-      })
-      .catch(error => {
-        console.error('Error fetching ComputerCases:', error);
-      }); // eslint-disable-next-line
-  }, [selectedMotherboard, selectedGpu, selectedPowerSupply]);
+    const handleRamChange = (selectedOption) => {
+        setSelectedRam(selectedOption);
 
-  // Pobranie listy zasilaczy z bazy danych
+        setMemoryCapacity(selectedOption ? selectedOption.memoryCapacity : (selectedMotherboard ? selectedMotherboard.memoryCapacity : null));
+        setMemorySlots(selectedOption ? selectedOption.memorySlots : (selectedMotherboard ? selectedMotherboard.memorySlots : null));
+        setMemoryType(selectedOption ? selectedOption.memoryType : (selectedMotherboard ? selectedMotherboard.memoryType : null));
+    };
 
-  useEffect(() => {
-    ComponentService.getCorrectPower(null, powerType)
-      .then(data => {
-        const pOptions = data.map(p => ({
-          value: p.power_id,
-          label: p.name+` `+p.watt+`W`,
-          powerType: p.size,
-          watt: p.watt
-        }));
-        setPowerSupply(pOptions);
-      })
-      .catch(error => {
-        console.error('Error fetching ComputerCases:', error);
-      }); // eslint-disable-next-line
-  }, [selectedCpu, selectedGpu, selectedComputerCase]);
+    const handleComputerCaseChange = (selectedOption) => {
+        setSelectedComputerCase(selectedOption);
 
-  // Pobranie listy dysków z bazy danych
+        setMotherboardType(selectedOption ? selectedOption.form : (selectedMotherboard ? selectedMotherboard.form : null));
+        setGpuSize(selectedOption ? selectedOption.gpuSize : (selectedGpu ? selectedGpu.gpuSize : null));
+        setPowerType(selectedOption ? selectedOption.powerType : (selectedPowerSupply ? selectedPowerSupply.powerType : null));
+    };
 
-  useEffect(() => {
-    ComponentService.getCorrectStorage()
-      .then(data => {
-        const stOptions = data.map(st => ({
-          value: st.st_id,
-          label: st.name+` `+st.size+`GB`
-        }));
-        setDrive(stOptions);
-      })
-      .catch(error => {
-        console.error('Error fetching ComputerCases:', error);
-      }); // eslint-disable-next-line
-  }, []);
+    const handlePowerChange = (selectedOption) => {
+        setSelectedPowerSupply(selectedOption);
+        setPowerType(selectedOption ? selectedOption.powerType : (selectedComputerCase ? selectedComputerCase.powerType : null));
+    };
 
-  // Funkcje odpowiadające za wybranie elementu
+    const handleSSDChange = (selectedOption) => {
+        setSelectedDrive(selectedOption);
+    };
 
-  const handleCpuChange = (selectedOption) => {
-    setSelectedCpu(selectedOption);
+    const handleComputerCreator = (e) => {
+        e.preventDefault();
+        setMessage('');
+        if (selectedComputerCase == null || selectedCpu == null || selectedGpu == null || selectedDrive == null || selectedMotherboard == null || selectedPowerSupply == null || selectedRam == null) {
+            setMessage('You need to choice all components.');
+        } else if ((tdp.cpu + tdp.gpu + 80 + 10 + 5) > selectedPowerSupply.watt) {
+            setMessage(`You choice too weak power supply. You need at least ${(tdp.cpu + tdp.gpu + 80 + 10 + 5)} W.`);
+        } else {
+            ComputerService.createComputerSetup(user.user_id, selectedComputerCase.value, selectedCpu.value, selectedGpu.value, selectedRam.value, selectedMotherboard.value, selectedPowerSupply.value, selectedDrive.value)
+                .then(() => {
+                    setMessage(`Create successful.\n`);
+                    navigate("/");
+                })
+                .catch(error => {
+                    const comMessage =
+                        (error.response &&
+                            error.response.data &&
+                            error.response.data.message) ||
+                        error.message ||
+                        error.toString();
 
-    setSocket(selectedOption ? selectedOption.socket : (selectedMotherboard ? selectedMotherboard.socket : null));
-    tdp.cpu = selectedOption ? selectedOption.tdp : 0;
-  };
-
-  const handleGpuChange = (selectedOption) => {
-    setSelectedGpu(selectedOption);
-
-    setGpuSize(selectedOption ? selectedOption.gpuSize : (selectedComputerCase ? selectedComputerCase.gpuSize : null));
-    tdp.gpu = selectedOption ? selectedOption.tdp : 0;
-  };
-
-  const handleMbChange = (selectedOption) => {
-    setSelectedMotherboard(selectedOption);
-
-    setSocket(selectedOption ? selectedOption.socket : (selectedCpu ? selectedCpu.socket : null));
-    setMemoryCapacity(selectedOption ? selectedOption.memoryCapacity : (selectedRam ? selectedRam.memoryCapacity : null));
-    setMemorySlots(selectedOption ? selectedOption.memorySlots : (selectedRam ? selectedRam.memorySlots : null));
-    setMemoryType(selectedOption ? selectedOption.memoryType : (selectedRam ? selectedRam.memoryType : null));
-    setMotherboardType(selectedOption ? selectedOption.form : (selectedComputerCase ? selectedComputerCase.form : null));
-  };
-
-  const handleRamChange = (selectedOption) => {
-    setSelectedRam(selectedOption);
-
-    setMemoryCapacity(selectedOption ? selectedOption.memoryCapacity : (selectedMotherboard ? selectedMotherboard.memoryCapacity : null));
-    setMemorySlots(selectedOption ? selectedOption.memorySlots : (selectedMotherboard ? selectedMotherboard.memorySlots : null));
-    setMemoryType(selectedOption ? selectedOption.memoryType : (selectedMotherboard ? selectedMotherboard.memoryType : null));
-  };
-
-  const handleComputerCaseChange = (selectedOption) => {
-    setSelectedComputerCase(selectedOption);
-
-    setMotherboardType(selectedOption ? selectedOption.form : (selectedMotherboard ? selectedMotherboard.form : null));
-    setGpuSize(selectedOption ? selectedOption.gpuSize : (selectedGpu ? selectedGpu.gpuSize : null));
-    setPowerType(selectedOption ? selectedOption.powerType : (selectedPowerSupply ? selectedPowerSupply.powerType : null));
-  };
-
-  const handlePowerChange = (selectedOption) => {
-    setSelectedPowerSupply(selectedOption);
-    setPowerType(selectedOption ? selectedOption.powerType : (selectedComputerCase ? selectedComputerCase.powerType : null));
-  };
-
-  const handleSSDChange = (selectedOption) => {
-    setSelectedDrive(selectedOption);
-  };
-
-  // Funkcja odpowiadająca za stworzenie zestawu
-
-  const handleComputerCreator = (e) => {
-    e.preventDefault();
-    setMessage('');
-    if(selectedComputerCase == null || selectedCpu == null || selectedGpu == null || selectedDrive == null || selectedMotherboard == null || selectedPowerSupply == null || selectedRam == null){
-      setMessage('You dont choice all components');
+                    setMessage(`Create failed. Details: Error: ${comMessage}`);
+                });
+        }
     }
-    if((tdp.cpu + tdp.gpu + 80 + 10 + 5) > selectedPowerSupply.watt){
-      setMessage(`You choice too weak power supply. You need at least ${(tdp.cpu + tdp.gpu + 80 + 10 + 5)} W.`);
-    }
-    else{
-      ComputerService.createComputerSetup(user.user_id, selectedComputerCase.value, selectedCpu.value, selectedGpu.value, selectedRam.value, selectedMotherboard.value, selectedPowerSupply.value, selectedDrive.value)
-      .then(() => {
-        setMessage(`Create successful.\n`);
-        navigate("/");
-      })
-      .catch(error => {
-        const comMessage =
-          (error.response &&
-            error.response.data &&
-            error.response.data.message) ||
-          error.message ||
-          error.toString();
 
-        setMessage(`Create failed. Details: Error: ${comMessage}`);
-      });
-    }
-  }
+    return (
+        <main className='flex justify-center items-center flex-col w-5/6 h-full mt-5 mb-10 mx-auto bg-white rounded-xl'>
+            {user ? (
+                <>
+                    <p className='text-center text-2xl font-bold font-mono opacity-90 my-4'>PC Configurator</p>
+                    <Form onSubmit={handleComputerCreator} className='relative flex items-center flex-col h-full'>
+                        <div className='grid grid-cols-4 gap-6 h-5/6 my-4'>
+                            <ComponentSelect name='CPU'
+                                             icon={CPU}
+                                             value={selectedCpu}
+                                             options={cpus}
+                                             onChange={handleCpuChange}
+                                             placeholder="Select CPU"/>
 
-  // Style do react select
+                            <ComponentSelect name='GPU'
+                                             icon={GPU}
+                                             value={selectedGpu}
+                                             options={gpus}
+                                             onChange={handleGpuChange}
+                                             placeholder="Select GPU"/>
 
-  const customStyles = {
-    control: (provided, state) => ({
-      ...provided,
-      borderColor: state.isFocused ? 'orange' : provided.borderColor,
-      boxShadow: state.isFocused ? '0 0 0 1px orange' : provided.boxShadow,
-      "&:hover": {
-        borderColor: "orange"
-      },
-      opacity: 0.9
-    }),
-    option: (provided, state) => ({
-      ...provided,
-      backgroundColor: state.isFocused ? 'orange' : state.isSelected ? '#ff8c00' : 'white',
-      opacity: 0.9
-    }),
-  }
+                            <ComponentSelect name='Motherboard'
+                                             icon={Motherboard}
+                                             value={selectedMotherboard}
+                                             options={motherboards}
+                                             onChange={handleMbChange}
+                                             placeholder="Select motherboard"/>
 
-  return (
-    <main className='flex justify-center items-center flex-col w-5/6 h-5/6 m-auto bg-white rounded-xl'>
-      {user ? (
-      <>
-      <p className='text-center text-xl my-4 font-bold'>PC Configurator</p>
-      <Form onSubmit={handleComputerCreator} className='flex justify-center items-center flex-col h-full'>
-        <div className='grid grid-cols-4 gap-4 h-5/6 m-4'>
+                            <ComponentSelect name='RAM'
+                                             icon={RAM}
+                                             value={selectedRam}
+                                             options={ram}
+                                             onChange={handleRamChange}
+                                             placeholder="Select RAM"/>
 
-          <label className='flex flex-col items-center justify-center rounded-lg border border-[#e9e9e9] shadow-md'>
-            <img src={CPU} className='mx-auto w-1/3' alt="CPU"/>
-            <p className='text-center text-lg my-4 font-bold opacity-80'>CPU</p>
-            <Select name='selectedCPU' options={cpus} value={selectedCpu} onChange={handleCpuChange} placeholder="Select" isClearable={true} className='mx-auto w-72' styles={customStyles}/>
-          </label>
+                            <ComponentSelect name='Computer case'
+                                             icon={Case}
+                                             value={selectedComputerCase}
+                                             options={computerCase}
+                                             onChange={handleComputerCaseChange}
+                                             placeholder="Select computer case"/>
 
-          <label className='flex flex-col items-center justify-center rounded-lg border border-[#e9e9e9] shadow-md'>
-            <img src={GPU} className='mx-auto w-1/3' alt="GPU"/>
-            <p className='text-center text-lg my-4 font-bold opacity-80'>GPU</p>
-            <Select name='selectedGPU' options={gpus} value={selectedGpu} onChange={handleGpuChange}
-                    placeholder="Select" isClearable={true} className='mx-4 w-72' styles={customStyles}/>
-          </label>
-
-          <label className='flex flex-col items-center justify-center rounded-lg border border-[#e9e9e9] shadow-md'>
-            <img src={Motherboard} className='mx-auto w-1/3' alt="Motherboard"/>
-            <p className='text-center text-lg my-4 font-bold opacity-80'>Motherboard</p>
-            <Select name='selectedMotherboard' options={motherboards} value={selectedMotherboard}
-                    onChange={handleMbChange} placeholder="Select" isClearable={true} className='mx-auto w-72' styles={customStyles}/>
-          </label>
-
-          <label className='flex flex-col items-center justify-center rounded-lg border border-[#e9e9e9] shadow-md'>
-            <img src={RAM} className='mx-auto w-1/3' alt="RAM"/>
-            <p className='text-center text-lg my-4 font-bold opacity-80'>RAM</p>
-            <Select name='selectedRAM' options={ram} value={selectedRam} onChange={handleRamChange} placeholder="Select" isClearable={true}
-                    className='mx-auto w-72' styles={customStyles}/>
-          </label>
-
-          <label className='flex flex-col items-center justify-center rounded-lg border border-[#e9e9e9] shadow-md'>
-            <img src={Case} className='mx-auto w-1/3' alt="Case"/>
-            <p className='text-center text-lg my-4 font-bold opacity-80'>Case</p>
-            <Select name='selectedComputerCase' options={computerCase} value={selectedComputerCase}
-                    onChange={handleComputerCaseChange} placeholder="Select" isClearable={true} className='mx-auto w-72'
-                    styles={customStyles}/>
-          </label>
-
-          <label className='flex flex-col items-center justify-center rounded-lg border border-[#e9e9e9] shadow-md'>
-            <img src={Power} className='mx-auto w-1/3' alt="Power"/>
-            <p className='text-center text-lg my-4 font-bold opacity-80'>Power Supply</p>
-            <Select name='selectedPowerSupply' options={powerSupply} value={selectedPowerSupply}
-                    onChange={handlePowerChange} placeholder="Select" isClearable={true} className='mx-auto w-72' styles={customStyles}/>
-          </label>
-
-          <label className='flex flex-col items-center justify-center rounded-lg border border-[#e9e9e9] shadow-md'>
-            <img src={SSD} className='mx-auto w-1/3' alt="SSD"/>
-            <p className='text-center text-lg my-4 font-bold opacity-80'>Storage</p>
-            <Select name='selectedStorage' options={drive} value={selectedDrive} onChange={handleSSDChange}
-                    placeholder="Select" isClearable={true} className='mx-auto w-72' styles={customStyles}/>
-          </label>
-
-        </div>
-        <button
-            className="bg-orange-500 text-white rounded-lg h-10 hover:bg-orange-700 focus:outline-none focus:bg-orange-900 w-1/3 my-2">Save setup</button>
-        {message && <div className='text-red-600 font-bold'>{message}</div>}
-      </Form>
-      </>
-      ):(
-      <div className='space-y-20'>
-        <p className='text-3xl mx-5'>If you want to create computer setup you need to log in</p>
-        <Link to="/login" className="flex items-center justify-center  hover:text-orange-500">
-          <button className='bg-orange-500 text-white rounded-lg h-20 hover:bg-orange-700 focus:outline-none focus:bg-orange-900 w-2/3 my-2'>
-            <p className=''>Log in to platform</p>
-          </button>
-        </Link>
-      </div>
-      )
-      }
-    </main>
-  );
+                            <ComponentSelect name='Power supply'
+                                             icon={Power}
+                                             value={selectedPowerSupply}
+                                             options={powerSupply}
+                                             onChange={handlePowerChange}
+                                             placeholder="Select power supply"/>
+                            <ComponentSelect name='Storage'
+                                             icon={SSD}
+                                             value={selectedDrive}
+                                             options={drive}
+                                             onChange={handleSSDChange}
+                                             placeholder="Select storage"/>
+                        </div>
+                        <button
+                            className="bg-sky-500 text-white rounded-lg h-10 hover:bg-sky-700 focus:outline-none focus:bg-sky-900 w-1/3 my-2">Save
+                            setup
+                        </button>
+                        {message && <div className='absolute bottom-4 text-red-600 font-bold'>{message}</div>}
+                    </Form>
+                </>
+            ) : (
+                <div className='space-y-20'>
+                    <p className='text-3xl mx-5'>If you want to create computer setup you need to log in</p>
+                    <Link to="/login" className="flex items-center justify-center  hover:text-sky-500">
+                        <button
+                            className='bg-sky-500 text-white rounded-lg h-20 hover:bg-sky-700 focus:outline-none focus:bg-sky-900 w-2/3 my-2'>
+                            <p className=''>Log in to platform</p>
+                        </button>
+                    </Link>
+                </div>
+            )
+            }
+        </main>
+    );
 }
 
 export default ConfiguratorY;

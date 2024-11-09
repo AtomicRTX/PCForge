@@ -67,11 +67,11 @@ const Navigation = () => {
         <p className='my-auto text-xl font-bold font-mono opacity-90'>PC_Forge</p>
       </Link>
       <ul className="flex text-center space-x-16 absolute left-1/2 transform -translate-x-1/2">
-        <li className='hover:text-orange-500 my-auto opacity-90'>
+        <li className='hover:text-sky-500 my-auto opacity-90'>
           <Link to="/">Home</Link>
         </li>
         <li className="relative inline-block" ref={menuRefSetup}>
-          <button onClick={toggleDropdownSetup} className="flex hover:text-orange-500 min-h-16" type='button'>
+          <button onClick={toggleDropdownSetup} className="flex hover:text-sky-500 min-h-16" type='button'>
             <Link to="#" className="my-auto opacity-90">
               Computer Setup
             </Link>
@@ -85,15 +85,15 @@ const Navigation = () => {
           <div className={`${dropdownSetup ? false : 'hidden'} bg-gray-100 text-center shadow-lg absolute w-full`}>
             <ul class="text-sm text-gray-700">
               <li>
-                <Link to="/confy" className="block py-2 hover:text-orange-500 opacity-90">By yourself</Link>
+                <Link to="/confy" className="block py-2 hover:text-sky-500 opacity-90">By yourself</Link>
               </li>
               <li>
-                <Link to="#" className="block py-2 hover:text-orange-500 opacity-90">By your games</Link>
+                <Link to="#" className="block py-2 hover:text-sky-500 opacity-90">By your games</Link>
               </li>
             </ul>
           </div>
         </li>
-        <li className='hover:text-orange-500 my-auto opacity-90'>
+        <li className='hover:text-sky-500 my-auto opacity-90'>
           <Link to="/userSetups" className="button">
             Users setups
           </Link>
@@ -101,7 +101,7 @@ const Navigation = () => {
       </ul>
         {user ? (
           <div className='h-full' ref={menuRefUser}>
-            <button onClick={toggleDropdownUser} className="flex hover:text-orange-500" type='button'>
+            <button onClick={toggleDropdownUser} className="flex hover:text-sky-500" type='button'>
               <div className='my-auto text-sm w-44'>
                 <p className='my-auto font-semibold opacity-90'>{user.username}</p>
                 <p className='my-auto break-all whitespace-normal opacity-70'>{user.email}</p>
@@ -111,22 +111,22 @@ const Navigation = () => {
             <div className={`${dropdownUser ? false : 'hidden'} bg-gray-100 text-center shadow-lg`}>
               <ul class="text-sm text-gray-700 opacity-90">
                 <li>
-                  <Link to="#" className="block py-2 hover:text-orange-500">My profile</Link>
+                  <Link to="#" className="block py-2 hover:text-sky-500">My profile</Link>
                 </li>
                 <li>
-                  <Link to="#" className="block py-2 hover:text-orange-500">My setups</Link>
+                  <Link to="#" className="block py-2 hover:text-sky-500">My setups</Link>
                 </li>
                 <li>
-                  <Link to="#" className="block py-2 hover:text-orange-500">Saved setups</Link>
+                  <Link to="#" className="block py-2 hover:text-sky-500">Saved setups</Link>
                 </li>
                 <li>
-                  <Link to="#" className="block py-2 hover:text-orange-500" onClick={logOut}>Sign out</Link>
+                  <Link to="#" className="block py-2 hover:text-sky-500" onClick={logOut}>Sign out</Link>
                 </li>
               </ul>
             </div>
           </div>
         ): (
-          <Link to="/login" className="flex hover:text-orange-500">
+          <Link to="/login" className="flex hover:text-sky-500">
             <div className='my-auto font-semibold w-44'>
               <p className='my-auto'>Log in to platform</p>
             </div>
