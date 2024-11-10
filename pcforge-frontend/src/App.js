@@ -1,12 +1,12 @@
 import {BrowserRouter as Router, Route, Routes} from "react-router-dom";
-import LoginPage from "./pages/LoginPage";
-import RegisterPage from "./pages/RegisterPage";
+import LoginPage from "./pages/authorization/LoginPage";
+import RegisterPage from "./pages/authorization/RegisterPage";
 import HomePage from "./pages/HomePage";
 import './App.css';
-import ConfiguratorYPage from "./pages/ConfiguratorYPage";
-import UserSetupsPage from "./pages/UserSetupsPage";
-import SavedSetupsPage from "./pages/SavedSetupsPage";
-import YourSetupPage from "./pages/YourSetupPage";
+import ConfiguratorUserPage from "./pages/configuratorUser/ConfiguratorUserPage";
+import UserSetupsPage from "./pages/setups/UserSetupsPage";
+import SavedSetupsPage from "./pages/setups/SavedSetupsPage";
+import YourSetupPage from "./pages/setups/YourSetupPage";
 
 function App() {
     return (
@@ -15,7 +15,7 @@ function App() {
                 <Route path={'/login'} element={<LoginPage/>}/>
                 <Route path={'/register'} element={<RegisterPage/>}/>
                 <Route path={'/'} element={<HomePage/>}/>
-                <Route path={'/confy'} element={<ConfiguratorYPage/>}/>
+                <Route path={'/confy'} element={<ConfiguratorUserPage/>}/>
                 <Route path={'/userSetups'} element={<UserSetupsPage/>}/>
                 <Route path={'/savedSetups'} element={<SavedSetupsPage/>}/>
                 <Route path={'/yourSetups'} element={<YourSetupPage/>}/>

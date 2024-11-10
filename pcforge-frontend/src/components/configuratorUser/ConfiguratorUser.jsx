@@ -2,20 +2,20 @@ import React, {useState, useEffect} from 'react';
 import {Link, useNavigate} from 'react-router-dom';
 import Form from "react-validation/build/form";
 
-import CPU from '../assets/CPU.svg'
-import GPU from '../assets/GPU.svg'
-import Motherboard from '../assets/Motherboard.svg'
-import RAM from '../assets/RAM.svg'
-import Case from '../assets/Case.svg'
-import Power from '../assets/Power.svg'
-import SSD from '../assets/SSD.svg'
+import CPU from '../../assets/CPU.svg'
+import GPU from '../../assets/GPU.svg'
+import Motherboard from '../../assets/Motherboard.svg'
+import RAM from '../../assets/RAM.svg'
+import Case from '../../assets/Case.svg'
+import Power from '../../assets/Power.svg'
+import SSD from '../../assets/SSD.svg'
 
-import ComponentService from '../services/component.service';
-import ComputerService from '../services/computer.service';
-import UserService from '../services/user.service';
-import ComponentSelect from "./ComponentSelect/ComponentSelect";
+import ComponentService from '../../services/component.service';
+import ComputerService from '../../services/computer.service';
+import UserService from '../../services/user.service';
+import ComponentSelect from "./ComponentSelect";
 
-const ConfiguratorY = () => {
+const ConfiguratorUser = () => {
 
     const navigate = useNavigate();
 
@@ -329,4 +329,4 @@ const ConfiguratorY = () => {
     );
 }
 
-export default ConfiguratorY;
+export default ConfiguratorUser;

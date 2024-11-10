@@ -1,13 +1,13 @@
-import React, { useState, useEffect } from 'react';
+import React, {useState, useEffect} from 'react';
 
-import Setup from './UserSetup';
+import Setup from './Setup';
 import UserService from '../../services/user.service';
 import ReactPaginate from "react-paginate";
 
 const UserSetupList = ({setups}) => {
 
-    const[user, setUser] = useState(null);
-    const[filteredSetup, setFilteredSetup] = useState([]);
+    const [user, setUser] = useState(null);
+    const [filteredSetup, setFilteredSetup] = useState([]);
 
     const [itemOffset, setItemOffset] = useState(0);
     const [itemsPerPage, setItemsPerPage] = useState(4);
@@ -48,8 +48,8 @@ const UserSetupList = ({setups}) => {
                 pageLinkClassName="px-4 py-2 rounded-lg bg-white hover:bg-sky-500 hover:text-white"
                 previousLinkClassName="px-4 py-2 rounded-lg bg-white hover:bg-sky-500 hover:text-white"
                 nextLinkClassName="px-4 py-2 rounded-lg bg-white hover:bg-sky-500 hover:text-white"
-                activeClassName="bg-sky-300 text-white"
-                activeLinkClassName="bg-sky-300 text-white"
+                activeClassName="text-sky-500"
+                activeLinkClassName="text-sky-500"
                 forcePage={Math.floor(itemOffset / itemsPerPage)}
             />
         </div>

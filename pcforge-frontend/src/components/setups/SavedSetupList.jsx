@@ -1,16 +1,14 @@
-import React, { useState, useEffect } from 'react';
+import React, {useState, useEffect} from 'react';
 
-import Setup from './YourSetup';
+import Setup from './Setup';
 import UserService from '../../services/user.service';
+import ComputerService from "../../services/computer.service";
 import ReactPaginate from "react-paginate";
 
-import { useNavigate } from "react-router-dom";
+const SavedSetupList = ({setups}) => {
 
-const YourSetupList = ({setups}) => {
-    const navigate = useNavigate();
-
-    const[user, setUser] = useState(null);
-    const[filteredSetup, setFilteredSetup] = useState([]);
+    const [user, setUser] = useState(null);
+    const [filteredSetup, setFilteredSetup] = useState([]);
 
     const [itemOffset, setItemOffset] = useState(0);
     const [itemsPerPage, setItemsPerPage] = useState(4);
@@ -19,13 +17,22 @@ const YourSetupList = ({setups}) => {
         UserService.getUser()
             .then(data => {
                     setUser(data);
-                    setFilteredSetup(setups.filter((setup) => setup.user_id === user.user_id));
                 }
-            )
-            .catch(() => {
-                setUser(null);
-                setFilteredSetup(setups);
-            });
+            );
+        if (user) {
+            const fetchSavedSetups = async () => {
+                const savedSetups = [];
+                for (const setup of setups) {
+                    const isSaved = await ComputerService.isSavedComputer(setup.cs_id);
+                    if (isSaved) {
+                        savedSetups.push(setup);
+                    }
+                }
+                setFilteredSetup(savedSetups);
+            };
+
+            fetchSavedSetups();
+        }
     }, [setups]);
 
     const endOffset = itemOffset + itemsPerPage;
@@ -44,7 +51,8 @@ const YourSetupList = ({setups}) => {
 
     return (
         <div key={itemOffset} className='flex flex-col h-full w-5/6 mx-auto mt-5 gap-4 relative'>
-            {currentSetups && currentSetups.map((setup, index) => (<Setup key={index} computerSetup={setup} onDiscard={handleDiscard}/>))}
+            {currentSetups && currentSetups.map((setup, index) => (
+                <Setup key={index} computerSetup={setup} onDiscard={handleDiscard}/>))}
             <ReactPaginate
                 previousLabel={"<"}
                 nextLabel={">"}
@@ -55,12 +63,12 @@ const YourSetupList = ({setups}) => {
                 pageLinkClassName="px-4 py-2 rounded-lg bg-white hover:bg-sky-500 hover:text-white"
                 previousLinkClassName="px-4 py-2 rounded-lg bg-white hover:bg-sky-500 hover:text-white"
                 nextLinkClassName="px-4 py-2 rounded-lg bg-white hover:bg-sky-500 hover:text-white"
-                activeClassName="bg-sky-300 text-white"
-                activeLinkClassName="bg-sky-300 text-white"
+                activeClassName="text-sky-500"
+                activeLinkClassName="text-sky-500"
                 forcePage={Math.floor(itemOffset / itemsPerPage)}
             />
         </div>
     )
 }
 
-export default YourSetupList;
+export default SavedSetupList;

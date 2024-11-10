@@ -1,13 +1,13 @@
-import React, { useEffect, useState } from 'react'
+import React, {useEffect, useState} from 'react'
 
-import Background from '../components/Background'
-import Navigation from '../components/Navigation'
-import SavedSetupList from '../components/SavedSetups/SavedSetupList'
-import ComputerService from '../services/computer.service'
+import Background from '../../components/template/Background'
+import Navigation from '../../components/template/Navigation'
+import ComputerService from '../../services/computer.service'
+import YourSetupList from "../../components/setups/YourSetupList";
 
 const UserSetupsPage = () => {
 
-    const[setups, setSetups] = useState([]);
+    const [setups, setSetups] = useState([]);
 
     useEffect(() => {
         ComputerService.getAllComputers()
@@ -22,7 +22,7 @@ const UserSetupsPage = () => {
         <>
             <Background>
                 <Navigation/>
-                <SavedSetupList setups={setups}/>
+                <YourSetupList setups={setups}/>
             </Background>
         </>
     )

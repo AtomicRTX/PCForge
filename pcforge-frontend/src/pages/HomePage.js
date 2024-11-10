@@ -1,15 +1,15 @@
 import React from 'react'
-import Background from '../components/Background'
-import Navigation from '../components/Navigation'
+import Background from '../components/template/Background'
+import Navigation from '../components/template/Navigation'
 
 const HomePage = () => {
-  return (
-    <>
-      <Background>
-        <Navigation/>
-      </Background>
-    </>
-  )
+    return (
+        <>
+            <Background>
+                <Navigation/>
+            </Background>
+        </>
+    )
 }
 
 export default HomePage

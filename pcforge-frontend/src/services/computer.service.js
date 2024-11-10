@@ -4,8 +4,8 @@ import authHeader from "./auth-header";
 
 const API_URL = 'http://localhost:8080/api/v1/computer/'
 
-class ComputerService{
-    createComputerSetup(user_id, case_id, cpu_id, gpu_id, ram_id, mb_id, power_id, st_id){
+class ComputerService {
+    createComputerSetup(user_id, case_id, cpu_id, gpu_id, ram_id, mb_id, power_id, st_id) {
         return axios.post(API_URL + 'add', {
             user_id,
             case_id,
@@ -15,28 +15,32 @@ class ComputerService{
             mb_id,
             power_id,
             st_id
-        }, { headers: authHeader() })
+        }, {headers: authHeader()})
     }
-    getAllComputers(){
+
+    getAllComputers() {
         return axios.get(API_URL + `all`)
             .then(response => {
                 return response.data;
             });
     }
-    saveComputer(computerID){
-        return axios.post(API_URL + `${computerID}/save`,{}, { headers: authHeader() })
+
+    saveComputer(computerID) {
+        return axios.post(API_URL + `${computerID}/save`, {}, {headers: authHeader()})
             .then(response => {
                 return response.data;
             });
     }
-    deleteComputer(computerID){
-        return axios.post(API_URL + `${computerID}/delete`,{}, { headers: authHeader() })
+
+    deleteComputer(computerID) {
+        return axios.post(API_URL + `${computerID}/delete`, {}, {headers: authHeader()})
             .then(response => {
                 return response.data;
             });
     }
-    isSavedComputer(computerID){
-        return axios.get(API_URL + `${computerID}/checkSave`, { headers: authHeader() })
+
+    isSavedComputer(computerID) {
+        return axios.get(API_URL + `${computerID}/checkSave`, {headers: authHeader()})
             .then(response => {
                 return response.data;
             });
@@ -44,5 +48,6 @@ class ComputerService{
 
 
 }
+
 // eslint-disable-next-line
 export default new ComputerService();

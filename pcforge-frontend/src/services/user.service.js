@@ -5,16 +5,17 @@ const API_URL = 'http://localhost:8080/api/v1/user/';
 
 class UserService {
     getUser() {
-      return axios.get(API_URL + 'current', { headers: authHeader() })
-      .then(response => {
-        return response.data;
-      });
+        return axios.get(API_URL + 'current', {headers: authHeader()})
+            .then(response => {
+                return response.data;
+            });
     }
+
     getUserById(userID) {
-      return axios.get(API_URL + `${userID}`, { headers: authHeader() })
-      .then(response => {
-        return response.data;
-      });
+        return axios.get(API_URL + `${userID}`, {headers: authHeader()})
+            .then(response => {
+                return response.data;
+            });
     }
 }
 

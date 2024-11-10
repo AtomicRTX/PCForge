@@ -1,7 +1,7 @@
 import React from 'react';
 import Select from 'react-select';
 
-const ComponentSelect = ({ name, icon, value, options, placeholder, onChange }) => {
+const ComponentSelect = ({name, icon, value, options, placeholder, onChange}) => {
 
     const customStyles = {
         control: (provided, state) => ({
@@ -21,7 +21,8 @@ const ComponentSelect = ({ name, icon, value, options, placeholder, onChange }) 
     }
 
     return (
-        <label className='flex flex-col relative items-center justify-center rounded-lg border border-[#e9e9e9] shadow-md w-80'>
+        <label
+            className='flex flex-col relative items-center justify-center rounded-lg border border-[#e9e9e9] shadow-md w-80'>
             <img src={icon} className='mx-auto w-1/2 h-40' alt={name}/>
             <p className='text-center text-lg my-4 font-bold opacity-80'>{name}</p>
             <Select
