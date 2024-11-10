@@ -61,7 +61,7 @@ const Navigation = () => {
   }
 
   return (
-    <nav className='w-full h-16 top-0 bg-white shadow-lg justify-between flex sticky relative'>
+    <nav className='w-full h-16 top-0 bg-white shadow-lg justify-between flex relative z-10'>
       <Link to="/" className="w-1/6 flex text-center">
         <img src={logo} className='ml-5 mr-2' alt="LOGO"/>
         <p className='my-auto text-xl font-bold font-mono opacity-90'>PC_Forge</p>
@@ -83,7 +83,7 @@ const Navigation = () => {
             }
           </button>
           <div className={`${dropdownSetup ? false : 'hidden'} bg-gray-100 text-center shadow-lg absolute w-full`}>
-            <ul class="text-sm text-gray-700">
+            <ul className="text-sm text-gray-700">
               <li>
                 <Link to="/confy" className="block py-2 hover:text-sky-500 opacity-90">By yourself</Link>
               </li>
@@ -109,7 +109,7 @@ const Navigation = () => {
               <img src={user.photo ? user.photo : d_profile} className='mx-5 my-1 max-h-14 border border-gray-800' alt="LOGO"/>
             </button>
             <div className={`${dropdownUser ? false : 'hidden'} bg-gray-100 text-center shadow-lg`}>
-              <ul class="text-sm text-gray-700 opacity-90">
+              <ul className="text-sm text-gray-700 opacity-90">
                 <li>
                   <Link to="#" className="block py-2 hover:text-sky-500">My profile</Link>
                 </li>

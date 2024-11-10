@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 
 import Background from '../components/Background'
 import Navigation from '../components/Navigation'
-import SetupList from '../components/SetupList'
+import UserSetupList from '../components/UserSetups/UserSetupList'
 import ComputerService from '../services/computer.service'
 
 const UserSetupsPage = () => {
@@ -22,7 +22,7 @@ const UserSetupsPage = () => {
     <>
       <Background>
         <Navigation/>
-        <SetupList setups={setups}/>
+        <UserSetupList setups={setups}/>
       </Background>
     </>
   )
