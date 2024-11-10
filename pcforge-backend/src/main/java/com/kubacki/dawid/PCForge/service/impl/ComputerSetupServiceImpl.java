@@ -82,4 +82,13 @@ public class ComputerSetupServiceImpl implements ComputerSetupService {
         ComputerSetup computerSetup = computerSetupRepository.findById(cs_id).orElseThrow(() -> new RuntimeException("Computer setup not found."));
         return savedRepository.existsByUserAndComputerSetup(user, computerSetup);
     }
+
+    @Override
+    public void deleteComputerSetup(Integer user_id, Integer cs_id) {
+        User user = userRepository.findById(user_id).orElseThrow(() -> new RuntimeException("User not found."));
+        ComputerSetup computerSetup = computerSetupRepository.findById(cs_id).orElseThrow(() -> new RuntimeException("Computer setup not found."));
+        if(user == computerSetup.getUser()) {
+            computerSetupRepository.deleteById(cs_id);
+        }
+    }
 }

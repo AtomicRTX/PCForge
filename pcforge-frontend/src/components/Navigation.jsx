@@ -114,10 +114,10 @@ const Navigation = () => {
                   <Link to="#" className="block py-2 hover:text-sky-500">My profile</Link>
                 </li>
                 <li>
-                  <Link to="#" className="block py-2 hover:text-sky-500">My setups</Link>
+                  <Link to="/yourSetups" className="block py-2 hover:text-sky-500">My setups</Link>
                 </li>
                 <li>
-                  <Link to="#" className="block py-2 hover:text-sky-500">Saved setups</Link>
+                  <Link to="/savedSetups" className="block py-2 hover:text-sky-500">Saved setups</Link>
                 </li>
                 <li>
                   <Link to="#" className="block py-2 hover:text-sky-500" onClick={logOut}>Sign out</Link>

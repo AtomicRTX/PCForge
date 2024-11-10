@@ -12,7 +12,7 @@ import ComponentService from '../../services/component.service';
 import UserService from '../../services/user.service';
 import ComputerService from '../../services/computer.service';
 
-const UserSetup = ({computerSetup}) => {
+const YourSetup = ({computerSetup, onDiscard}) => {
 
     const [user, setUser] = useState(null);
 
@@ -51,9 +51,10 @@ const UserSetup = ({computerSetup}) => {
             ComputerService.isSavedComputer(computerSetup.cs_id).then(data => setIsSaved(data));
     }, [user]);
 
-    const handleSaveClick = (e) => {
+    const handleDeleteClick = (e) => {
         e.stopPropagation();
-        ComputerService.saveComputer(computerSetup.cs_id).then(() => ComputerService.isSavedComputer(computerSetup.cs_id).then(data => setIsSaved(data)));
+        ComputerService.deleteComputer(computerSetup.cs_id);
+        onDiscard(computerSetup.cs_id);
     };
 
     return (
@@ -78,20 +79,11 @@ const UserSetup = ({computerSetup}) => {
                     </div>
                 </div>
                 {user ? (
-
-                    isSaved ? (
                         <button
-                            className="bg-gray-500 text-white rounded-lg hover:bg-sky-700 focus:outline-none w-1/6 h-3/4 my-auto"
+                            className="bg-red-500 text-white rounded-lg hover:bg-red-700 focus:outline-none w-1/6 h-3/4 my-auto"
                             onClick={(e) => {
-                                handleSaveClick(e);
-                            }}> Discard setup </button>
-                    ) : (
-                        <button
-                            className="bg-sky-500 text-white rounded-lg hover:bg-sky-700 focus:outline-none w-1/6 h-3/4 my-auto"
-                            onClick={(e) => {
-                                handleSaveClick(e);
-                            }}> Save setup </button>
-                    )
+                                handleDeleteClick(e);
+                            }}> Delete setup </button>
                 ) : (
                     <Link to="/login"
                           className="flex items-center bg-sky-500 text-white rounded-lg hover:bg-sky-700 focus:outline-none focus:bg-sky-900 w-1/6 h-3/4 my-auto">
@@ -128,4 +120,4 @@ const UserSetup = ({computerSetup}) => {
         </button>
     )
 }
-export default UserSetup;
+export default YourSetup;

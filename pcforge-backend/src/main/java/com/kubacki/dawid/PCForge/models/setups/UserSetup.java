@@ -4,7 +4,7 @@ import com.kubacki.dawid.PCForge.models.users.User;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "UserSetup")
+@Table(name = "YourSetup")
 
 public class UserSetup {
     @Id

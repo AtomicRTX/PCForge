@@ -29,6 +29,12 @@ class ComputerService{
                 return response.data;
             });
     }
+    deleteComputer(computerID){
+        return axios.post(API_URL + `${computerID}/delete`,{}, { headers: authHeader() })
+            .then(response => {
+                return response.data;
+            });
+    }
     isSavedComputer(computerID){
         return axios.get(API_URL + `${computerID}/checkSave`, { headers: authHeader() })
             .then(response => {

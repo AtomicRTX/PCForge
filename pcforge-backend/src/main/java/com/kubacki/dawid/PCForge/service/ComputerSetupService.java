@@ -10,4 +10,5 @@ public interface ComputerSetupService {
     List<ComputerSetupRequest> getComputerSetups();
     void saveComputerSetup(Integer user_id, Integer cs_id);
     boolean isSavedComputerSetup(Integer user_id, Integer cs_id);
+    void deleteComputerSetup(Integer user_id, Integer cs_id);
 }

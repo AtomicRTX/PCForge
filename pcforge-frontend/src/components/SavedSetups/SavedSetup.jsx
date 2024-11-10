@@ -12,7 +12,7 @@ import ComponentService from '../../services/component.service';
 import UserService from '../../services/user.service';
 import ComputerService from '../../services/computer.service';
 
-const UserSetup = ({computerSetup}) => {
+const ComputerSetup = ({computerSetup, onDiscard}) => {
 
     const [user, setUser] = useState(null);
 
@@ -30,10 +30,7 @@ const UserSetup = ({computerSetup}) => {
     useEffect(() => {
         UserService.getUser()
             .then(data => setUser(data)
-            )
-            .catch(() => {
-                setUser(null);
-            });
+            );
     }, []);
 
     useEffect(() => {
@@ -54,6 +51,7 @@ const UserSetup = ({computerSetup}) => {
     const handleSaveClick = (e) => {
         e.stopPropagation();
         ComputerService.saveComputer(computerSetup.cs_id).then(() => ComputerService.isSavedComputer(computerSetup.cs_id).then(data => setIsSaved(data)));
+        onDiscard(computerSetup.cs_id);
     };
 
     return (
@@ -128,4 +126,4 @@ const UserSetup = ({computerSetup}) => {
         </button>
     )
 }
-export default UserSetup;
+export default ComputerSetup;

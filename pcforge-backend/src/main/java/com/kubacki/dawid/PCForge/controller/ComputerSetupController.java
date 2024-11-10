@@ -25,6 +25,13 @@ public class ComputerSetupController {
         ComputerSetupRequest savedComputerSetup = computerSetupService.createComputerSetup(computerSetupRequest);
         return new ResponseEntity<>(savedComputerSetup, HttpStatus.CREATED);
     }
+    @PostMapping("/{id}/delete")
+    public ResponseEntity<ComputerSetupRequest> deleteComputer(@PathVariable int id) {
+        UserDto userDto = userService.getByEmail(SecurityContextHolder.getContext().getAuthentication().getName());
+        computerSetupService.deleteComputerSetup(userDto.getUser_id(), id);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
     @GetMapping("/all")
     public ResponseEntity<List<ComputerSetupRequest>> getAllComputers() {
         List<ComputerSetupRequest> computerSetupRequests = computerSetupService.getComputerSetups();
