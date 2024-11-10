@@ -7,9 +7,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
 public interface SavedRepository extends JpaRepository<SavedSetup, Integer> {
-    default SavedSetup findByUserAndComputerSetup(User user, ComputerSetup computerSetup) {
-        return null;
-    }
+    SavedSetup findByUserAndComputerSetup(User user, ComputerSetup computerSetup);
     @Query
     boolean existsByUserAndComputerSetup(User user, ComputerSetup computerSetup);
 }

@@ -24,7 +24,7 @@ class ComputerService{
             });
     }
     saveComputer(computerID){
-        return axios.post(API_URL + `${computerID}/save`, { headers: authHeader() })
+        return axios.post(API_URL + `${computerID}/save`,{}, { headers: authHeader() })
             .then(response => {
                 return response.data;
             });

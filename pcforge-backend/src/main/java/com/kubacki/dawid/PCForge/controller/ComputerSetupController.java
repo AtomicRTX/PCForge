@@ -2,7 +2,6 @@ package com.kubacki.dawid.PCForge.controller;
 
 import com.kubacki.dawid.PCForge.dto.ComputerSetupRequest;
 import com.kubacki.dawid.PCForge.dto.UserDto;
-import com.kubacki.dawid.PCForge.repositories.ComputerSetupRepository;
 import com.kubacki.dawid.PCForge.service.ComputerSetupService;
 import com.kubacki.dawid.PCForge.service.UserService;
 import lombok.RequiredArgsConstructor;

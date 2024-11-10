@@ -35,9 +35,6 @@ const UserSetupList = ({setups}) => {
         setItemOffset(newOffset);
     };
 
-    console.log(itemOffset)
-    console.log(currentSetups)
-
     return (
         <div key={itemOffset} className='flex flex-col h-full w-5/6 mx-auto mt-5 gap-4 relative'>
             {currentSetups && currentSetups.map((setup, index) => (<Setup key={index} computerSetup={setup}/>))}

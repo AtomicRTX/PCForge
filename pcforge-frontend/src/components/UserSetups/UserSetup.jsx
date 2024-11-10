@@ -51,7 +51,10 @@ const ComputerSetup = ({computerSetup}) => {
             ComputerService.isSavedComputer(computerSetup.cs_id).then(data => setIsSaved(data));
     }, [user]);
 
-
+    const handleSaveClick = (e) => {
+        e.stopPropagation();
+        ComputerService.saveComputer(computerSetup.cs_id).then(() => ComputerService.isSavedComputer(computerSetup.cs_id).then(data => setIsSaved(data)));
+    };
 
     return (
         <button onClick={() => setButtonPopup(true)} className='text-left'>
@@ -80,13 +83,13 @@ const ComputerSetup = ({computerSetup}) => {
                         <button
                             className="bg-gray-500 text-white rounded-lg hover:bg-sky-700 focus:outline-none focus:bg-sky-900 w-1/6 h-3/4 my-auto"
                             onClick={(e) => {
-                                e.stopPropagation();
+                                handleSaveClick(e);
                             }}> Discard setup </button>
                     ) : (
                         <button
                             className="bg-sky-500 text-white rounded-lg hover:bg-sky-700 focus:outline-none focus:bg-sky-900 w-1/6 h-3/4 my-auto"
                             onClick={(e) => {
-                                e.stopPropagation();
+                                handleSaveClick(e);
                             }}> Save setup </button>
                     )
                 ) : (
