@@ -12,6 +12,7 @@ import com.kubacki.dawid.PCForge.repositories.setups.RatingRepository;
 import com.kubacki.dawid.PCForge.repositories.setups.SavedRepository;
 import com.kubacki.dawid.PCForge.repositories.users.UserRepository;
 import com.kubacki.dawid.PCForge.service.ComputerSetupService;
+import com.kubacki.dawid.PCForge.service.TypeEnum;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -98,6 +99,9 @@ public class ComputerSetupServiceImpl implements ComputerSetupService {
         if(user == computerSetup.getUser()) {
             computerSetupRepository.deleteById(cs_id);
         }
+        else if (user.getTypes().stream().anyMatch(type -> type.getName().equals(TypeEnum.ADMIN.name()))) {
+            computerSetupRepository.deleteById(cs_id);
+        }
     }
 
     @Override
@@ -110,5 +114,6 @@ public class ComputerSetupServiceImpl implements ComputerSetupService {
         ratingSetup.setRating(rate);
         ratingRepository.save(ratingSetup);
     }
+
 
 }
