@@ -286,3 +286,7 @@ INSERT INTO users (email, username, password) VALUES
                                                        ('admin@gmail.com', 'Admin', '$2a$10$DfdikuGE0AgXrecMgdmwj.5GVHZLyhz1XkAUJYSdo0SBUc7XaR2bC'),
                                                        ('white.black@gmail.com', 'WhiteBlackTV', '$2a$10$DfdikuGE0AgXrecMgdmwj.5GVHZLyhz1XkAUJYSdo0SBUc7XaR2bC'),
                                                        ('tech.nestea@gmail.com', 'TechNestea', '$2a$10$DfdikuGE0AgXrecMgdmwj.5GVHZLyhz1XkAUJYSdo0SBUc7XaR2bC');
+INSERT INTO user_types (type_id, user_id) VALUES
+                                              (1, 7),
+                                              (2, 8),
+                                              (3, 9);
