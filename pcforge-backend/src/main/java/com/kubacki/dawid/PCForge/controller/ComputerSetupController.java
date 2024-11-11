@@ -48,4 +48,10 @@ public class ComputerSetupController {
         UserDto userDto = userService.getByEmail(SecurityContextHolder.getContext().getAuthentication().getName());
         return new ResponseEntity<>(computerSetupService.isSavedComputerSetup(userDto.getUser_id(), id), HttpStatus.OK);
     }
+    @PostMapping("/{id}/rate")
+    public ResponseEntity<ComputerSetupRequest> rateComputer(@PathVariable int id, @RequestBody float rating) {
+        UserDto userDto = userService.getByEmail(SecurityContextHolder.getContext().getAuthentication().getName());
+        computerSetupService.ratingComputerSetup(userDto.getUser_id(), id, rating);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 }

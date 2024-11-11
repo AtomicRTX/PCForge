@@ -3,7 +3,7 @@ package com.kubacki.dawid.PCForge.service.impl;
 import com.kubacki.dawid.PCForge.dto.components.*;
 import com.kubacki.dawid.PCForge.mapper.components.*;
 import com.kubacki.dawid.PCForge.models.components.*;
-import com.kubacki.dawid.PCForge.repositories.*;
+import com.kubacki.dawid.PCForge.repositories.components.*;
 import com.kubacki.dawid.PCForge.service.ComponentService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;

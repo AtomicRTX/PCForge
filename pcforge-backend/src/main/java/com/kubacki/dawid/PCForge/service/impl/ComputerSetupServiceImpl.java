@@ -3,11 +3,17 @@ package com.kubacki.dawid.PCForge.service.impl;
 import com.kubacki.dawid.PCForge.dto.ComputerSetupRequest;
 import com.kubacki.dawid.PCForge.mapper.ComputerSetupMapper;
 import com.kubacki.dawid.PCForge.models.setups.ComputerSetup;
+import com.kubacki.dawid.PCForge.models.setups.RatingSetup;
 import com.kubacki.dawid.PCForge.models.setups.SavedSetup;
 import com.kubacki.dawid.PCForge.models.users.User;
-import com.kubacki.dawid.PCForge.repositories.*;
+import com.kubacki.dawid.PCForge.repositories.components.*;
+import com.kubacki.dawid.PCForge.repositories.setups.ComputerSetupRepository;
+import com.kubacki.dawid.PCForge.repositories.setups.RatingRepository;
+import com.kubacki.dawid.PCForge.repositories.setups.SavedRepository;
+import com.kubacki.dawid.PCForge.repositories.users.UserRepository;
 import com.kubacki.dawid.PCForge.service.ComputerSetupService;
 import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -17,6 +23,7 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 
 public class ComputerSetupServiceImpl implements ComputerSetupService {
+
 
     private final ComputerCaseRepository computerCaseRepository;
     private final CpuRepository cpuRepository;
@@ -28,6 +35,7 @@ public class ComputerSetupServiceImpl implements ComputerSetupService {
     private final UserRepository userRepository;
     private final ComputerSetupRepository computerSetupRepository;
     private final SavedRepository savedRepository;
+    private final RatingRepository ratingRepository;
 
     @Override
     public ComputerSetupRequest createComputerSetup(ComputerSetupRequest computerSetupRequest) {
@@ -91,4 +99,16 @@ public class ComputerSetupServiceImpl implements ComputerSetupService {
             computerSetupRepository.deleteById(cs_id);
         }
     }
+
+    @Override
+    public void ratingComputerSetup(Integer user_id, Integer cs_id, float rate) {
+        User user = userRepository.findById(user_id).orElseThrow(() -> new RuntimeException("User not found."));
+        ComputerSetup computerSetup = computerSetupRepository.findById(cs_id).orElseThrow(() -> new RuntimeException("Computer setup not found."));
+        RatingSetup ratingSetup = new RatingSetup();
+        ratingSetup.setUser(user);
+        ratingSetup.setComputerSetup(computerSetup);
+        ratingSetup.setRating(rate);
+        ratingRepository.save(ratingSetup);
+    }
+
 }

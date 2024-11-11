@@ -1,4 +1,4 @@
-package com.kubacki.dawid.PCForge.repositories;
+package com.kubacki.dawid.PCForge.repositories.users;
 
 import com.kubacki.dawid.PCForge.models.users.User;
 import org.springframework.data.jpa.repository.JpaRepository;

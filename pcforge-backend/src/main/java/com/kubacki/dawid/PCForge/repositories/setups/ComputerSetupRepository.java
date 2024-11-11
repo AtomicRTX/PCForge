@@ -1,4 +1,4 @@
-package com.kubacki.dawid.PCForge.repositories;
+package com.kubacki.dawid.PCForge.repositories.setups;
 
 import com.kubacki.dawid.PCForge.models.setups.ComputerSetup;
 import com.kubacki.dawid.PCForge.models.users.User;

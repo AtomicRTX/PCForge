@@ -1,4 +1,4 @@
-package com.kubacki.dawid.PCForge.repositories;
+package com.kubacki.dawid.PCForge.repositories.components;
 
 import com.kubacki.dawid.PCForge.models.components.RAM;
 import org.springframework.data.jpa.repository.JpaRepository;

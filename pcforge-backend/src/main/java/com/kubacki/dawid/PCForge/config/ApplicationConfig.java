@@ -1,6 +1,6 @@
 package com.kubacki.dawid.PCForge.config;
 
-import com.kubacki.dawid.PCForge.repositories.UserRepository;
+import com.kubacki.dawid.PCForge.repositories.users.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
