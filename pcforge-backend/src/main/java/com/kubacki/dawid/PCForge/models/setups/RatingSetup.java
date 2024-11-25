@@ -22,5 +22,5 @@ public class RatingSetup {
     private ComputerSetup computerSetup;
 
     @Column(nullable = false)
-    private float rating;
+    private Double rating;
 }

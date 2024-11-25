@@ -105,14 +105,22 @@ public class ComputerSetupServiceImpl implements ComputerSetupService {
     }
 
     @Override
-    public void ratingComputerSetup(Integer user_id, Integer cs_id, float rate) {
+    public void rateComputerSetup(Integer user_id, Integer cs_id, Double rate) {
         User user = userRepository.findById(user_id).orElseThrow(() -> new RuntimeException("User not found."));
         ComputerSetup computerSetup = computerSetupRepository.findById(cs_id).orElseThrow(() -> new RuntimeException("Computer setup not found."));
-        RatingSetup ratingSetup = new RatingSetup();
-        ratingSetup.setUser(user);
-        ratingSetup.setComputerSetup(computerSetup);
-        ratingSetup.setRating(rate);
-        ratingRepository.save(ratingSetup);
+        boolean ratingExist = ratingRepository.existsByUserAndComputerSetup(user, computerSetup);
+        if (ratingExist) {
+            RatingSetup ratingSetup = ratingRepository.findByUserAndComputerSetup(user, computerSetup);
+            ratingSetup.setRating(rate);
+            ratingRepository.save(ratingSetup);
+        }
+        else{
+            RatingSetup ratingSetup = new RatingSetup();
+            ratingSetup.setUser(user);
+            ratingSetup.setComputerSetup(computerSetup);
+            ratingSetup.setRating(rate);
+            ratingRepository.save(ratingSetup);
+        }
     }
 
     @Override
@@ -123,6 +131,15 @@ public class ComputerSetupServiceImpl implements ComputerSetupService {
         }
         double sum = ratings.stream().mapToDouble(Double::doubleValue).sum();
         return new double[]{sum / ratings.size(), ratings.size()};
+    }
+
+    @Override
+    public double getRatingOfComputerSetup(Integer user_id, Integer cs_id) {
+        User user = userRepository.findById(user_id).orElseThrow(() -> new RuntimeException("User not found."));
+        ComputerSetup computerSetup = computerSetupRepository.findById(cs_id).orElseThrow(() -> new RuntimeException("Computer setup not found."));
+        double rate = ratingRepository.findRatingByUserAndComputerSetup(user, computerSetup);
+        System.out.println(rate);
+        return rate;
     }
 
 

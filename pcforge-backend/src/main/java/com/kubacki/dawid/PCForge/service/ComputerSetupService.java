@@ -10,6 +10,7 @@ public interface ComputerSetupService {
     void saveComputerSetup(Integer user_id, Integer cs_id);
     boolean isSavedComputerSetup(Integer user_id, Integer cs_id);
     void deleteComputerSetup(Integer user_id, Integer cs_id);
-    void ratingComputerSetup(Integer user_id, Integer cs_id, float rate);
+    void rateComputerSetup(Integer user_id, Integer cs_id, Double rate);
     double[] getRatingsOfComputerSetup(Integer cs_id);
+    double getRatingOfComputerSetup(Integer user_id, Integer cs_id);
 }

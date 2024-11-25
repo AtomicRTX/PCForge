@@ -46,6 +46,20 @@ class ComputerService {
             });
     }
 
+    rateComputer(computerID, rate) {
+        return axios.post(API_URL + `${computerID}/rate`, {rate: rate}, {headers: authHeader()})
+            .then(response => {
+                return response.data;
+            });
+    }
+
+    getRatingOfComputerSetup(computerID){
+        return axios.get(API_URL + `${computerID}/myRate`, {headers: authHeader()})
+            .then(response => {
+                return response.data;
+            });
+    }
+
     getRatingsOfComputerSetup(computerID){
         return axios.get(API_URL + `${computerID}/rating`)
             .then(response => {

@@ -46,7 +46,7 @@ const Setup = ({computerSetup, onDiscard, remove}) => {
         ComponentService.getStorage(computerSetup.st_id).then(data => setSetup(prevSetup => ({...prevSetup, storage: data})));
         ComputerService.getRatingsOfComputerSetup(computerSetup.cs_id).then(data => setRating({rating: data[0], count: data[1]}))
 
-    }, [computerSetup]);
+    }, [computerSetup, isModalOpen]);
 
     useEffect(() => {
         if (user != null)
@@ -121,7 +121,7 @@ const Setup = ({computerSetup, onDiscard, remove}) => {
                     </Link>
                 )}
             </div>
-            <SetupModal cs_id={computerSetup.cs_id} setup={setup} isModalOpen={isModalOpen} onClose={(m) => setIsModalOpen(m)}/>
+            <SetupModal cs_id={computerSetup.cs_id} setup={setup} isModalOpen={isModalOpen} onClose={(m) => setIsModalOpen(m)} user={user}/>
         </button>
     )
 }

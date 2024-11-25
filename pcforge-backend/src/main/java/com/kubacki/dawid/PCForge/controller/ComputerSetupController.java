@@ -1,6 +1,7 @@
 package com.kubacki.dawid.PCForge.controller;
 
 import com.kubacki.dawid.PCForge.dto.ComputerSetupRequest;
+import com.kubacki.dawid.PCForge.dto.RatingRequest;
 import com.kubacki.dawid.PCForge.dto.UserDto;
 import com.kubacki.dawid.PCForge.service.ComputerSetupService;
 import com.kubacki.dawid.PCForge.service.UserService;
@@ -49,14 +50,20 @@ public class ComputerSetupController {
         return new ResponseEntity<>(computerSetupService.isSavedComputerSetup(userDto.getUser_id(), id), HttpStatus.OK);
     }
     @PostMapping("/{id}/rate")
-    public ResponseEntity<ComputerSetupRequest> rateComputer(@PathVariable int id, @RequestBody float rating) {
+    public ResponseEntity<RatingRequest> rateComputer(@PathVariable int id, @RequestBody RatingRequest rating) {
         UserDto userDto = userService.getByEmail(SecurityContextHolder.getContext().getAuthentication().getName());
-        computerSetupService.ratingComputerSetup(userDto.getUser_id(), id, rating);
+        computerSetupService.rateComputerSetup(userDto.getUser_id(), id, rating.getRate());
         return new ResponseEntity<>(HttpStatus.OK);
     }
     @GetMapping("/{id}/rating")
     public ResponseEntity<double[]> getRatingComputer(@PathVariable int id) {
         double[] computerSetupRating = computerSetupService.getRatingsOfComputerSetup(id);
         return new ResponseEntity<>(computerSetupRating, HttpStatus.OK);
+    }
+    @GetMapping("/{id}/myRate")
+    public ResponseEntity<Double> getComputerRate(@PathVariable int id) {
+        UserDto userDto = userService.getByEmail(SecurityContextHolder.getContext().getAuthentication().getName());
+        double rate = computerSetupService.getRatingOfComputerSetup(userDto.getUser_id(), id);
+        return new ResponseEntity<>(rate, HttpStatus.OK);
     }
 }
