@@ -8,11 +8,14 @@ import UserService from '../../services/user.service';
 import ComputerService from '../../services/computer.service';
 import SetupModal from "./SetupModal";
 
+import ReactStars from "react-rating-stars-component";
+
 const Setup = ({computerSetup, onDiscard, remove}) => {
 
     const [user, setUser] = useState(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [isSaved, setIsSaved] = useState(false);
+    const [rating, setRating] = useState({rating: 0, count: 0})
 
     const [setup, setSetup] = useState({
         cpu: {},
@@ -41,6 +44,8 @@ const Setup = ({computerSetup, onDiscard, remove}) => {
         ComponentService.getComputerCase(computerSetup.ram_id).then(data => setSetup(prevSetup => ({...prevSetup, case: data})));
         ComponentService.getPower(computerSetup.ram_id).then(data => setSetup(prevSetup => ({...prevSetup, power: data})));
         ComponentService.getStorage(computerSetup.st_id).then(data => setSetup(prevSetup => ({...prevSetup, storage: data})));
+        ComputerService.getRatingsOfComputerSetup(computerSetup.cs_id).then(data => setRating({rating: data[0], count: data[1]}))
+
     }, [computerSetup]);
 
     useEffect(() => {
@@ -61,7 +66,6 @@ const Setup = ({computerSetup, onDiscard, remove}) => {
         if (onDiscard)
             onDiscard(computerSetup.cs_id);
     };
-
     return (
         <button onClick={() => setIsModalOpen(true)} className='text-left'>
             <div className='flex bg-white h-48 p-4 rounded-lg justify-between'>
@@ -79,8 +83,23 @@ const Setup = ({computerSetup, onDiscard, remove}) => {
                             <p className="p">Storage: <p className='font-bold'>{setup.storage.size} GB</p></p>
                         </div>
                         <div>
-                            <p className="mb-5 w-48">Average expert overall : <p className='font-bold'>5.0/5.0</p><p>5
-                                opinion</p></p>
+                            <p className="mb-5 w-48 mt-7">
+                                <div className="flex items-center space-x-2">
+                                    <ReactStars
+                                        key={`stars_${rating.rating}`}
+                                        count={5}
+                                        value={rating.rating}
+                                        edit={false}
+                                        size={24}
+                                        isHalf={true}
+                                        activeColor="#0ea5e9"
+                                    />
+                                    <p className="mt-1 text-sm">{rating.rating}</p>
+                                </div>
+                                <p className="text-sm ml-1">
+                                    {rating.count} opinion
+                                </p>
+                            </p>
                         </div>
                     </div>
                 </div>

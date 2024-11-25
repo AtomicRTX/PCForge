@@ -118,6 +118,9 @@ public class ComputerSetupServiceImpl implements ComputerSetupService {
     @Override
     public double[] getRatingsOfComputerSetup(Integer cs_id) {
         List<Double> ratings = ratingRepository.findRatingByComputerSetup(cs_id);
+        if(ratings.isEmpty()) {
+            return new double[]{0, 0};
+        }
         double sum = ratings.stream().mapToDouble(Double::doubleValue).sum();
         return new double[]{sum / ratings.size(), ratings.size()};
     }

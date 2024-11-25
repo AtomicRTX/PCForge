@@ -46,7 +46,12 @@ class ComputerService {
             });
     }
 
-
+    getRatingsOfComputerSetup(computerID){
+        return axios.get(API_URL + `${computerID}/rating`)
+            .then(response => {
+                return response.data;
+            });
+    }
 }
 
 // eslint-disable-next-line
