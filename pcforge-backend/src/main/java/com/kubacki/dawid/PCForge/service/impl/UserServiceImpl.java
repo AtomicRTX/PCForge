@@ -51,12 +51,6 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Boolean isExpert(UserDto userDto) {
-        User user = userRepository.findById(userDto.getUser_id()).orElseThrow(() -> new RuntimeException("User not found."));
-        return user.getTypes().stream().anyMatch(type -> type.getName().equals(TypeEnum.EXPERT.name()));
-    }
-
-    @Override
     public List<UserDto> getAllUsers() {
         List<User> users = userRepository.findAll();
         return users.stream().map((user -> UserMapper.mapToUserDto(user))).collect(Collectors.toList());

@@ -11,4 +11,5 @@ public interface ComputerSetupService {
     boolean isSavedComputerSetup(Integer user_id, Integer cs_id);
     void deleteComputerSetup(Integer user_id, Integer cs_id);
     void ratingComputerSetup(Integer user_id, Integer cs_id, float rate);
+    double[] getRatingsOfComputerSetup(Integer cs_id);
 }

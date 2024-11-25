@@ -56,13 +56,6 @@ public class UserController {
         return ResponseEntity.ok(admin);
     }
 
-    @GetMapping("/expert")
-    public ResponseEntity<Boolean> getExpertUser() {
-        UserDto userDto = currentUser();
-        Boolean admin = userService.isExpert(userDto);
-        return ResponseEntity.ok(admin);
-    }
-
     @GetMapping("/all")
     public ResponseEntity<List<UserDto>> getAllUsers() {
         UserDto userDto = currentUser();

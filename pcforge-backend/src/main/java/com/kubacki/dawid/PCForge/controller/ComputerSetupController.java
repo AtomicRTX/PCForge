@@ -54,4 +54,9 @@ public class ComputerSetupController {
         computerSetupService.ratingComputerSetup(userDto.getUser_id(), id, rating);
         return new ResponseEntity<>(HttpStatus.OK);
     }
+    @GetMapping("/{id}/rating")
+    public ResponseEntity<double[]> getRatingComputer(@PathVariable int id) {
+        double[] computerSetupRating = computerSetupService.getRatingsOfComputerSetup(id);
+        return new ResponseEntity<>(computerSetupRating, HttpStatus.OK);
+    }
 }

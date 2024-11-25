@@ -259,7 +259,6 @@ DROP TABLE st_tabela;
 -- Types
 INSERT INTO types (name)
 VALUES ('ADMIN'),
-       ('EXPERT'),
        ('USER');
 
 -- Users
@@ -382,20 +381,17 @@ DECLARE
     number FLOAT;
     unit TEXT;
 BEGIN
-    -- Usunięcie spacji i wyciągnięcie liczby
     number := COALESCE(NULLIF(regexp_replace(value, '[^0-9.]', '', 'g'), '')::FLOAT, 0);
-    -- Wyciągnięcie jednostki (GB, MB, itp.) ignorując wielkość liter i białe znaki
     unit := CASE
                 WHEN upper(value) LIKE '%GB%' THEN 'GB'
                 WHEN upper(value) LIKE '%MB%' THEN 'MB'
                 ELSE NULL
         END;
 
-    -- Przeliczenie na MB
     IF unit = 'GB' THEN
-        RETURN number * 1024; -- Konwersja z GB na MB
+        RETURN number * 1024;
     ELSE
-        RETURN number; -- Jeśli MB, pozostaje bez zmian
+        RETURN number;
     END IF;
 END;
 $$ LANGUAGE plpgsql;

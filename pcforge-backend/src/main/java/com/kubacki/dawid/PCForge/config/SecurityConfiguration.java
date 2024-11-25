@@ -22,7 +22,8 @@ public class SecurityConfiguration {
 
     private static final String[] WHITE_LIST_URL = {"/api/v1/auth/**",
             "/api/v1/computer/all",
-            "/api/v1/component/**"};
+            "/api/v1/component/**",
+            "/api/v1/computer/{id}/rating"};
 
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
     private final AuthenticationProvider authenticationProvider;

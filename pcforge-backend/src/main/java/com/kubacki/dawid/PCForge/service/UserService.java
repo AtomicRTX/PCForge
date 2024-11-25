@@ -9,7 +9,6 @@ public interface UserService {
     UserDto getById(int id);
     void updateUser(UserDto userDto);
     Boolean isAdmin(UserDto userDto);
-    Boolean isExpert(UserDto userDto);
     List<UserDto> getAllUsers();
     void deleteUser(int user_id);
 }
