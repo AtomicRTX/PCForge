@@ -13,11 +13,11 @@ public class RatingSetup {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int rating_id;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.REMOVE)
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.REMOVE)
     @JoinColumn(name="cs_id", nullable=false)
     private ComputerSetup computerSetup;
 

@@ -3,6 +3,8 @@ package com.kubacki.dawid.PCForge.controller;
 import com.kubacki.dawid.PCForge.dto.ComputerSetupRequest;
 import com.kubacki.dawid.PCForge.dto.RatingRequest;
 import com.kubacki.dawid.PCForge.dto.UserDto;
+import com.kubacki.dawid.PCForge.models.requirements.GameRequirements;
+import com.kubacki.dawid.PCForge.models.requirements.ProgramRequirements;
 import com.kubacki.dawid.PCForge.service.ComputerSetupService;
 import com.kubacki.dawid.PCForge.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -26,6 +28,14 @@ public class ComputerSetupController {
         ComputerSetupRequest savedComputerSetup = computerSetupService.createComputerSetup(computerSetupRequest);
         return new ResponseEntity<>(savedComputerSetup, HttpStatus.CREATED);
     }
+
+    @PostMapping("/addByGames")
+    public ResponseEntity<ComputerSetupRequest> addComputerByGames(@RequestBody List<GameRequirements> games, @RequestBody List<ProgramRequirements> programs) {
+        UserDto userDto = userService.getByEmail(SecurityContextHolder.getContext().getAuthentication().getName());
+        ComputerSetupRequest savedComputerSetup = computerSetupService.createComputerSetupByGames(userDto.getUser_id(), games, programs);
+        return new ResponseEntity<>(savedComputerSetup, HttpStatus.CREATED);
+    }
+
     @PostMapping("/{id}/delete")
     public ResponseEntity<ComputerSetupRequest> deleteComputer(@PathVariable int id) {
         UserDto userDto = userService.getByEmail(SecurityContextHolder.getContext().getAuthentication().getName());

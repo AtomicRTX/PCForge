@@ -14,7 +14,7 @@ public class GpuDto {
     private int gpu_id;
     private String name;
     private String producer;
-    private String gpuSize;
+    private int gpuSize;
     private int vram;
     private Integer tdp;
 }

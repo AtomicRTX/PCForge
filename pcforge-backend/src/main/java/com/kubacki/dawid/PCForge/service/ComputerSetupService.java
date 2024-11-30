@@ -1,6 +1,8 @@
 package com.kubacki.dawid.PCForge.service;
 
 import com.kubacki.dawid.PCForge.dto.ComputerSetupRequest;
+import com.kubacki.dawid.PCForge.models.requirements.GameRequirements;
+import com.kubacki.dawid.PCForge.models.requirements.ProgramRequirements;
 
 import java.util.List;
 
@@ -13,4 +15,5 @@ public interface ComputerSetupService {
     void rateComputerSetup(Integer user_id, Integer cs_id, Double rate);
     double[] getRatingsOfComputerSetup(Integer cs_id);
     double getRatingOfComputerSetup(Integer user_id, Integer cs_id);
+    ComputerSetupRequest createComputerSetupByGames(Integer user_id,List<GameRequirements> games, List<ProgramRequirements> programs);
 }

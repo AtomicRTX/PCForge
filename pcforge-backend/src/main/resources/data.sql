@@ -21,7 +21,21 @@ CREATE TEMP TABLE cpu_tabela
 
 COPY cpu_tabela FROM '/data_csv/CPUData.csv' DELIMITER ',' CSV HEADER;
 
-INSERT INTO cpus (name, base_clock, cores, producer, socket, threads, integral_gpu, tdp)
+CREATE TEMP TABLE cpu_ben
+(
+    Type       varchar(255),
+    PartNumber varchar(255),
+    Brand      varchar(255),
+    Model      varchar(255),
+    Rank       integer,
+    Benchmark  varchar(255),
+    Samples    varchar(255),
+    URL        varchar(255)
+);
+
+COPY cpu_ben FROM '/data_csv/UserBenchmark/CPU_UserBenchmarks.csv' DELIMITER ',' CSV HEADER;
+
+INSERT INTO cpus (name, base_clock, cores, producer, socket, threads, integral_gpu, tdp, rank)
 SELECT Name,
        regexp_replace(Base_clock, '[^\d.]+', '', 'g')::numeric,
        Cores,
@@ -29,12 +43,14 @@ SELECT Name,
        Socket,
        Threads,
        GPU,
-       regexp_replace(TDP, '[^\d.]+', '', 'g')::numeric
+       regexp_replace(TDP, '[^\d.]+', '', 'g')::numeric,
+       (SELECT cpu_ben.rank FROM cpu_ben WHERE cpu_tabela.MPN like cpu_ben.partnumber)
 FROM cpu_tabela
 WHERE regexp_replace(Base_clock, '[^\d.]+', '', 'g') <> '';
 
 DROP TABLE cpu_tabela;
 
+DROP TABLE cpu_ben;
 -- CASE
 
 CREATE TEMP TABLE case_tabela
@@ -112,18 +128,37 @@ CREATE TEMP TABLE gpu_tabela
     Product     varchar(255)
 );
 
+select * from gpu_tabela;
+
 COPY gpu_tabela FROM '/data_csv/GPUData.csv' DELIMITER ',' CSV HEADER;
 
-INSERT INTO gpus (name, producer, vram, gpu_size, tdp)
+CREATE TEMP TABLE gpu_ben
+(
+    Type       varchar(255),
+    PartNumber varchar(255),
+    Brand      varchar(255),
+    Model      varchar(255),
+    Rank       integer,
+    Benchmark  varchar(255),
+    Samples    varchar(255),
+    URL        varchar(255)
+);
+
+COPY gpu_ben FROM '/data_csv/UserBenchmark/GPU_UserBenchmarks.csv' DELIMITER ',' CSV HEADER;
+
+INSERT INTO gpus (name, producer, vram, gpu_size, tdp, rank)
 SELECT Name,
        Producer,
        regexp_replace(Vram, '[^\d.]+', '', 'g')::numeric,
        regexp_replace(Length, '[^\d.]+', '', 'g')::numeric,
-       regexp_replace(TDP, '[^\d.]+', '', 'g')::numeric
+       regexp_replace(TDP, '[^\d.]+', '', 'g')::numeric,
+       (SELECT gpu_ben.rank FROM gpu_ben WHERE gpu_tabela.MPN LIKE gpu_ben.partnumber AND gpu_ben.PartNumber <> '' LIMIT 1)
 FROM gpu_tabela
 WHERE regexp_replace(Length, '[^\d.]+', '', 'g') <> '';
 
 DROP TABLE gpu_tabela;
+
+DROP TABLE gpu_ben;
 
 -- Motherboard
 
@@ -216,16 +251,33 @@ CREATE TEMP TABLE ram_tabela
 
 COPY ram_tabela FROM '/data_csv/RAMData.csv' DELIMITER ',' CSV HEADER;
 
-INSERT INTO RAM (name, ram_type, clock, size, sticks)
+CREATE TEMP TABLE ram_ben
+(
+    Type       varchar(255),
+    PartNumber varchar(255),
+    Brand      varchar(255),
+    Model      varchar(255),
+    Rank       integer,
+    Benchmark  varchar(255),
+    Samples    varchar(255),
+    URL        varchar(255)
+);
+
+COPY ram_ben FROM '/data_csv/UserBenchmark/RAM_UserBenchmarks.csv' DELIMITER ',' CSV HEADER;
+
+INSERT INTO RAM (name, ram_type, clock, size, sticks, rank)
 SELECT Name,
        substring(RAM_Type, 1, 4),
        Clock,
        regexp_replace(Size, '[^\d.]+', '', 'g')::numeric,
-       Sticks
+       Sticks,
+       (SELECT ram_ben.rank FROM ram_ben WHERE ram_tabela.MPN LIKE ram_ben.partnumber AND ram_ben.PartNumber <> '' LIMIT 1)
 FROM ram_tabela
 WHERE regexp_replace(Size, '[^\d.]+', '', 'g') <> '';
 
 DROP TABLE ram_tabela;
+
+DROP TABLE ram_ben;
 
 --Storage
 
@@ -247,14 +299,31 @@ CREATE TEMP TABLE st_tabela
 
 COPY st_tabela FROM '/data_csv/SSDData.csv' DELIMITER ',' CSV HEADER;
 
-INSERT INTO storage (name, producer, size)
+CREATE TEMP TABLE st_ben
+(
+    Type       varchar(255),
+    PartNumber varchar(255),
+    Brand      varchar(255),
+    Model      varchar(55255),
+    Rank       integer,
+    Benchmark  varchar(255),
+    Samples    varchar(255),
+    URL        varchar(255)
+);
+
+COPY st_ben FROM '/data_csv/UserBenchmark/SSD_UserBenchmarks.csv' DELIMITER ',' CSV HEADER;
+
+INSERT INTO storage (name, producer, size, rank)
 SELECT Name,
        Producer,
-       regexp_replace(Size, '[^\d.]+', '', 'g')::numeric
+       regexp_replace(Size, '[^\d.]+', '', 'g')::numeric,
+       (SELECT st_ben.rank FROM st_ben WHERE st_tabela.MPN LIKE st_ben.partnumber AND st_ben.PartNumber <> '' LIMIT 1)
 FROM st_tabela
 WHERE regexp_replace(Size, '[^\d.]+', '', 'g') <> '';
 
 DROP TABLE st_tabela;
+
+DROP TABLE st_ben;
 
 -- Types
 INSERT INTO types (name)
@@ -270,7 +339,7 @@ VALUES ('admin@gmail.com', 'Admin', '$2a$10$DfdikuGE0AgXrecMgdmwj.5GVHZLyhz1XkAU
 INSERT INTO user_types (type_id, user_id)
 VALUES (1, 1),
        (2, 2),
-       (3, 3);
+       (2, 3);
 
 -- Game requirements
 
@@ -354,7 +423,7 @@ CREATE TEMP TABLE game_tabela
     Recom_GPU_HDMI_Connection        varchar(255),
     Recom_GPU_DisplayPort_Connection varchar(255),
     Recom_GPU_Boost_Clock            varchar(255),
-    Recom_GPU_PSU                       varchar(255),
+    Recom_GPU_PSU                    varchar(255),
     Recom_GPU_Power_Connector        varchar(255),
     Recom_GPU_Best_RAM_Match         varchar(255),
     Recom_GPU_Best_Resolution        varchar(255),
@@ -376,10 +445,11 @@ CREATE TEMP TABLE game_tabela
 COPY game_tabela FROM '/data_csv/videogame_requirements.csv' DELIMITER ',' CSV HEADER;
 
 CREATE OR REPLACE FUNCTION ConvertToMB(value TEXT)
-    RETURNS FLOAT AS $$
+    RETURNS FLOAT AS
+$$
 DECLARE
     number FLOAT;
-    unit TEXT;
+    unit   TEXT;
 BEGIN
     number := COALESCE(NULLIF(regexp_replace(value, '[^0-9.]', '', 'g'), '')::FLOAT, 0);
     unit := CASE
@@ -396,7 +466,8 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
-INSERT INTO game_requirements (name, MinCPUSpeed, RecomCPUSpeed, MinCPUCore, RecomCPUCore, MinCPUThread, RecomCPUThread, MinGPUvram, RecomGPUvram, Min_Ram, Recom_Ram, HDDSpace)
+INSERT INTO game_requirements (name, MinCPUSpeed, RecomCPUSpeed, MinCPUCore, RecomCPUCore, MinCPUThread, RecomCPUThread,
+                               MinGPUvram, RecomGPUvram, Min_Ram, Recom_Ram, HDDSpace)
 SELECT Name,
        Min_CPU_CPU_Speed,
        Recom_CPU_CPU_Speed,
@@ -411,23 +482,36 @@ SELECT Name,
        ConvertToMB(Min_HDD_Space)
 FROM game_tabela
 
-WHERE Min_CPU_CPU_Speed is not null AND Min_CPU_CPU_Speed <> 0.0 AND
-    Recom_CPU_CPU_Speed is not null AND Recom_CPU_CPU_Speed <> 0.0 AND
-    Min_CPU_Physical_Cores is not null AND Min_CPU_Physical_Cores <> 0.0 AND
-    Recom_CPU_Physical_Cores is not null AND Recom_CPU_Physical_Cores <> 0.0 AND
-    Min_CPU_Threads is not null AND Min_CPU_Threads <> 0.0 AND
-    Recom_CPU_Threads is not null AND Recom_CPU_Threads <> 0.0 AND
-    ConvertToMB(Min_VRAM)  is not null AND ConvertToMB(Min_VRAM) <> 0.0 AND
-    ConvertToMB(Recom_VRAM)  is not null AND ConvertToMB(Recom_VRAM) <> 0.0 AND
-    ConvertToMB(Min_RAM)  is not null AND ConvertToMB(Min_RAM) <> 0.0 AND
-    ConvertToMB(Recom_RAM)  is not null AND ConvertToMB(Recom_RAM) <> 0.0 AND
-    ConvertToMB(Min_HDD_Space)  is not null AND  ConvertToMB(Min_HDD_Space) <> 0.0;
+WHERE Min_CPU_CPU_Speed is not null
+  AND Min_CPU_CPU_Speed <> 0.0
+  AND Recom_CPU_CPU_Speed is not null
+  AND Recom_CPU_CPU_Speed <> 0.0
+  AND Min_CPU_Physical_Cores is not null
+  AND Min_CPU_Physical_Cores <> 0.0
+  AND Recom_CPU_Physical_Cores is not null
+  AND Recom_CPU_Physical_Cores <> 0.0
+  AND Min_CPU_Threads is not null
+  AND Min_CPU_Threads <> 0.0
+  AND Recom_CPU_Threads is not null
+  AND Recom_CPU_Threads <> 0.0
+  AND ConvertToMB(Min_VRAM) is not null
+  AND ConvertToMB(Min_VRAM) <> 0.0
+  AND ConvertToMB(Recom_VRAM) is not null
+  AND ConvertToMB(Recom_VRAM) <> 0.0
+  AND ConvertToMB(Min_RAM) is not null
+  AND ConvertToMB(Min_RAM) <> 0.0
+  AND ConvertToMB(Recom_RAM) is not null
+  AND ConvertToMB(Recom_RAM) <> 0.0
+  AND ConvertToMB(Min_HDD_Space) is not null
+  AND ConvertToMB(Min_HDD_Space) <> 0.0;
 
 drop table game_tabela;
 
-DELETE FROM cpus
+DELETE
+FROM cpus
 WHERE socket NOT IN (SELECT socket from motherboards);
 
-DELETE FROM motherboards
+DELETE
+FROM motherboards
 WHERE socket NOT IN (SELECT socket from cpus);
 

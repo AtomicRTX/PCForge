@@ -21,4 +21,6 @@ public class Storage {
     @Column(nullable=false)
     private int size;
 
+    @Column()
+    private Integer rank;
 }

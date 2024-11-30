@@ -26,4 +26,7 @@ public class RAM {
 
     @Column(nullable=false)
     private int sticks;
+
+    @Column()
+    private Integer rank;
 }

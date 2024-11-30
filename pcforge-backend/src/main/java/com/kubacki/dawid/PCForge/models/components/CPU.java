@@ -35,4 +35,7 @@ public class CPU {
 
     @Column(nullable = false)
     private Integer tdp;
+
+    @Column()
+    private Integer rank;
 }

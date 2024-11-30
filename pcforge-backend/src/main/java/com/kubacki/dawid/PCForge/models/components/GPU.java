@@ -19,11 +19,14 @@ public class GPU {
     private String producer;
 
     @Column(nullable=false)
-    private String gpuSize;
+    private int gpuSize;
 
     @Column(nullable=false)
     private int vram;
 
     @Column(nullable = false)
     private Integer tdp;
+
+    @Column()
+    private Integer rank;
 }
