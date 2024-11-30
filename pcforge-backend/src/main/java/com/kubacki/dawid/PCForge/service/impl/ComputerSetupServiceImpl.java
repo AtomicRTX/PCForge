@@ -137,9 +137,7 @@ public class ComputerSetupServiceImpl implements ComputerSetupService {
     public double getRatingOfComputerSetup(Integer user_id, Integer cs_id) {
         User user = userRepository.findById(user_id).orElseThrow(() -> new RuntimeException("User not found."));
         ComputerSetup computerSetup = computerSetupRepository.findById(cs_id).orElseThrow(() -> new RuntimeException("Computer setup not found."));
-        double rate = ratingRepository.findRatingByUserAndComputerSetup(user, computerSetup);
-        System.out.println(rate);
-        return rate;
+        return ratingRepository.findRatingByUserAndComputerSetup(user, computerSetup);
     }
 
 
