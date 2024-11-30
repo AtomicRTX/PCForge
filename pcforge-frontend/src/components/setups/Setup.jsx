@@ -24,7 +24,8 @@ const Setup = ({computerSetup, onDiscard, remove}) => {
         ram: {},
         case: {},
         power: {},
-        storage: {}
+        storage: {},
+        user: computerSetup.user_id
     })
 
     useEffect(() => {

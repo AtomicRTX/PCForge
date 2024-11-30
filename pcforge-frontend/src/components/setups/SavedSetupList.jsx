@@ -13,7 +13,10 @@ const SavedSetupList = ({setups}) => {
     const [itemOffset, setItemOffset] = useState(0);
     const [itemsPerPage, setItemsPerPage] = useState(4);
 
+    const [loading, setLoading] = useState(false)
+
     useEffect(() => {
+        setLoading(false);
         UserService.getUser()
             .then(data => {
                     setUser(data);
@@ -33,6 +36,7 @@ const SavedSetupList = ({setups}) => {
 
             fetchSavedSetups();
         }
+        setLoading(true);
     }, [setups]);
 
     const endOffset = itemOffset + itemsPerPage;
@@ -48,6 +52,11 @@ const SavedSetupList = ({setups}) => {
     const handleDiscard = (cs_id) => {
         setFilteredSetup(prevSetups => prevSetups.filter(setup => setup.cs_id !== cs_id));
     };
+
+    if(!loading){
+        <>
+        </>
+    }
 
     return (
         <div key={itemOffset} className='flex flex-col h-full w-5/6 mx-auto mt-5 gap-4 relative'>

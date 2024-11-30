@@ -24,7 +24,7 @@ const SetupModal = ({cs_id, setup, isModalOpen, onClose, user}) => {
     }
 
     useEffect(() => {
-        if(user)
+        if(user && user.user_id !== setup.user)
         ComputerService.getRatingOfComputerSetup(cs_id).then(data => setRate(data))
     }, [isModalOpen]);
 
@@ -35,7 +35,7 @@ const SetupModal = ({cs_id, setup, isModalOpen, onClose, user}) => {
             <button onClick={closeModal} className='absolute top-2 left-2'><FontAwesomeIcon
                 className='size-6 lg:size-8' icon={faCircleArrowLeft}/></button>
             <div className="flex items-center">
-                {user ?
+                {user && user.user_id !== setup.user ?
                     <div className="flex items-center mx-auto">
                         <img src={SETUP} className='w-48' alt="Setup"/>
                         <div className="relative flex-col">
