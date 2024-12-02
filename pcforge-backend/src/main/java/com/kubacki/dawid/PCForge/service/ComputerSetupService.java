@@ -1,8 +1,8 @@
 package com.kubacki.dawid.PCForge.service;
 
 import com.kubacki.dawid.PCForge.dto.ComputerSetupRequest;
-import com.kubacki.dawid.PCForge.models.requirements.GameRequirements;
-import com.kubacki.dawid.PCForge.models.requirements.ProgramRequirements;
+import com.kubacki.dawid.PCForge.models.software.GameRequirements;
+import com.kubacki.dawid.PCForge.models.software.ProgramRequirements;
 
 import java.util.List;
 

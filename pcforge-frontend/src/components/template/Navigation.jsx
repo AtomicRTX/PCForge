@@ -84,7 +84,7 @@ const Navigation = () => {
                                     yourself</Link>
                             </li>
                             <li>
-                                <Link to="#" className="block py-2 hover:text-sky-500 opacity-90">By your games</Link>
+                                <Link to="/confs" className="block py-2 hover:text-sky-500 opacity-90">By your games</Link>
                             </li>
                         </ul>
                     </div>

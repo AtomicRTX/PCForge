@@ -7,6 +7,7 @@ import ConfiguratorUserPage from "./pages/configuratorUser/ConfiguratorUserPage"
 import UserSetupsPage from "./pages/setups/UserSetupsPage";
 import SavedSetupsPage from "./pages/setups/SavedSetupsPage";
 import YourSetupPage from "./pages/setups/YourSetupPage";
+import ConfiguratorSoftwarePage from "./pages/configuratorSoftware/ConfiguratorSoftwarePage";
 
 function App() {
     return (
@@ -16,6 +17,7 @@ function App() {
                 <Route path={'/register'} element={<RegisterPage/>}/>
                 <Route path={'/'} element={<HomePage/>}/>
                 <Route path={'/confy'} element={<ConfiguratorUserPage/>}/>
+                <Route path={'/confs'} element={<ConfiguratorSoftwarePage/>}/>
                 <Route path={'/userSetups'} element={<UserSetupsPage/>}/>
                 <Route path={'/savedSetups'} element={<SavedSetupsPage/>}/>
                 <Route path={'/yourSetups'} element={<YourSetupPage/>}/>

@@ -2,8 +2,8 @@ package com.kubacki.dawid.PCForge.service.impl;
 
 import com.kubacki.dawid.PCForge.dto.ComputerSetupRequest;
 import com.kubacki.dawid.PCForge.mapper.ComputerSetupMapper;
-import com.kubacki.dawid.PCForge.models.requirements.GameRequirements;
-import com.kubacki.dawid.PCForge.models.requirements.ProgramRequirements;
+import com.kubacki.dawid.PCForge.models.software.GameRequirements;
+import com.kubacki.dawid.PCForge.models.software.ProgramRequirements;
 import com.kubacki.dawid.PCForge.models.setups.ComputerSetup;
 import com.kubacki.dawid.PCForge.models.setups.RatingSetup;
 import com.kubacki.dawid.PCForge.models.setups.SavedSetup;

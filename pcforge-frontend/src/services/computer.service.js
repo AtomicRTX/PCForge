@@ -18,6 +18,10 @@ class ComputerService {
         }, {headers: authHeader()})
     }
 
+    createComputerSetupByGames(games, programs){
+        return axios.post(API_URL + 'addByGames', {games: games, programs: programs}, {headers: authHeader()})
+    }
+
     getAllComputers() {
         return axios.get(API_URL + `all`)
             .then(response => {
