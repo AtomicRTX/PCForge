@@ -11,12 +11,12 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 
 public class MotherboardDto {
-    private int mb_id;
+    private Integer mb_id;
     private String name;
     private String producer;
     private String socket;
     private String form_factor;
     private String memory_type;
-    private int memory_capacity;
-    private int memory_slots;
+    private Integer memory_capacity;
+    private Integer memory_slots;
 }

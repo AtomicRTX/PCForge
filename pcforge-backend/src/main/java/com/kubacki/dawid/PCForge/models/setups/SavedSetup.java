@@ -11,7 +11,7 @@ import lombok.Setter;
 public class SavedSetup {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int saved_id;
+    private Integer saved_id;
 
     @ManyToOne(cascade = CascadeType.REMOVE)
     @JoinColumn(name = "user_id", nullable = false)

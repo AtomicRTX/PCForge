@@ -6,11 +6,11 @@ import SETUP from '../../assets/Setup.svg';
 import ComponentService from '../../services/component.service';
 import UserService from '../../services/user.service';
 import ComputerService from '../../services/computer.service';
-import SetupModal from "./SetupModal";
+import SetupModal from "../setups/SetupModal";
 
 import ReactStars from "react-rating-stars-component";
 
-const Setup = ({computerSetup, onDiscard, remove}) => {
+const HomeSetup = ({computerSetup, onDiscard, remove}) => {
 
     const [user, setUser] = useState(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -69,7 +69,7 @@ const Setup = ({computerSetup, onDiscard, remove}) => {
     };
     return (
         <button onClick={() => setIsModalOpen(true)} className='text-left'>
-            <div className='flex bg-white h-36 p-4 rounded-lg justify-between text-sm'>
+            <div className='flex bg-white h-36 p-4 rounded-lg justify-between'>
                 <div className='flex'>
                     <img src={SETUP} className='w-36' alt="Setup"/>
                     <div className='flex space-x-12 my-auto w-3/5'>
@@ -106,18 +106,18 @@ const Setup = ({computerSetup, onDiscard, remove}) => {
                 </div>
                 {user ? (
                     remove ? (
-                        <button className="bg-red-500 text-base text-white rounded-lg hover:bg-red-700 focus:outline-none w-1/6 h-3/4 my-auto" onClick={(e) => {handleDeleteClick(e);}}> Delete setup</button>
+                        <button className="bg-red-500 text-white rounded-lg hover:bg-red-700 focus:outline-none w-1/6 h-3/4 my-auto" onClick={(e) => {handleDeleteClick(e);}}> Delete setup</button>
                     ) : (
                         isSaved ? (
-                            <button className="bg-gray-500 text-base text-white rounded-lg hover:bg-sky-700 focus:outline-none w-1/6 h-3/4 my-auto" onClick={(e) => {handleSaveClick(e);}}> Discard setup </button>
+                            <button className="bg-gray-500 text-white rounded-lg hover:bg-sky-700 focus:outline-none w-1/6 h-3/4 my-auto" onClick={(e) => {handleSaveClick(e);}}> Discard setup </button>
                         ) : (
-                            <button className="bg-sky-500 text-base text-white rounded-lg hover:bg-sky-700 focus:outline-none w-1/6 h-3/4 my-auto" onClick={(e) => {handleSaveClick(e);}}> Save setup </button>
+                            <button className="bg-sky-500 text-white rounded-lg hover:bg-sky-700 focus:outline-none w-1/6 h-3/4 my-auto" onClick={(e) => {handleSaveClick(e);}}> Save setup </button>
                         )
                     )
 
                 ) : (
                     <Link to="/login"
-                          className="flex items-center text-base bg-sky-500 text-white rounded-lg hover:bg-sky-700 focus:outline-none focus:bg-sky-900 w-1/6 h-3/4 my-auto">
+                          className="flex items-center bg-sky-500 text-white rounded-lg hover:bg-sky-700 focus:outline-none focus:bg-sky-900 w-1/6 h-3/4 my-auto">
                         <p className="mx-auto">Log in to save</p>
                     </Link>
                 )}
@@ -126,4 +126,4 @@ const Setup = ({computerSetup, onDiscard, remove}) => {
         </button>
     )
 }
-export default Setup;
+export default HomeSetup;

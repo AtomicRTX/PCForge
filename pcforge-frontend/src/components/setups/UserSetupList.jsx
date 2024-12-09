@@ -10,7 +10,7 @@ const UserSetupList = ({setups}) => {
     const [filteredSetup, setFilteredSetup] = useState([]);
 
     const [itemOffset, setItemOffset] = useState(0);
-    const [itemsPerPage, setItemsPerPage] = useState(4);
+    const [itemsPerPage, setItemsPerPage] = useState(5);
 
     const [loading, setLoading] = useState(false)
 

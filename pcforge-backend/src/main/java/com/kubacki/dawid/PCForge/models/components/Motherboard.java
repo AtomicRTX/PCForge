@@ -10,7 +10,7 @@ import lombok.Getter;
 public class Motherboard {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int mb_id;
+    private Integer mb_id;
 
     @Column(nullable=false)
     private String name;
@@ -28,8 +28,8 @@ public class Motherboard {
     private String memory_type;
 
     @Column(nullable=false)
-    private int memory_capacity;
+    private Integer memory_capacity;
 
     @Column(nullable=false)
-    private int memory_slots;
+    private Integer memory_slots;
 }

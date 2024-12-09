@@ -10,7 +10,7 @@ import lombok.Getter;
 public class GPU {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int gpu_id;
+    private Integer gpu_id;
 
     @Column(nullable=false)
     private String name;
@@ -19,10 +19,10 @@ public class GPU {
     private String producer;
 
     @Column(nullable=false)
-    private int gpuSize;
+    private Integer gpuSize;
 
     @Column(nullable=false)
-    private int vram;
+    private Integer vram;
 
     @Column(nullable = false)
     private Integer tdp;

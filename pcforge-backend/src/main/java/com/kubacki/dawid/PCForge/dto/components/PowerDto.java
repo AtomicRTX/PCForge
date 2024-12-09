@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 
 public class PowerDto {
-    private int power_id;
+    private Integer power_id;
     private String name;
     private Integer watt;
     private String size;

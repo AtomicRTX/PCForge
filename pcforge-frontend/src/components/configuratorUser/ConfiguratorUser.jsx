@@ -14,6 +14,7 @@ import ComponentService from '../../services/component.service';
 import ComputerService from '../../services/computer.service';
 import UserService from '../../services/user.service';
 import ComponentSelect from "./ComponentSelect";
+import CreateSetupModal from "./CreateSetupModal";
 
 const ConfiguratorUser = () => {
 
@@ -49,6 +50,9 @@ const ConfiguratorUser = () => {
         cpu: 0,
         gpu: 0
     });
+
+    const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
+    const [setup, setSetup] = useState({})
 
     useEffect(() => {
         UserService.getUser()
@@ -234,9 +238,9 @@ const ConfiguratorUser = () => {
             setMessage(`You choice too weak power supply. You need at least ${(tdp.cpu + tdp.gpu + 80 + 10 + 5)} W.`);
         } else {
             ComputerService.createComputerSetup(user.user_id, selectedComputerCase.value, selectedCpu.value, selectedGpu.value, selectedRam.value, selectedMotherboard.value, selectedPowerSupply.value, selectedDrive.value)
-                .then(() => {
-                    setMessage(`Create successful.\n`);
-                    navigate("/");
+                .then(data => {
+                    setSetup(data.data)
+                    setIsCreateModalOpen(true)
                 })
                 .catch(error => {
                     const comMessage =
@@ -312,6 +316,7 @@ const ConfiguratorUser = () => {
                         </button>
                         {message && <div className='absolute bottom-4 text-red-600 font-bold'>{message}</div>}
                     </Form>
+                    <CreateSetupModal isModalOpen={isCreateModalOpen} computerSetup={setup} onClose={() => navigate("/")}/>
                 </>
             ) : (
                 <div className='space-y-20'>

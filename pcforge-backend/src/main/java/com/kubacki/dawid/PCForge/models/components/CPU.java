@@ -10,7 +10,7 @@ import lombok.Getter;
 public class CPU {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int cpu_id;
+    private Integer cpu_id;
 
     @Column(nullable=false)
     private String name;
@@ -19,10 +19,10 @@ public class CPU {
     private String producer;
 
     @Column(nullable=false)
-    private int cores;
+    private Integer cores;
 
     @Column(nullable=false)
-    private int threads;
+    private Integer threads;
 
     @Column()
     private Double base_clock;

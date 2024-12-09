@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 
 public class ComputerCaseDto {
-    private int case_id;
+    private Integer case_id;
     private String name;
     private String producer;
     private String motherboard;

@@ -10,7 +10,7 @@ import lombok.Getter;
 public class ComputerCase {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int case_id;
+    private Integer case_id;
 
     @Column(nullable=false)
     private String name;

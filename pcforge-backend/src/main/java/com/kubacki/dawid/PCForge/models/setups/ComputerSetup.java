@@ -17,7 +17,7 @@ import lombok.*;
 public class ComputerSetup {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int cs_id;
+    private Integer cs_id;
 
     @ManyToOne
     @JoinColumn(name = "cpu_id", nullable = false)

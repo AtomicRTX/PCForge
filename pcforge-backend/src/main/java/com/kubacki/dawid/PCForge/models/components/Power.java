@@ -10,7 +10,7 @@ import lombok.Getter;
 public class Power {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int power_id;
+    private Integer power_id;
 
     @Column(nullable=false)
     private String name;

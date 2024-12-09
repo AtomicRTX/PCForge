@@ -10,41 +10,41 @@ import lombok.Getter;
 public class GameRequirements {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int game_id;
+    private Integer game_id;
 
     @Column(nullable=false)
     private String name;
 
     @Column(nullable=false)
-    private float MinCPUSpeed;
+    private Double min_cpu_speed;
 
     @Column(nullable=false)
-    private float RecomCPUSpeed;
+    private Double recom_cpu_speed;
 
     @Column(nullable=false)
-    private float MinCPUCore;
+    private Double min_cpu_cores;
 
     @Column(nullable=false)
-    private float RecomCPUCore;
+    private Double recom_cpu_cores;
 
     @Column(nullable=false)
-    private float MinCPUThread;
+    private Double min_cpu_threads;
 
     @Column(nullable=false)
-    private float RecomCPUThread;
+    private Double recom_cpu_threads;
 
     @Column(nullable=false)
-    private float MinGPUvram;
+    private Double min_gpu_vram;
 
     @Column(nullable=false)
-    private float RecomGPUvram;
+    private Double recom_gpu_vram;
 
     @Column(nullable=false)
-    private float MinRam;
+    private Double min_ram;
 
     @Column(nullable=false)
-    private float RecomRam;
+    private Double recom_ram;
 
     @Column(nullable=false)
-    private float HDDSpace;
+    private Double hdd_space;
 }

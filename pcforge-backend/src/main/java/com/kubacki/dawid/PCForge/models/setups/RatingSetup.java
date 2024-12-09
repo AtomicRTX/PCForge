@@ -11,7 +11,7 @@ import lombok.Setter;
 public class RatingSetup {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int rating_id;
+    private Integer rating_id;
 
     @ManyToOne(cascade = CascadeType.REMOVE)
     @JoinColumn(name = "user_id", nullable = false)

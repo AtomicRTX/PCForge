@@ -6,6 +6,8 @@ import SoftwareSelect from "./SoftwareSelect";
 import UserService from "../../services/user.service";
 import ComputerService from "../../services/computer.service";
 import SoftwareService from "../../services/software.service";
+import gameIcon from '../../assets/GameIcon.png'
+import programIcon from '../../assets/ProgramIcon.png'
 
 const ConfiguratorSoftware = () => {
 
@@ -70,11 +72,11 @@ const ConfiguratorSoftware = () => {
                 <>
                     <p className='text-center text-2xl font-bold font-mono opacity-90 my-4'>PC Configurator</p>
                     <Form onSubmit={handleComputerCreator} className='relative flex items-center flex-col h-full w-full space-y-10'>
-                        <SoftwareSelect name="Games in minimal settings" options={gamesOptions}/>
+                        <SoftwareSelect name="Games in minimal settings" options={gamesOptions} image={gameIcon}/>
 
-                        <SoftwareSelect name="Games in recommend settings" options={gamesOptions}/>
+                        <SoftwareSelect name="Games in recommend settings" options={gamesOptions} image={gameIcon}/>
 
-                        <SoftwareSelect name="Programs in minimal settings" options={programsOptions}/>
+                        <SoftwareSelect name="Programs in minimal settings" options={programsOptions} image={programIcon}/>
 
                         <button
                             className="bg-sky-500 text-white rounded-lg h-10 hover:bg-sky-700 focus:outline-none focus:bg-sky-900 w-1/3 my-2">Generate

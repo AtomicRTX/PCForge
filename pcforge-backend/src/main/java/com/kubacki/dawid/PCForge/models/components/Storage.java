@@ -10,7 +10,7 @@ import lombok.Getter;
 public class Storage {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int st_id;
+    private Integer st_id;
 
     @Column(nullable=false)
     private String name;
@@ -19,7 +19,7 @@ public class Storage {
     private String producer;
 
     @Column(nullable=false)
-    private int size;
+    private Integer size;
 
     @Column()
     private Integer rank;

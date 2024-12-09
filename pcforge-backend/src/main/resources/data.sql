@@ -466,8 +466,8 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
-INSERT INTO game_requirements (name, MinCPUSpeed, RecomCPUSpeed, MinCPUCore, RecomCPUCore, MinCPUThread, RecomCPUThread,
-                               MinGPUvram, RecomGPUvram, Min_Ram, Recom_Ram, HDDSpace)
+INSERT INTO game_requirements (name, Min_CPU_Speed, Recom_CPU_Speed, Min_CPU_Cores, Recom_CPU_Cores, Min_CPU_Threads, Recom_CPU_Threads,
+                               Min_GPU_vram, Recom_GPU_vram, Min_Ram, Recom_Ram, HDD_Space)
 SELECT Name,
        Min_CPU_CPU_Speed,
        Recom_CPU_CPU_Speed,

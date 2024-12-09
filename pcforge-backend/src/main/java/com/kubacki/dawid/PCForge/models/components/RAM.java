@@ -10,7 +10,7 @@ import lombok.Getter;
 public class RAM {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int ram_id;
+    private Integer ram_id;
 
     @Column(nullable=false)
     private String name;
@@ -25,7 +25,7 @@ public class RAM {
     private Double size;
 
     @Column(nullable=false)
-    private int sticks;
+    private Integer sticks;
 
     @Column()
     private Integer rank;

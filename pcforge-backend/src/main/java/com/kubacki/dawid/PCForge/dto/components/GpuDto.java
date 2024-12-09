@@ -11,10 +11,10 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 
 public class GpuDto {
-    private int gpu_id;
+    private Integer gpu_id;
     private String name;
     private String producer;
-    private int gpuSize;
-    private int vram;
+    private Integer gpuSize;
+    private Integer vram;
     private Integer tdp;
 }

@@ -11,10 +11,10 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 
 public class RamDto {
-    private int ram_id;
+    private Integer ram_id;
     private String name;
     private String ram_type;
     private String clock;
     private Double size;
-    private int sticks;
+    private Integer sticks;
 }

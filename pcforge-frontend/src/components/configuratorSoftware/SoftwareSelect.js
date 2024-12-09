@@ -1,7 +1,7 @@
 import React from 'react';
 import Select from 'react-select';
 
-const SoftwareSelect = ({name, value, options, placeholder, onChange}) => {
+const SoftwareSelect = ({name, value, options, placeholder, onChange, image}) => {
 
     const customStyles = {
         control: (provided, state) => ({
@@ -22,8 +22,9 @@ const SoftwareSelect = ({name, value, options, placeholder, onChange}) => {
 
     return (
         <label
-            className='flex flex-col relative rounded-lg border border-[#e9e9e9] shadow-md w-4/5 p-5'>
-            <p className='text-left text-lg my-4 font-bold opacity-80'>{name}</p>
+            className='flex flex-col relative rounded-lg border border-[#e9e9e9] shadow-md w-4/5 p-5 items-center'>
+            <img src={image} className='h-14 w-14' alt="LOGO"/>
+            <p className='text-center text-lg my-4 font-bold opacity-80'>{name}</p>
             <Select
                 name={name}
                 options={options}

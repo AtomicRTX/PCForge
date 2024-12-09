@@ -11,11 +11,11 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 
 public class CpuDto {
-    private int cpu_id;
+    private Integer cpu_id;
     private String name;
     private String producer;
-    private int cores;
-    private int threads;
+    private Integer cores;
+    private Integer threads;
     private Double base_clock;
     private String socket;
     private String integral_gpu;

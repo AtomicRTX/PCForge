@@ -11,8 +11,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 
 public class StorageDto {
-    private int st_id;
+    private Integer st_id;
     private String name;
     private String producer;
-    private int size;
+    private Integer size;
 }

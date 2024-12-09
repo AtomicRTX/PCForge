@@ -97,26 +97,26 @@ public class ComputerSetupServiceImpl implements ComputerSetupService {
         double gpuVram = 0;
 
         for (GameRequirements g : games) {
-            hddSpace = hddSpace + g.getHDDSpace();
-            if(g.getMinRam() > ram) ram = g.getMinRam();
-            else if(g.getRecomRam() > ram) ram = g.getMinRam();
-            else if(g.getMinCPUCore() > cpuCore) cpuCore = g.getMinCPUCore();
-            else if(g.getRecomCPUCore() > cpuCore) cpuCore = g.getRecomCPUCore();
-            else if(g.getMinCPUThread() > cpuThread) cpuThread = g.getMinCPUThread();
-            else if(g.getRecomCPUThread() > cpuThread) cpuThread = g.getRecomCPUThread();
-            else if(g.getMinCPUSpeed() > cpuSpeed) cpuSpeed = g.getMinCPUSpeed();
-            else if(g.getRecomCPUSpeed() > cpuSpeed) cpuSpeed = g.getRecomCPUSpeed();
-            else if(g.getMinGPUvram() > gpuVram) gpuVram = g.getMinGPUvram();
-            else if(g.getRecomGPUvram() > gpuVram) gpuVram = g.getRecomGPUvram();
+            hddSpace = hddSpace + g.getHdd_space();
+            if(g.getMin_ram() > ram) ram = g.getMin_ram();
+            else if(g.getRecom_ram() > ram) ram = g.getMin_ram();
+            else if(g.getMin_cpu_cores() > cpuCore) cpuCore = g.getMin_cpu_cores();
+            else if(g.getRecom_cpu_cores() > cpuCore) cpuCore = g.getRecom_cpu_cores();
+            else if(g.getMin_cpu_threads() > cpuThread) cpuThread = g.getMin_cpu_threads();
+            else if(g.getRecom_cpu_threads() > cpuThread) cpuThread = g.getRecom_cpu_threads();
+            else if(g.getMin_cpu_speed() > cpuSpeed) cpuSpeed = g.getMin_cpu_speed();
+            else if(g.getRecom_cpu_speed() > cpuSpeed) cpuSpeed = g.getRecom_cpu_speed();
+            else if(g.getMin_gpu_vram() > gpuVram) gpuVram = g.getMin_gpu_vram();
+            else if(g.getRecom_gpu_vram() > gpuVram) gpuVram = g.getRecom_gpu_vram();
         }
 
         for(ProgramRequirements p : programs){
-            hddSpace = hddSpace + p.getHDDSpace();
-            if(p.getMinRam() > ram) ram = p.getMinRam();
-            else if(p.getMinCPUCore() > cpuCore) cpuCore = p.getMinCPUCore();
-            else if(p.getMinCPUThread() > cpuThread) cpuThread = p.getMinCPUThread();
-            else if(p.getMinCPUSpeed() > cpuSpeed) cpuSpeed = p.getMinCPUSpeed();
-            else if(p.getMinGPUvram() > gpuVram) gpuVram = p.getMinGPUvram();
+            hddSpace = hddSpace + p.getHdd_space();
+            if(p.getMin_ram() > ram) ram = p.getMin_ram();
+            else if(p.getMin_cpu_cores() > cpuCore) cpuCore = p.getMin_cpu_cores();
+            else if(p.getMin_cpu_threads() > cpuThread) cpuThread = p.getMin_cpu_threads();
+            else if(p.getMin_cpu_speed() > cpuSpeed) cpuSpeed = p.getMin_cpu_speed();
+            else if(p.getMin_gpu_vram() > gpuVram) gpuVram = p.getMin_gpu_vram();
         }
 
         var cpu = cpuRepository.getCPUToCS(cpuCore, cpuSpeed, cpuThread);
