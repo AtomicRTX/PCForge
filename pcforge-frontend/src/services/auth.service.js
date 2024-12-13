@@ -25,8 +25,14 @@ const login = (email, password) => {
         });
 };
 
-const logout = () => {
-    localStorage.removeItem("user");
+const logout = async () => {
+    try {
+        localStorage.removeItem("user");
+        localStorage.clear();
+        await axios.post(API_URL + "logout");
+    } catch (error) {
+        console.error("Error:", error);
+    }
 };
 
 const getCurrentUser = () => {

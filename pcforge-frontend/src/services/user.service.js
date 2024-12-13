@@ -17,6 +17,24 @@ class UserService {
                 return response.data;
             });
     }
+    getAllUsers() {
+        return axios.get(API_URL + 'all', { headers: authHeader() })
+            .then(response => {
+                return response.data;
+            });
+    }
+    isAdmin(){
+        return axios.get(API_URL + 'admin', { headers: authHeader() })
+            .then(response => {
+                return response.data;
+            });
+    }
+    deleteUser(user_id){
+        return axios.post(API_URL + 'delete', {user_id}, { headers: authHeader() })
+            .then(response => {
+                return response.data;
+            });
+    }
 }
 
 export default new UserService;
