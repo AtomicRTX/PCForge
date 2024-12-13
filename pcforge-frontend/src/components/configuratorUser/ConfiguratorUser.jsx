@@ -15,6 +15,7 @@ import ComputerService from '../../services/computer.service';
 import UserService from '../../services/user.service';
 import ComponentSelect from "./ComponentSelect";
 import CreateSetupModal from "./CreateSetupModal";
+import ConfiguratorUserModal from "./ConfiguratorUserModal";
 
 const ConfiguratorUser = () => {
 
@@ -51,8 +52,17 @@ const ConfiguratorUser = () => {
         gpu: 0
     });
 
+    const [isModalOpen, setIsModalOpen] = useState(false)
     const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
-    const [setup, setSetup] = useState({})
+    const [setup, setSetup] = useState({
+        cpu_id: null,
+        gpu_id: null,
+        mb_id: null,
+        ram_id: null,
+        cs_id: null,
+        power_id: null,
+        st_id: null
+    })
 
     useEffect(() => {
         UserService.getUser()
@@ -113,7 +123,6 @@ const ConfiguratorUser = () => {
             .catch(error => {
                 console.error('Error fetching Motherboards:', error);
             }); // eslint-disable-next-line
-        console.log(socket)
     }, [socket, memoryCapacity, memorySlots, memoryType, motherboardType]);
 
     useEffect(() => {
@@ -229,31 +238,65 @@ const ConfiguratorUser = () => {
         setSelectedDrive(selectedOption);
     };
 
-    const handleComputerCreator = (e) => {
+    const checkComputer = (e) => {
         e.preventDefault();
         setMessage('');
         if (selectedComputerCase == null || selectedCpu == null || selectedGpu == null || selectedDrive == null || selectedMotherboard == null || selectedPowerSupply == null || selectedRam == null) {
             setMessage('You need to choice all components.');
         } else if ((tdp.cpu + tdp.gpu + 80 + 10 + 5) > selectedPowerSupply.watt) {
             setMessage(`You choice too weak power supply. You need at least ${(tdp.cpu + tdp.gpu + 80 + 10 + 5)} W.`);
+            setSelectedPowerSupply(null);
         } else {
-            ComputerService.createComputerSetup(user.user_id, selectedComputerCase.value, selectedCpu.value, selectedGpu.value, selectedRam.value, selectedMotherboard.value, selectedPowerSupply.value, selectedDrive.value)
-                .then(data => {
-                    setSetup(data.data)
-                    setIsCreateModalOpen(true)
-                })
-                .catch(error => {
-                    const comMessage =
-                        (error.response &&
-                            error.response.data &&
-                            error.response.data.message) ||
-                        error.message ||
-                        error.toString();
-
-                    setMessage(`Create failed. Details: Error: ${comMessage}`);
-                });
+            if(setup.cpu_id === null){
+                setSetup({cpu_id: selectedCpu.value, gpu_id: selectedGpu.value, mb_id: selectedMotherboard.value, ram_id: selectedRam.value, cs_id: selectedComputerCase.value, power_id: selectedPowerSupply.value, st_id: selectedDrive.value})
+                setIsModalOpen(true)
+            }
+            else {
+                setIsCreateModalOpen(true)
+            }
         }
     }
+
+    const handleComputerCreator = (e) => {
+        e.preventDefault();
+        ComputerService.createComputerSetup(user.user_id, selectedComputerCase.value, selectedCpu.value, selectedGpu.value, selectedRam.value, selectedMotherboard.value, selectedPowerSupply.value, selectedDrive.value)
+            .then(() => {
+                setIsCreateModalOpen(true);
+                setIsModalOpen(false);
+            })
+            .catch(error => {
+                const comMessage = (error.response && error.response.data && error.response.data.message) || error.message || error.toString();
+                setMessage(`Create failed. Details: Error: ${comMessage}`);
+            });
+    }
+
+    useEffect(() => {
+        if (setup.cpu_id) {
+            setSocket(null);
+            setMotherboardType(null);
+            setPowerType(null);
+            setGpuSize(null);
+            setMemoryCapacity(null);
+            setMemorySlots(null);
+            setMemoryType(null);
+
+            const cpu = cpus.find(cpu => cpu.value === setup.cpu_id) || null;
+            const gpu = gpus.find(gpu => gpu.value === setup.gpu_id) || null;
+            const motherboard = motherboards.find(mb => mb.value === setup.mb_id) || null;
+            const ramModule = ram.find(r => r.value === setup.ram_id) || null;
+            const caseUnit = computerCase.find(cc => cc.value === setup.case_id) || null;
+            const powerSupplyUnit = powerSupply.find(psu => psu.value === setup.power_id) || null;
+            const storage = drive.find(d => d.value === setup.st_id) || null;
+
+            if (cpu) handleCpuChange(cpu);
+            if (gpu) handleGpuChange(gpu);
+            if (motherboard) handleMbChange(motherboard);
+            if (ramModule) handleRamChange(ramModule);
+            if (caseUnit) handleComputerCaseChange(caseUnit);
+            if (powerSupplyUnit) handlePowerChange(powerSupplyUnit);
+            if (storage) handleSSDChange(storage);
+        }
+    }, [isModalOpen, cpus, gpus, motherboards, ram, computerCase, powerSupply, drive]);
 
     return (
         <main className='flex justify-center items-center flex-col w-5/6 h-full mt-5 mb-10 mx-auto bg-white rounded-xl'>
@@ -311,17 +354,18 @@ const ConfiguratorUser = () => {
                                              placeholder="Select storage"/>
                         </div>
                         <button
-                            className="bg-sky-500 text-white rounded-lg h-10 hover:bg-sky-700 focus:outline-none focus:bg-sky-900 w-1/3 my-2">Save
+                            className="bg-sky-500 text-white rounded-lg h-10 hover:bg-sky-700 focus:outline-none focus:bg-sky-900 w-1/3 my-2" onClick={e => checkComputer(e)}>Save
                             setup
                         </button>
                         {message && <div className='absolute bottom-4 text-red-600 font-bold'>{message}</div>}
+                        <ConfiguratorUserModal isModalOpen={isModalOpen} computerSetup={setup} onChangeSetup={data => {setSetup(data); setIsModalOpen(false)}} onSave={e => handleComputerCreator(e)} onClose={() => setIsModalOpen(false)}/>
+                        <CreateSetupModal isModalOpen={isCreateModalOpen} computerSetup={setup} onClose={() => navigate("/")}/>
                     </Form>
-                    <CreateSetupModal isModalOpen={isCreateModalOpen} computerSetup={setup} onClose={() => navigate("/")}/>
                 </>
             ) : (
                 <div className='space-y-20'>
                     <p className='text-3xl mx-5'>If you want to create computer setup you need to log in</p>
-                    <Link to="/login" className="flex items-center justify-center  hover:text-sky-500">
+                    <Link to="/login" className="flex items-center justify-center hover:text-sky-500">
                         <button
                             className='bg-sky-500 text-white rounded-lg h-20 hover:bg-sky-700 focus:outline-none focus:bg-sky-900 w-2/3 my-2'>
                             <p className=''>Log in to platform</p>

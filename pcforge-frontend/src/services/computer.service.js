@@ -29,6 +29,20 @@ class ComputerService {
             });
     }
 
+    getSimilarComputers(cpu_id, gpu_id, ram_id, motherboard_id, power_id, case_id, st_id){
+        return axios.post(API_URL + `similar`, {
+            cpu_id: cpu_id,
+            gpu_id: gpu_id,
+            ram_id: ram_id,
+            motherboard_id: motherboard_id,
+            power_id: power_id,
+            case_id: case_id,
+            st_id: st_id}, {headers: authHeader()}).then(response => {
+            console.log(response)
+            return response.data;
+        });
+    }
+
     saveComputer(computerID) {
         return axios.post(API_URL + `${computerID}/save`, {}, {headers: authHeader()})
             .then(response => {

@@ -46,7 +46,7 @@ const UserSetupList = ({setups}) => {
 
     return (
         <div key={itemOffset} className='flex flex-col h-full w-5/6 mx-auto mt-5 gap-4 relative'>
-            {currentSetups && currentSetups.map((setup, index) => (<Setup key={index} computerSetup={setup}/>))}
+            {currentSetups && currentSetups.map((setup, index) => (<Setup key={setup.cs_id} computerSetup={setup}/>))}
             <ReactPaginate
                 previousLabel={"<"}
                 nextLabel={">"}

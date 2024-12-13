@@ -1,11 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import Modal from 'react-modal';
 import SETUP from "../../assets/Setup.svg";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faCircleArrowLeft} from "@fortawesome/free-solid-svg-icons";
-import ReactStars from "react-rating-stars-component";
 import ComponentService from "../../services/component.service";
-import ComputerService from "../../services/computer.service";
 
 const CreateSetupModal = ({computerSetup, isModalOpen, onClose}) => {
     Modal.setAppElement('#root');
@@ -32,8 +28,8 @@ const CreateSetupModal = ({computerSetup, isModalOpen, onClose}) => {
             ComponentService.getGPU(computerSetup.gpu_id).then(data => setSetup(prevSetup => ({...prevSetup, gpu: data})));
             ComponentService.getMotherboard(computerSetup.mb_id).then(data => setSetup(prevSetup => ({...prevSetup, motherboard: data})));
             ComponentService.getRAM(computerSetup.ram_id).then(data => setSetup(prevSetup => ({...prevSetup, ram: data})));
-            ComponentService.getComputerCase(computerSetup.ram_id).then(data => setSetup(prevSetup => ({...prevSetup, case: data})));
-            ComponentService.getPower(computerSetup.ram_id).then(data => setSetup(prevSetup => ({...prevSetup, power: data})));
+            ComponentService.getComputerCase(computerSetup.cs_id).then(data => setSetup(prevSetup => ({...prevSetup, case: data})));
+            ComponentService.getPower(computerSetup.power_id).then(data => setSetup(prevSetup => ({...prevSetup, power: data})));
             ComponentService.getStorage(computerSetup.st_id).then(data => setSetup(prevSetup => ({...prevSetup, storage: data})));
         }
     }, [isModalOpen]);

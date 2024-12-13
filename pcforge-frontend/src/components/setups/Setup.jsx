@@ -9,11 +9,13 @@ import ComputerService from '../../services/computer.service';
 import SetupModal from "./SetupModal";
 
 import ReactStars from "react-rating-stars-component";
+import DeleteModal from "./DeleteModal";
 
 const Setup = ({computerSetup, onDiscard, remove}) => {
 
     const [user, setUser] = useState(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
     const [isSaved, setIsSaved] = useState(false);
     const [rating, setRating] = useState({rating: 0, count: 0})
 
@@ -62,7 +64,6 @@ const Setup = ({computerSetup, onDiscard, remove}) => {
     };
 
     const handleDeleteClick = (e) => {
-        e.stopPropagation();
         ComputerService.deleteComputer(computerSetup.cs_id);
         if (onDiscard)
             onDiscard(computerSetup.cs_id);
@@ -106,7 +107,7 @@ const Setup = ({computerSetup, onDiscard, remove}) => {
                 </div>
                 {user ? (
                     remove ? (
-                        <button className="bg-red-500 text-base text-white rounded-lg hover:bg-red-700 focus:outline-none w-1/6 h-3/4 my-auto" onClick={(e) => {handleDeleteClick(e);}}> Delete setup</button>
+                        <button className="bg-red-500 text-base text-white rounded-lg hover:bg-red-700 focus:outline-none w-1/6 h-3/4 my-auto" onClick={(e) => {e.stopPropagation(); setIsDeleteModalOpen(true)}}> Delete setup</button>
                     ) : (
                         isSaved ? (
                             <button className="bg-gray-500 text-base text-white rounded-lg hover:bg-sky-700 focus:outline-none w-1/6 h-3/4 my-auto" onClick={(e) => {handleSaveClick(e);}}> Discard setup </button>
@@ -122,7 +123,8 @@ const Setup = ({computerSetup, onDiscard, remove}) => {
                     </Link>
                 )}
             </div>
-            <SetupModal cs_id={computerSetup.cs_id} setup={setup} isModalOpen={isModalOpen} onClose={(m) => setIsModalOpen(m)} user={user}/>
+            <SetupModal cs_id={computerSetup.cs_id} setup={setup} isModalOpen={isModalOpen} onClose={() => setIsModalOpen(false)} user={user}/>
+            <DeleteModal isModalOpen={isDeleteModalOpen} onDelete={(e) => {handleDeleteClick(e); setIsDeleteModalOpen(false)}} onClose={() => setIsDeleteModalOpen(false)}/>
         </button>
     )
 }

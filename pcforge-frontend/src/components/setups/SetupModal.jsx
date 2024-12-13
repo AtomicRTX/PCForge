@@ -31,7 +31,8 @@ const SetupModal = ({cs_id, setup, isModalOpen, onClose, user}) => {
     return (
         <Modal isOpen={isModalOpen} contentLabel="Setup info"
                className='relative p-8 w-full max-w-3xl bg-white rounded-lg'
-               overlayClassName='fixed top-0 left-0 w-full h-full bg-black bg-opacity-20 flex justify-center items-center backdrop-blur-[2px] z-20'>
+               overlayClassName='fixed top-0 left-0 w-full h-full bg-black bg-opacity-20 flex justify-center items-center backdrop-blur-[2px] z-20'
+               onRequestClose={closeModal}>
             <button onClick={closeModal} className='absolute top-2 left-2'><FontAwesomeIcon
                 className='size-6 lg:size-8' icon={faCircleArrowLeft}/></button>
             <div className="flex items-center">

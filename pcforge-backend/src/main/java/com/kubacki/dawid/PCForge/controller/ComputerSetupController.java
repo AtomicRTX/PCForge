@@ -2,6 +2,7 @@ package com.kubacki.dawid.PCForge.controller;
 
 import com.kubacki.dawid.PCForge.dto.ComputerSetupRequest;
 import com.kubacki.dawid.PCForge.dto.RatingRequest;
+import com.kubacki.dawid.PCForge.dto.SimilarSetupDto;
 import com.kubacki.dawid.PCForge.dto.UserDto;
 import com.kubacki.dawid.PCForge.models.software.GameRequirements;
 import com.kubacki.dawid.PCForge.models.software.ProgramRequirements;
@@ -48,6 +49,19 @@ public class ComputerSetupController {
         List<ComputerSetupRequest> computerSetupRequests = computerSetupService.getComputerSetups();
         return new ResponseEntity<>(computerSetupRequests, HttpStatus.OK);
     }
+
+    @PostMapping("/similar")
+    public ResponseEntity<List<ComputerSetupRequest>> getSimilarComputers(@RequestBody SimilarSetupDto similarSetupDto) {
+        List<ComputerSetupRequest> computerSetupRequests = computerSetupService.getSimilarComputerSetups(similarSetupDto.getCpu_id(),
+                similarSetupDto.getGpu_id(),
+                similarSetupDto.getRam_id(),
+                similarSetupDto.getMotherboard_id(),
+                similarSetupDto.getPower_id(),
+                similarSetupDto.getCase_id(),
+                similarSetupDto.getSt_id());
+        return new ResponseEntity<>(computerSetupRequests, HttpStatus.OK);
+    }
+
     @PostMapping("/{id}/save")
     public ResponseEntity<ComputerSetupRequest> saveComputer(@PathVariable int id) {
         UserDto userDto = userService.getByEmail(SecurityContextHolder.getContext().getAuthentication().getName());

@@ -18,6 +18,7 @@ import com.kubacki.dawid.PCForge.service.TypeEnum;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -68,6 +69,23 @@ public class ComputerSetupServiceImpl implements ComputerSetupService {
     public List<ComputerSetupRequest> getComputerSetups() {
         List<ComputerSetup> computerSetups = computerSetupRepository.getComputerSetups();
         return computerSetups.stream().map((computerSetup -> ComputerSetupMapper.mapToComputerSetupRequest(computerSetup))).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<ComputerSetupRequest> getSimilarComputerSetups(Integer cpu_id, Integer gpu_id, Integer ram_id, Integer motherboard_id, Integer power_id, Integer case_id, Integer st_id) {
+        List<ComputerSetup> computerSetups = computerSetupRepository.getSimilarComputerSetups(cpu_id, gpu_id, ram_id, motherboard_id, power_id, case_id, st_id);
+        List<ComputerSetup> result = new ArrayList<>();
+        System.out.println(computerSetups.size());
+        for (ComputerSetup computerSetup : computerSetups) {
+            double[] ratings = getRatingsOfComputerSetup(computerSetup.getCs_id());
+            if (ratings[0] > 4) {
+                result.add(computerSetup);
+            }
+            if (result.size() >= 2) {
+                break;
+            }
+        }
+        return result.stream().map((computerSetup -> ComputerSetupMapper.mapToComputerSetupRequest(computerSetup))).collect(Collectors.toList());
     }
 
     @Override
