@@ -252,7 +252,13 @@ const ConfiguratorUser = () => {
                 setIsModalOpen(true)
             }
             else {
-                setIsCreateModalOpen(true)
+                if(selectedComputerCase.value === setup.case_id && selectedComputerCase.value === setup.case_id && selectedMotherboard.value === setup.mb_id && selectedDrive.value === setup.st_id && selectedRam.value === setup.ram_id && selectedGpu.value === setup.gpu_id && selectedCpu.value === setup.cpu_id){
+                    ComputerService.saveComputer(setup.cs_id).then(() => navigate("/savedSetups"))
+                }
+                else{
+                    setIsCreateModalOpen(true)
+                    handleComputerCreator(e)
+                }
             }
         }
     }
