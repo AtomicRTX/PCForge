@@ -12,6 +12,7 @@ import UserService from '../../services/user.service';
 const Navigation = () => {
 
     const [user, setUser] = useState({});
+    const [admin, setAdmin] = useState(false);
     const navigate = useNavigate();
     const menuRefSetup = useRef(null);
     const menuRefUser = useRef(null);
@@ -23,6 +24,13 @@ const Navigation = () => {
         UserService.getUser().then(data => setUser(data)).catch(() => {
             setUser(null);
         });
+    }, []);
+
+    useEffect(() => {
+        UserService.isAdmin()
+            .then(data => setAdmin(data)
+            )
+            .catch(error => console.error('Error:', error));
     }, []);
 
     const toggleDropdownUser = () => {
@@ -60,45 +68,64 @@ const Navigation = () => {
                 <img src={logo} className='ml-5 mr-2' alt="LOGO"/>
                 <p className='my-auto text-xl font-bold font-mono opacity-90'>PC_Forge</p>
             </Link>
-            <ul className="flex text-center space-x-16 absolute left-1/2 transform -translate-x-1/2">
-                <li className='hover:text-sky-500 my-auto opacity-90'>
-                    <Link to="/">Home</Link>
-                </li>
-                <li className="relative inline-block" ref={menuRefSetup}>
-                    <button onClick={toggleDropdownSetup} className="flex hover:text-sky-500 min-h-16" type='button'>
-                        <Link to="#" className="my-auto opacity-90">
-                            Computer Setup
-                        </Link>
-                        {dropdownSetup ?
-                            <FontAwesomeIcon className='my-auto mx-2 opacity-75' icon={faCaretUp}/>
-                            :
-                            <FontAwesomeIcon className='my-auto mx-2 opacity-75' icon={faCaretDown}/>
+            {!admin ?
+                <ul className="flex text-center space-x-16 absolute left-1/2 transform -translate-x-1/2">
+                    <li className='hover:text-sky-500 my-auto opacity-90'>
+                        <Link to="/">Home</Link>
+                    </li>
+                    <li className="relative inline-block" ref={menuRefSetup}>
+                        <button onClick={toggleDropdownSetup} className="flex hover:text-sky-500 min-h-16"
+                                type='button'>
+                            <Link to="#" className="my-auto opacity-90">
+                                Computer Setup
+                            </Link>
+                            {dropdownSetup ?
+                                <FontAwesomeIcon className='my-auto mx-2 opacity-75' icon={faCaretUp}/>
+                                :
+                                <FontAwesomeIcon className='my-auto mx-2 opacity-75' icon={faCaretDown}/>
 
-                        }
-                    </button>
-                    <div
-                        className={`${dropdownSetup ? false : 'hidden'} bg-gray-100 text-center shadow-lg absolute w-full`}>
-                        <ul className="text-sm text-gray-700">
-                            <li>
-                                <Link to="/confy" className="block py-2 hover:text-sky-500 opacity-90">By
-                                    yourself</Link>
-                            </li>
-                            <li>
-                                <Link to="/confs" className="block py-2 hover:text-sky-500 opacity-90">By your games</Link>
-                            </li>
-                        </ul>
-                    </div>
-                </li>
-                <li className='hover:text-sky-500 my-auto opacity-90'>
-                    <Link to="/userSetups" className="button">
-                        Users setups
-                    </Link>
-                </li>
-            </ul>
+                            }
+                        </button>
+                        <div
+                            className={`${dropdownSetup ? false : 'hidden'} bg-gray-100 text-center shadow-lg absolute w-full`}>
+                            <ul className="text-sm text-gray-700">
+                                <li>
+                                    <Link to="/confy" className="block py-2 hover:text-sky-500 opacity-90">By
+                                        yourself</Link>
+                                </li>
+                                <li>
+                                    <Link to="/confs" className="block py-2 hover:text-sky-500 opacity-90">By your
+                                        games</Link>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
+                    <li className='hover:text-sky-500 my-auto opacity-90'>
+                        <Link to="/userSetups" className="button">
+                            Users setups
+                        </Link>
+                    </li>
+                </ul> :
+                <ul className="flex text-center space-x-16 absolute left-1/2 transform -translate-x-1/2 h-full">
+                    <li className='hover:text-sky-500 my-auto opacity-90'>
+                        <Link to="/">Home</Link>
+                    </li>
+                    <li className='hover:text-sky-500 my-auto opacity-90'>
+                        <Link to="/setups" className="button">
+                            Setups
+                        </Link>
+                    </li>
+                    <li className='hover:text-sky-500 my-auto opacity-90'>
+                        <Link to="/users" className="button">
+                            Users
+                        </Link>
+                    </li>
+                </ul>
+            }
             {user ? (
                 <div className='h-full' ref={menuRefUser}>
                     <button onClick={toggleDropdownUser} className="flex hover:text-sky-500" type='button'>
-                        <div className='my-auto text-sm w-44'>
+                    <div className='my-auto text-sm w-44'>
                             <p className='my-auto font-semibold opacity-90'>{user.username}</p>
                             <p className='my-auto break-all whitespace-normal opacity-70'>{user.email}</p>
                         </div>
@@ -110,12 +137,17 @@ const Navigation = () => {
                             <li>
                                 <Link to="#" className="block py-2 hover:text-sky-500">My profile</Link>
                             </li>
-                            <li>
-                                <Link to="/yourSetups" className="block py-2 hover:text-sky-500">My setups</Link>
-                            </li>
-                            <li>
-                                <Link to="/savedSetups" className="block py-2 hover:text-sky-500">Saved setups</Link>
-                            </li>
+                            {!admin &&
+                                <>
+                                    <li>
+                                        <Link to="/yourSetups" className="block py-2 hover:text-sky-500">My
+                                            setups</Link>
+                                    </li>
+                                    <li>
+                                        <Link to="/savedSetups" className="block py-2 hover:text-sky-500">Saved
+                                            setups</Link>
+                                    </li>
+                                </>}
                             <li>
                                 <Link to="#" className="block py-2 hover:text-sky-500" onClick={logOut}>Sign out</Link>
                             </li>

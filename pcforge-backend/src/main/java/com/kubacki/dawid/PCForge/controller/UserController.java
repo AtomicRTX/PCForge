@@ -62,7 +62,7 @@ public class UserController {
         userDtos.removeIf(user -> user.getUser_id() == userDto.getUser_id());
         return ResponseEntity.ok(userDtos);
     }
-    @PostMapping("/delete")
+    @DeleteMapping("/delete")
     public ResponseEntity<UserDto> deleteUser(@RequestBody UserDto userDto) {
         userService.deleteUser(userDto.getUser_id());
         return ResponseEntity.ok(userDto);

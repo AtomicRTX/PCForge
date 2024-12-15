@@ -10,19 +10,18 @@ import YourSetupPage from "./pages/setups/YourSetupPage";
 import ConfiguratorSoftwarePage from "./pages/configuratorSoftware/ConfiguratorSoftwarePage";
 import Admin from "./routes/Admin";
 import Logged from "./routes/Logged";
-import Unlogged from "./routes/Unlogged";
+import AdminSetupsPage from "./pages/setups/AdminSetupsPage";
+import AdminUsersPage from "./pages/users/AdminUsersPage";
 
 function App() {
     return (
-        <div className={"flex flex-auto"}>
+        <div className={"flex flex-auto w-full"}>
             <Routes>
                 <Route>
                     <Route path={'/'} element={<HomePage/>}/>
                     <Route path={'/confy'} element={<ConfiguratorUserPage/>}/>
                     <Route path={'/confs'} element={<ConfiguratorSoftwarePage/>}/>
                     <Route path={'/userSetups'} element={<UserSetupsPage/>}/>
-                </Route>
-                <Route element={<Unlogged/>}>
                     <Route path={'/login'} element={<LoginPage/>}/>
                     <Route path={'/register'} element={<RegisterPage/>}/>
                 </Route>
@@ -31,9 +30,8 @@ function App() {
                     <Route path={'/yourSetups'} element={<YourSetupPage/>}/>
                 </Route>
                 <Route element={<Admin/>}>
-                    <Route path={'/'} element={<HomePage/>}/>
-                    <Route path={'/users'} element={<HomePage/>}/>
-                    <Route path={'/setups'} element={<HomePage/>}/>
+                    <Route path={'/users'} element={<AdminUsersPage/>}/>
+                    <Route path={'/setups'} element={<AdminSetupsPage/>}/>
                 </Route>
             </Routes>
         </div>

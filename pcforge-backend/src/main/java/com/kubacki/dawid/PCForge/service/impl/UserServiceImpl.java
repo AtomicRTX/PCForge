@@ -7,6 +7,7 @@ import com.kubacki.dawid.PCForge.repositories.setups.ComputerSetupRepository;
 import com.kubacki.dawid.PCForge.repositories.users.UserRepository;
 import com.kubacki.dawid.PCForge.service.TypeEnum;
 import com.kubacki.dawid.PCForge.service.UserService;
+import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -57,9 +58,9 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional
     public void deleteUser(int user_id) {
         User user = userRepository.findById(user_id).orElseThrow(() -> new RuntimeException("User not found."));
-        computerSetupRepository.deleteComputerSetupByUser(user);
         userRepository.delete(user);
     }
 }

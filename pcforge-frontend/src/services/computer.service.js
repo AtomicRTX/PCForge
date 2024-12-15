@@ -84,6 +84,7 @@ class ComputerService {
                 return response.data;
             });
     }
+
 }
 
 // eslint-disable-next-line

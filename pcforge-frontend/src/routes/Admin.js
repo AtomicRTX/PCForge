@@ -37,7 +37,7 @@ const Admin = () => {
     }
 
     return (
-        <div>
+        <div className="w-full h-full">
             {admin ? <Outlet /> :  <Navigate to="/" />}
         </div>
     );

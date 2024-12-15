@@ -30,7 +30,7 @@ class UserService {
             });
     }
     deleteUser(user_id){
-        return axios.post(API_URL + 'delete', {user_id}, { headers: authHeader() })
+        return axios.delete(API_URL + 'delete', { data: {user_id: user_id}, headers: authHeader() })
             .then(response => {
                 return response.data;
             });
