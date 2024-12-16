@@ -135,7 +135,7 @@ const Navigation = () => {
                     <div className={`${dropdownUser ? false : 'hidden'} bg-gray-100 text-center shadow-lg`}>
                         <ul className="text-sm text-gray-700 opacity-90">
                             <li>
-                                <Link to="#" className="block py-2 hover:text-sky-500">My profile</Link>
+                                <Link to="/profile" className="block py-2 hover:text-sky-500">My profile</Link>
                             </li>
                             {!admin &&
                                 <>
