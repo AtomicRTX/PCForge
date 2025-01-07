@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -31,14 +32,13 @@ public class UserController {
         return ResponseEntity.ok(userDto);
     }
 
-    @PostMapping("/edit")
-    public ResponseEntity<UserDto> editUser(@RequestBody UserDto userDto) {
+    @PutMapping("/edit")
+    public ResponseEntity<UserDto> editUser(@RequestParam("username") String username, @RequestParam("phone") String phone, @RequestParam("photo") MultipartFile photo) {
         UserDto userDto1 = currentUser();
-        userDto1.setUsername(userDto.getUsername());
-        userDto1.setPhoto(userDto.getPhoto());
-        userDto1.setPhone(userDto.getPhone());
+        userDto1.setUsername(username);
+        userDto1.setPhone(phone);
 
-        userService.updateUser(userDto1);
+        userService.updateUser(userDto1, photo);
         return ResponseEntity.ok(userDto1);
     }
 

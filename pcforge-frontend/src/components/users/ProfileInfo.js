@@ -16,7 +16,7 @@ const ProfileInfo = () => {
     }, []);
 
     const handleEditProfile = () => {
-        navigate(0);
+        navigate("/edit");
     };
 
     return (

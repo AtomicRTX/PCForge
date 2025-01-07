@@ -12,7 +12,7 @@ public interface PowerRepository extends JpaRepository<Power, Integer> {
     @Query("SELECT p FROM Power p WHERE (:watt IS NULL OR p.watt = :watt) AND (:size IS NULL OR p.size = :size) ORDER BY p.watt DESC")
     List<Power> findCorrectPowers(@Param("watt") Integer watt, @Param("size") String size);
 
-    @Query("SELECT p FROM Power p WHERE p.watt = :watt ORDER BY p.watt ASC LIMIT 1")
+    @Query("SELECT p FROM Power p WHERE p.watt >= :watt ORDER BY p.watt ASC LIMIT 1")
     Power getPowerToCS(@Param("watt") Integer watt);
 
     @Override

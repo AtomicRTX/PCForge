@@ -12,7 +12,7 @@ public interface StorageRepository extends JpaRepository<Storage, Integer> {
     @Query("SELECT s FROM Storage s ORDER BY s.size DESC")
     List<Storage> findCorrectStorage();
 
-    @Query("SELECT s FROM Storage s WHERE s.size >= :size ORDER BY s.rank DESC LIMIT 1")
+    @Query("SELECT s FROM Storage s WHERE (s.size*1024) >= (:size+120*1024) ORDER BY s.size ASC LIMIT 1")
     Storage getStorageToCS(@Param("size") double size);
 
     @Override

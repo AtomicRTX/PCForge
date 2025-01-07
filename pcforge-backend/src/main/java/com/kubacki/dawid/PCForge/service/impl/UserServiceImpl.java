@@ -10,7 +10,13 @@ import com.kubacki.dawid.PCForge.service.UserService;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -35,12 +41,16 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void updateUser(UserDto userDto) {
+    public void updateUser(UserDto userDto, MultipartFile photo) {
         User user = userRepository.findById(userDto.getUser_id()).orElseThrow(() -> new RuntimeException("User not found."));
 
         user.setUsername(userDto.getUsername());
-        user.setPhoto(userDto.getPhoto());
         user.setPhone(userDto.getPhone());
+
+        if (photo != null && !photo.isEmpty()) {
+            String photoPath = savePhoto(photo);
+            user.setPhoto(photoPath);
+        }
 
         userRepository.save(user);
     }
@@ -62,5 +72,24 @@ public class UserServiceImpl implements UserService {
     public void deleteUser(int user_id) {
         User user = userRepository.findById(user_id).orElseThrow(() -> new RuntimeException("User not found."));
         userRepository.delete(user);
+    }
+
+    private String savePhoto(MultipartFile photo) {
+        try {
+            String uploadDir = new File("pcforge-frontend/public/uploads").getAbsolutePath();
+            Path uploadPath = Paths.get(uploadDir);
+
+            if (!Files.exists(uploadPath)) {
+                Files.createDirectories(uploadPath);
+            }
+
+            String fileName = System.currentTimeMillis() + "_" + photo.getOriginalFilename();
+            Path filePath = uploadPath.resolve(fileName);
+            photo.transferTo(filePath.toFile());
+
+            return "uploads/" + fileName;
+        } catch (IOException e) {
+            throw new RuntimeException("Could not save photo", e);
+        }
     }
 }

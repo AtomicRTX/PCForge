@@ -13,6 +13,7 @@ import Logged from "./routes/Logged";
 import AdminSetupsPage from "./pages/setups/AdminSetupsPage";
 import AdminUsersPage from "./pages/users/AdminUsersPage";
 import ProfilePage from "./pages/users/ProfilePage";
+import EditProfilePage from "./pages/users/EditProfilePage";
 
 function App() {
     return (
@@ -26,6 +27,7 @@ function App() {
                     <Route path={'/login'} element={<LoginPage/>}/>
                     <Route path={'/register'} element={<RegisterPage/>}/>
                     <Route path={'/profile'} element={<ProfilePage/>}/>
+                    <Route path={'/edit'} element={<EditProfilePage/>}/>
                 </Route>
                 <Route element={<Logged/>}>
                     <Route path={'/savedSetups'} element={<SavedSetupsPage/>}/>

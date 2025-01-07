@@ -13,6 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
+import com.kubacki.dawid.PCForge.mapper.ComputerSetupRequestWrapper;
 
 import java.util.List;
 
@@ -31,7 +32,9 @@ public class ComputerSetupController {
     }
 
     @PostMapping("/addByGames")
-    public ResponseEntity<ComputerSetupRequest> addComputerByGames(@RequestBody List<GameRequirements> games, @RequestBody List<ProgramRequirements> programs) {
+    public ResponseEntity<ComputerSetupRequest> addComputerByGames(@RequestBody ComputerSetupRequestWrapper requestWrapper) {
+        List<GameRequirements> games = requestWrapper.getGames();
+        List<ProgramRequirements> programs = requestWrapper.getPrograms();
         UserDto userDto = userService.getByEmail(SecurityContextHolder.getContext().getAuthentication().getName());
         ComputerSetupRequest savedComputerSetup = computerSetupService.createComputerSetupByGames(userDto.getUser_id(), games, programs);
         return new ResponseEntity<>(savedComputerSetup, HttpStatus.CREATED);

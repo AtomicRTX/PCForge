@@ -44,8 +44,8 @@ const Setup = ({computerSetup, onDiscard, remove}) => {
         ComponentService.getGPU(computerSetup.gpu_id).then(data => setSetup(prevSetup => ({...prevSetup, gpu: data})));
         ComponentService.getMotherboard(computerSetup.mb_id).then(data => setSetup(prevSetup => ({...prevSetup, motherboard: data})));
         ComponentService.getRAM(computerSetup.ram_id).then(data => setSetup(prevSetup => ({...prevSetup, ram: data})));
-        ComponentService.getComputerCase(computerSetup.ram_id).then(data => setSetup(prevSetup => ({...prevSetup, case: data})));
-        ComponentService.getPower(computerSetup.ram_id).then(data => setSetup(prevSetup => ({...prevSetup, power: data})));
+        ComponentService.getComputerCase(computerSetup.case_id).then(data => setSetup(prevSetup => ({...prevSetup, case: data})));
+        ComponentService.getPower(computerSetup.power_id).then(data => setSetup(prevSetup => ({...prevSetup, power: data})));
         ComponentService.getStorage(computerSetup.st_id).then(data => setSetup(prevSetup => ({...prevSetup, storage: data})));
         ComputerService.getRatingsOfComputerSetup(computerSetup.cs_id).then(data => setRating({rating: data[0], count: data[1]}))
 

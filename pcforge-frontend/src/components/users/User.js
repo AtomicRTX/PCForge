@@ -8,8 +8,6 @@ const User = ({user, onDiscard}) => {
     const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
 
     const handleDeleteClick = (e) => {
-
-        console.log(user)
         UserService.deleteUser(user.user_id);
         if (onDiscard)
             onDiscard(user.user_id);

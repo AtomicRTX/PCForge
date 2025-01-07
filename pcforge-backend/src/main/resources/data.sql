@@ -333,20 +333,135 @@ VALUES ('ADMIN'),
 -- Users
 
 INSERT INTO users (email, username, password)
-VALUES ('admin@gmail.com', 'Admin', '$2a$10$DfdikuGE0AgXrecMgdmwj.5GVHZLyhz1XkAUJYSdo0SBUc7XaR2bC'),
-       ('white.black@gmail.com', 'WhiteBlackTV', '$2a$10$DfdikuGE0AgXrecMgdmwj.5GVHZLyhz1XkAUJYSdo0SBUc7XaR2bC'),
-       ('tech.nestea@gmail.com', 'TechNestea', '$2a$10$DfdikuGE0AgXrecMgdmwj.5GVHZLyhz1XkAUJYSdo0SBUc7XaR2bC');
+VALUES ('dawid.kubacki@gmail.com', 'DK', '$2a$10$DfdikuGE0AgXrecMgdmwj.5GVHZLyhz1XkAUJYSdo0SBUc7XaR2bC'),
+       ('shadow.hunter@gmail.com', 'ShadowHunter', '$2a$10$DfdikuGE0AgXrecMgdmwj.5GVHZLyhz1XkAUJYSdo0SBUc7XaR2bC'),
+       ('blaze.master@gmail.com', 'BlazeMaster', '$2a$10$DfdikuGE0AgXrecMgdmwj.5GVHZLyhz1XkAUJYSdo0SBUc7XaR2bC'),
+       ('pixel.ninja@gmail.com', 'PixelNinja', '$2a$10$DfdikuGE0AgXrecMgdmwj.5GVHZLyhz1XkAUJYSdo0SBUc7XaR2bC'),
+       ('star.gazer@gmail.com', 'StarGazer', '$2a$10$DfdikuGE0AgXrecMgdmwj.5GVHZLyhz1XkAUJYSdo0SBUc7XaR2bC'),
+       ('thunder.strike@gmail.com', 'ThunderStrike', '$2a$10$DfdikuGE0AgXrecMgdmwj.5GVHZLyhz1XkAUJYSdo0SBUc7XaR2bC'),
+       ('frost.byte@gmail.com', 'FrostByte', '$2a$10$DfdikuGE0AgXrecMgdmwj.5GVHZLyhz1XkAUJYSdo0SBUc7XaR2bC'),
+       ('game.overlord@gmail.com', 'GameOverlord', '$2a$10$DfdikuGE0AgXrecMgdmwj.5GVHZLyhz1XkAUJYSdo0SBUc7XaR2bC'),
+       ('cyber.knight@gmail.com', 'CyberKnight', '$2a$10$DfdikuGE0AgXrecMgdmwj.5GVHZLyhz1XkAUJYSdo0SBUc7XaR2bC'),
+       ('dark.phoenix@gmail.com', 'DarkPhoenix', '$2a$10$DfdikuGE0AgXrecMgdmwj.5GVHZLyhz1XkAUJYSdo0SBUc7XaR2bC');
 INSERT INTO user_types (type_id, user_id)
 VALUES (1, 1),
        (2, 2),
-       (2, 3);
+       (2, 3),
+       (2, 4),
+       (2, 5),
+       (2, 6),
+       (2, 7),
+       (2, 8),
+       (2, 9),
+       (2, 10);
+
+INSERT INTO computer_setup (case_id, cpu_id, cs_id, gpu_id, mb_id, power_id, ram_id, st_id, user_id)
+VALUES
+    (760, 152, 1, 72, 215, 63, 424, 136, 1),
+    (3, 25, 2, 442, 227, 63, 419, 330, 1),
+    (695, 27, 3, 222, 225, 505, 423, 331, 2),
+    (2, 194, 4, 201, 360, 402, 377, 103, 2),
+    (83, 23, 5, 1321, 285, 297, 521, 310, 3),
+    (300, 80, 6, 265, 2, 537, 415, 449, 3),
+    (404, 266, 7, 449, 1259, 477, 591, 218, 4),
+    (321, 66, 8, 382, 879, 512, 515, 118, 4),
+    (1069, 73, 9, 1321, 1315, 336, 414, 180, 5),
+    (1317, 5, 10, 72, 1157, 336, 175, 224, 5),
+    (1126, 5, 11, 231, 1, 234, 427, 209, 6),
+    (1238, 7, 12, 1092, 220, 4, 163, 348, 6),
+    (604, 15, 13, 1092, 220, 602, 392, 310, 7),
+    (203, 5, 14, 438, 201, 451, 427, 407, 7),
+    (336, 5, 15, 60, 209, 143, 427, 379, 8),
+    (186, 7, 16, 1092, 220, 147, 427, 401, 8),
+    (902, 7, 17, 93, 220, 749, 799, 401, 9),
+    (287, 13, 18, 43, 219, 66, 480, 431, 9),
+    (275, 13, 19, 780, 8, 433, 1480, 237, 10),
+    (89, 41, 20, 68, 461, 71, 426, 101, 10);
+
+INSERT INTO rating_setup (cs_id, rating, user_id)
+VALUES
+    (1, 5, 1),
+    (2, 5, 2),
+    (1, 5, 3),
+    (3, 5, 4),
+    (5, 4, 5),
+    (4, 4, 6),
+    (7, 4, 7),
+    (8, 4, 8),
+    (9, 3, 9),
+    (10, 3, 10),
+    (11, 3, 1),
+    (12, 3, 2),
+    (13, 2, 3),
+    (14, 2, 4),
+    (20, 2, 5),
+    (19, 2, 6),
+    (18, 1, 7),
+    (15, 1, 8),
+    (16, 1, 9),
+    (17, 1, 10),
+    (13, 5, 1),
+    (12, 5, 2),
+    (11, 5, 3),
+    (10, 5, 7),
+    (3, 5, 1),
+    (4, 5, 2),
+    (5, 5, 3),
+    (6, 5, 4),
+    (7, 4, 5),
+    (8, 4, 6),
+    (9, 4, 7),
+    (10, 4, 8),
+    (1, 3, 9),
+    (1, 3, 10),
+    (14, 3, 1),
+    (15, 3, 2),
+    (16, 2, 3),
+    (17, 2, 4),
+    (20, 2, 5),
+    (13, 2, 6),
+    (12, 1, 7),
+    (11, 1, 8),
+    (12, 1, 9),
+    (17, 1, 10),
+    (13, 5, 1),
+    (12, 5, 2),
+    (11, 5, 3),
+    (10, 5, 7);
+
+INSERT INTO saved_setup (cs_id, user_id)
+VALUES (1, 1),
+       (2, 2),
+       (3, 3),
+       (4, 4),
+       (5, 5),
+       (6, 6),
+       (7, 7),
+       (8, 8),
+       (9, 9),
+       (10, 10),
+       (11, 1),
+       (12, 2),
+       (13, 3),
+       (14, 4),
+       (15, 5),
+       (16, 6),
+       (17, 7),
+       (18, 8),
+       (19, 9),
+       (20, 10);
+
+INSERT INTO program_requirements (hdd_space, min_cpu_cores, min_cpu_speed, min_cpu_threads, min_gpu_vram, min_ram, name)
+VALUES (10, 4, 2.5, 2, 4000, 2000, 'Adobe Photoshop CC'),
+       (9, 4, 2.5, 2, 4000, 4000, '3ds Max'),
+       (4, 2, 1.6, 2, 2000, 4000, 'Microsoft Office 365'),
+       (1, 4, 3.3, 1, 4000, 4000, 'OBS Studio');
 
 -- Game requirements
 
 CREATE TEMP TABLE game_tabela
 (
     Name                             varchar(255),
-
     Min_CPU_CPU_Speed                float,
     Min_CPU_Turbo_Speed              float,
     Min_CPU_Physical_Cores           float,
@@ -515,3 +630,6 @@ DELETE
 FROM motherboards
 WHERE socket NOT IN (SELECT socket from cpus);
 
+DELETE
+FROM power
+WHERE size NOT IN (SELECT power_supply from cases);

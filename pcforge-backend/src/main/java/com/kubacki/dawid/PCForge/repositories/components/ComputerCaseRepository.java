@@ -15,7 +15,7 @@ public interface ComputerCaseRepository extends JpaRepository<ComputerCase, Inte
     List<ComputerCase> findCorrectCases(@Param("mb") String mb, @Param("size") Integer size, @Param("power") String power);
 
     @Query("SELECT c FROM ComputerCase c WHERE c.motherboard = :mb AND c.gpu_size >= :size AND c.power_supply = :power ORDER BY c.name LIMIT 1")
-    ComputerCase getCaseToCS(@Param("mb") String mb, @Param("size") Integer size, @Param("power") String power);
+    ComputerCase getCaseToCS(@Param("mb") String mb, @Param("size") double size, @Param("power") String power);
 
     @Override
     Optional<ComputerCase> findById(Integer id);
